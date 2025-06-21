@@ -1,7 +1,7 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.FileWriter;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import dev.dong4j.arco.maven.plugin.common.enums.ApplicationType;
 import dev.dong4j.arco.maven.plugin.common.util.FileUtils;
@@ -27,7 +27,7 @@ import java.util.Set;
  * @since 1.0.0
  */
 @Mojo(name = "generate-assembly-config", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
-public class GenerateAssemblyConfigFileMojo extends ZekaStackMavenPluginAbstractMojo {
+public class GenerateAssemblyConfigFileMojo extends ArcoMavenPluginAbstractMojo {
 
     /** 默认忽略此插件 */
     @Parameter(property = Plugins.SKIP_ASSEMBLY_CONFIG, defaultValue = Plugins.TURN_OFF_PLUGIN)
@@ -133,7 +133,12 @@ public class GenerateAssemblyConfigFileMojo extends ZekaStackMavenPluginAbstract
                 && artifact.getScope().equals(Plugins.SCOPE_COMPILE)
                 && !artifact.isOptional());
 
-        if (cloudType) {
+        boolean enableNacosConfig = resolvedArtifacts.stream()
+            .anyMatch(artifact -> artifact.getArtifactId().equals(Plugins.NCAOS_CONFIG_DEPENDENCY_FALG)
+                && artifact.getScope().equals(Plugins.SCOPE_COMPILE)
+                && !artifact.isOptional());
+
+        if (cloudType && enableNacosConfig) {
             return ApplicationType.CLOUD;
         }
         return bootType ? ApplicationType.BOOT : ApplicationType.NONE;

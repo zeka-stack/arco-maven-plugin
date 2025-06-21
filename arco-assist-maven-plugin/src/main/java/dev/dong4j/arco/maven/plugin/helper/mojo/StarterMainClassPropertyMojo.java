@@ -1,6 +1,6 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import lombok.SneakyThrows;
 import org.apache.maven.model.Model;
@@ -18,7 +18,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @since 1.0.0
  */
 @Mojo(name = "mainclass-property", defaultPhase = LifecyclePhase.COMPILE, threadSafe = true)
-public class StarterMainClassPropertyMojo extends ZekaStackMavenPluginAbstractMojo {
+public class StarterMainClassPropertyMojo extends ArcoMavenPluginAbstractMojo {
 
     /** 部署包忽略 install 命令 */
     private static final String INSTALL_SKIP = "maven.install.skip";

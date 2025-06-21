@@ -1,6 +1,6 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import dev.dong4j.arco.maven.plugin.common.util.FileUtils;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Mojo(name = "delete-temp-file", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
-public class DeleteTempFileMojo extends ZekaStackMavenPluginAbstractMojo {
+public class DeleteTempFileMojo extends ArcoMavenPluginAbstractMojo {
 
     /** Skip */
     @Parameter(property = Plugins.SKIP_DELETE_TEMP_FILE, defaultValue = Plugins.TURN_ON_PLUGIN)

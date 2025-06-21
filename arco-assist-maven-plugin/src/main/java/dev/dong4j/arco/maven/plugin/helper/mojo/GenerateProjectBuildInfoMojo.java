@@ -1,7 +1,7 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.FileWriter;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import dev.dong4j.arco.maven.plugin.common.exception.NullAdditionalPropertyValueException;
 import lombok.SneakyThrows;
@@ -29,7 +29,7 @@ import java.util.Properties;
  * @since 1.0.0
  */
 @Mojo(name = "generate-build-info", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
-public class GenerateProjectBuildInfoMojo extends ZekaStackMavenPluginAbstractMojo {
+public class GenerateProjectBuildInfoMojo extends ArcoMavenPluginAbstractMojo {
 
     /**
      * The location of the generated build-info.properties.

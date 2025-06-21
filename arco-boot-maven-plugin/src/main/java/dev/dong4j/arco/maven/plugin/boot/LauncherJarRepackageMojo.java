@@ -2,8 +2,8 @@ package dev.dong4j.arco.maven.plugin.boot;
 
 import dev.dong4j.arco.maven.plugin.boot.boost.BootSlotter;
 import dev.dong4j.arco.maven.plugin.boot.boost.Slotter;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.enums.ModuleType;
 import dev.dong4j.arco.maven.plugin.common.util.PluginUtils;
 import lombok.SneakyThrows;
@@ -26,7 +26,7 @@ import java.io.IOException;
  * @since 1.0.0
  */
 @Mojo(name = "jar-repackage", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
-public class LauncherJarRepackageMojo extends ZekaStackMavenPluginAbstractMojo {
+public class LauncherJarRepackageMojo extends ArcoMavenPluginAbstractMojo {
     /** PATCH */
     public static final String PATCH = "patch";
     /** PLUGIN */

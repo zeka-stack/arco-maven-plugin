@@ -25,6 +25,8 @@ public final class Plugins {
     public static final String CLOUD_DEPENDENCY_FALG = "spring-cloud-context";
     /** BOOT_DEPENDENCY_FALG */
     public static final String BOOT_DEPENDENCY_FALG = "spring-boot";
+    /** NCAOS_CONFIG_DEPENDENCY_FALG */
+    public static final String NCAOS_CONFIG_DEPENDENCY_FALG = "spring-cloud-starter-alibaba-nacos-config";
     /** SKIP_CHECKSTYLE */
     public static final String SKIP_CHECKSTYLE = "checkstyle.skip";
     /** SKIP_PMD */
@@ -35,7 +37,6 @@ public final class Plugins {
     public static final String SKIP_GITCOMMITID = "maven.gitcommitid.skip";
     /** SKIP_BUILD_INFO */
     public static final String SKIP_BUILD_INFO = "build.info.skip";
-    /** SKIP_BUILD_ACTIVE_FILE */
     public static final String SKIP_BUILD_ACTIVE_FILE = "build.profile.active.file.skip";
     /** SKIP_BUILD_MAINCLASS_PROPERTY */
     public static final String SKIP_BUILD_MAINCLASS_PROPERTY = "build.mainclass.property.skip";
@@ -43,6 +44,8 @@ public final class Plugins {
     public static final String SKIP_ASSEMBLY_CONFIG = "assembly.config.skip";
     /** SKIP_LAUNCH_SCRIPT */
     public static final String SKIP_LAUNCH_SCRIPT = "launch.script.skip";
+    /** SKIP_DOCKERFILE_SCRIPT */
+    public static final String SKIP_DOCKERFILE_SCRIPT = "dockerfile.skip";
     /** SKIP_COMPILED_ID */
     public static final String SKIP_COMPILED_ID = "compiled.id.skip";
     /** SKIP_JAR_REPACKAGE */

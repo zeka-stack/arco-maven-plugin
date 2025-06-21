@@ -1,6 +1,6 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.JavaFile;
 import dev.dong4j.arco.maven.plugin.common.JavaFileScanner;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
@@ -25,7 +25,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  */
 @SuppressWarnings("all")
 @Mojo(name = "skip-plugin", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
-public class SkipPluginMojo extends ZekaStackMavenPluginAbstractMojo implements JavaFileScanner {
+public class SkipPluginMojo extends ArcoMavenPluginAbstractMojo implements JavaFileScanner {
 
     /**
      * 如果是 pom 类型的模块或者没有 java 文件, 则不检查代码, 不生成 build.info.properties 文件

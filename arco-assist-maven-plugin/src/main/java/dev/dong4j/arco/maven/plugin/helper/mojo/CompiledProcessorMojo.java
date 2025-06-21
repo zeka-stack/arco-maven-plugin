@@ -1,7 +1,7 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.FileWriter;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import lombok.SneakyThrows;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -20,7 +20,7 @@ import java.io.File;
  * @since 1.5.0
  */
 @Mojo(name = "generate-compiled-id", defaultPhase = LifecyclePhase.COMPILE, threadSafe = true)
-public class CompiledProcessorMojo extends ZekaStackMavenPluginAbstractMojo {
+public class CompiledProcessorMojo extends ArcoMavenPluginAbstractMojo {
     /** Skip */
     @Parameter(property = Plugins.SKIP_COMPILED_ID, defaultValue = Plugins.TURN_OFF_PLUGIN)
     private boolean skip;

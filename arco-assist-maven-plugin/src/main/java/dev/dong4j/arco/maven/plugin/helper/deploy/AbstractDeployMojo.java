@@ -1,6 +1,6 @@
 package dev.dong4j.arco.maven.plugin.helper.deploy;
 
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.repository.ArtifactRepositoryPolicy;
 import org.apache.maven.artifact.repository.MavenArtifactRepository;
@@ -17,7 +17,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @date 2020.04.02 11:27
  * @since 1.0.0
  */
-abstract class AbstractDeployMojo extends ZekaStackMavenPluginAbstractMojo {
+abstract class AbstractDeployMojo extends ArcoMavenPluginAbstractMojo {
 
     /**
      * Flag whether Maven is currently in online/offline mode.

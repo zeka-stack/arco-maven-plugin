@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.StrFormatter;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.deploy.mojo.entity.Group;
 import dev.dong4j.arco.maven.plugin.deploy.mojo.entity.Server;
 import dev.dong4j.arco.maven.plugin.deploy.mojo.util.SSHAgent;
@@ -40,7 +40,7 @@ import java.util.stream.Stream;
  * @since 1.6.0
  */
 @Slf4j
-abstract class ServicePublishMojo extends ZekaStackMavenPluginAbstractMojo {
+abstract class ServicePublishMojo extends ArcoMavenPluginAbstractMojo {
 
     /** Skip */
     @Parameter(property = Plugins.SKIP_PUBLISH_BATCH, defaultValue = Plugins.TURN_ON_PLUGIN)
@@ -99,12 +99,15 @@ abstract class ServicePublishMojo extends ZekaStackMavenPluginAbstractMojo {
      */
     @Override
     public void execute() {
-        this.init();
+        // 使用 -D 获取参数
+        this.publishSwitch = Boolean.parseBoolean(System.getProperty("publish.switch", "false"));
 
-        if (!Boolean.TRUE.equals(this.publishSwitch)) {
+        if (!this.publishSwitch) {
             this.getLog().warn("publish.switch=false 不执行部署流程, 如果需要自动部署请添加 Maven 参数: '-Dpublish.switch=true' 启用");
             return;
         }
+
+        this.init();
 
         this.subExecute();
     }
@@ -122,8 +125,6 @@ abstract class ServicePublishMojo extends ZekaStackMavenPluginAbstractMojo {
      * @since 1.6.0
      */
     protected void init() {
-        // 使用 -D 获取参数
-        this.publishSwitch = Boolean.parseBoolean(System.getProperty("publish.switch", "false"));
         this.username = System.getProperty("publish.username");
         this.password = System.getProperty("publish.password");
 

@@ -1,8 +1,8 @@
 package dev.dong4j.arco.maven.plugin.script.mojo;
 
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.FileWriter;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import lombok.SneakyThrows;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -23,7 +23,7 @@ import java.util.Map;
  * @since 1.5.0
  */
 @Mojo(name = "generate-server-script", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
-public class GenerateServerScriptMojo extends ZekaStackMavenPluginAbstractMojo {
+public class GenerateServerScriptMojo extends ArcoMavenPluginAbstractMojo {
 
     /** Skip */
     @Parameter(property = Plugins.SKIP_LAUNCH_SCRIPT, defaultValue = Plugins.TURN_OFF_PLUGIN)

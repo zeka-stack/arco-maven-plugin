@@ -1,6 +1,6 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import lombok.SneakyThrows;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -27,7 +27,7 @@ import java.util.TimeZone;
  */
 @SuppressWarnings("all")
 @Mojo(name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
-public class TimestampPropertyMojo extends ZekaStackMavenPluginAbstractMojo {
+public class TimestampPropertyMojo extends ArcoMavenPluginAbstractMojo {
 
     /** The property to set. */
     @Parameter(required = true)

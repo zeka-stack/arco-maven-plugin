@@ -2,8 +2,8 @@ package dev.dong4j.arco.maven.plugin.makeself.mojo;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.base.Joiner;
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.enums.ModuleType;
 import dev.dong4j.arco.maven.plugin.common.util.CompressUtils;
 import dev.dong4j.arco.maven.plugin.common.util.FileUtils;
@@ -50,7 +50,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("all")
 @Mojo(name = "makeself", defaultPhase = LifecyclePhase.PACKAGE, requiresProject = false, threadSafe = true)
-public class MakeselfMojo extends ZekaStackMavenPluginAbstractMojo {
+public class MakeselfMojo extends ArcoMavenPluginAbstractMojo {
     /** 直接要部署包默认后缀 */
     private static final String DEFAULT_ARCHIVE_SUFFIX = ".run";
     /** assembly 默认的打包格式 */

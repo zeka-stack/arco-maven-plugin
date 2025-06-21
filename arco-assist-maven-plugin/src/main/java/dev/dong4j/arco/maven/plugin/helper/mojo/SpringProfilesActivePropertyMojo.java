@@ -1,7 +1,7 @@
 package dev.dong4j.arco.maven.plugin.helper.mojo;
 
+import dev.dong4j.arco.maven.plugin.common.ArcoMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.FileWriter;
-import dev.dong4j.arco.maven.plugin.common.ZekaStackMavenPluginAbstractMojo;
 import dev.dong4j.arco.maven.plugin.common.Plugins;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import java.io.File;
  */
 @SuppressWarnings("all")
 @Mojo(name = "profile-active-property", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
-public class SpringProfilesActivePropertyMojo extends ZekaStackMavenPluginAbstractMojo {
+public class SpringProfilesActivePropertyMojo extends ArcoMavenPluginAbstractMojo {
     /** LOCAL */
     public static final String LOCAL = "local";
     /** PROFILE_ACTIVE */

@@ -22,7 +22,7 @@ import java.io.File;
  * @date 2020.03.07 11:34
  * @since 1.0.0
  */
-public abstract class ZekaStackMavenPluginAbstractMojo extends AbstractMojo {
+public abstract class ArcoMavenPluginAbstractMojo extends AbstractMojo {
     /** 当前处理的项目 */
     @Getter
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
