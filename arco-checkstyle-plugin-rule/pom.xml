@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.dong4j</groupId>
+        <artifactId>arco-maven-plugin</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>arco-checkstyle-plugin-rule</artifactId>
+    <name>Arco Checkstyle Plugin Rule</name>
+
+    <dependencies>
+        <!-- checkstyle -->
+        <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>8.29</version>
+            <exclusions>
+                <!-- MCHECKSTYLE-156 -->
+                <exclusion>
+                    <groupId>com.sun</groupId>
+                    <artifactId>tools</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- 设置 resources 文件, 包括 src/main/java 下的 properties 和 xml, src/main/resources 下的所有文件 -->
+        <resources>
+            <resource>
+                <!-- 处理 java 目录下的配置文件 -->
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <!-- 表示 include 中文件的占位符都会被替换 -->
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>true</filtering>
+                <excludes>
+                    <!--排除 jrebel 配置文件 -->
+                    <exclude>rebel.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
+</project>

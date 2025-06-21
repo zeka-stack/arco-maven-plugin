@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Inherit from a parent project -->
+    <parent>
+        <groupId>dev.dong4j</groupId>
+        <artifactId>arco-supreme</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <!-- 因为 arco-supreme 是另一个 git 项目, 因此这里使用如下配置, 表示: 无本地路径，直接从仓库获取 -->
+        <relativePath/>
+    </parent>
+
+    <!-- Project coordinates -->
+    <artifactId>arco-maven-plugin</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <!-- Project metadata -->
+    <name>Arco Maven Plugin</name>
+    <description>Zeka.Stack Maven 插件项目</description>
+    <url>https://github.com/zeka-stack/arco-maven-plugin</url>
+    <inceptionYear>2025</inceptionYear>
+
+    <!-- Organization -->
+    <organization>
+        <name>Zeka Stack Inc.</name>
+        <url>https://github.com/zeka-stack</url>
+    </organization>
+
+    <!-- License -->
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/license/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <id>dong4j</id>
+            <name>dong4j</name>
+            <email>dong4j@gmail.com</email>
+            <organization>Zeka.Stack</organization>
+            <organizationUrl>https://github.com/zeka-stack</organizationUrl>
+            <roles>
+                <role>designer</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <!-- SCM (Source Control Management) -->
+    <scm>
+        <url>https://github.com/zeka-stack/arco-maven-plugin</url>
+        <connection>scm:git:https://github.com/zeka-stack/arco-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:zeka-stack/arco-maven-plugin.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!-- Issue tracking -->
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/zeka-stack/arco-maven-plugin/issues</url>
+    </issueManagement>
+
+    <!-- CI/CD system -->
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/zeka-stack/arco-maven-plugin/actions</url>
+    </ciManagement>
+
+    <!-- Contributors (optional) -->
+    <contributors>
+        <contributor>
+            <name>dong4j</name>
+            <email>dong4j@gmail.com</email>
+            <url>https://github.com/dong4j</url>
+            <organization>Zeka.Stack</organization>
+            <roles>
+                <role>maintainer</role>
+            </roles>
+        </contributor>
+    </contributors>
+
+    <!-- Project modules -->
+    <modules>
+        <module>arco-maven-plugin-common</module>
+
+        <module>arco-enforcer-plugin-rule</module>
+        <module>arco-checkstyle-plugin-rule</module>
+        <module>arco-pmd-plugin-rule</module>
+        <module>arco-assist-maven-plugin</module>
+        <module>arco-boot-maven-plugin</module>
+        <module>arco-boot-loader</module>
+        <module>arco-script-maven-plugin</module>
+        <module>arco-makeself-maven-plugin</module>
+        <module>arco-publish-maven-plugin</module>
+    </modules>
+
+    <!-- Project properties -->
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+
+        <maven.version>3.6.3</maven.version>
+        <maven-plugin.version>3.6.0</maven-plugin.version>
+        <classgraph.version>4.8.54</classgraph.version>
+        <javaparser.version>3.15.15</javaparser.version>
+        <plexus-build-api.version>0.0.7</plexus-build-api.version>
+        <maven-artifact-transfer.version>0.11.0</maven-artifact-transfer.version>
+        <maven-common-artifact-filters.version>3.1.0</maven-common-artifact-filters.version>
+        <junit5-system-extensions.version>1.1.0</junit5-system-extensions.version>
+        <junit-pioneer.version>0.5.4</junit-pioneer.version>
+        <slf4j-simple.version>1.7.30</slf4j-simple.version>
+        <plexus-classworlds.version>2.6.0</plexus-classworlds.version>
+        <plexus-utils.version>3.2.1</plexus-utils.version>
+        <plexus-component-annotations.version>2.1.0</plexus-component-annotations.version>
+
+        <commons-compress.version>1.19</commons-compress.version>
+        <commons-io.version>2.7</commons-io.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+    </properties>
+
+    <dependencies>
+        <!--&lt;!&ndash; lombok 插件, 简化代码 (在 package 阶段排除) &ndash;&gt;-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- idea 提供的用于编译时检查 null 的工具包 (在 package 阶段排除) -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>dev.dong4j</groupId>
+                <artifactId>arco-maven-plugin-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dev.dong4j</groupId>
+                <artifactId>arco-boot-loader</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-core</artifactId>
+                <version>${maven.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>plexus-classworlds</artifactId>
+                        <groupId>org.codehaus.plexus</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>plexus-utils</artifactId>
+                        <groupId>org.codehaus.plexus</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>plexus-component-annotations</artifactId>
+                        <groupId>org.codehaus.plexus</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-artifact</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-api</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-annotations</artifactId>
+                <version>${maven-plugin.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-classworlds</artifactId>
+                <version>${plexus-classworlds.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus-utils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-annotations</artifactId>
+                <version>${plexus-component-annotations.version}</version>
+            </dependency>
+            <!-- java 文件解析 -->
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-symbol-solver-core</artifactId>
+                <version>${javaparser.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-core-serialization</artifactId>
+                <version>${javaparser.version}</version>
+            </dependency>
+            <!-- maven 使用的 IoC 依赖-->
+            <dependency>
+                <groupId>org.sonatype.plexus</groupId>
+                <artifactId>plexus-build-api</artifactId>
+                <version>${plexus-build-api.version}</version>
+            </dependency>
+            <!-- 第三方依赖上传 -->
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-artifact-transfer</artifactId>
+                <version>${maven-artifact-transfer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-common-artifact-filters</artifactId>
+                <version>${maven-common-artifact-filters.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j-simple.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven-plugin.version}</version>
+                    <configuration>
+                        <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>default-descriptor</id>
+                            <goals>
+                                <goal>descriptor</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>help-goal</id>
+                            <goals>
+                                <goal>helpmojo</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                    <configuration>
+                        <appendAssemblyId>false</appendAssemblyId>
+                        <descriptors>
+                            <descriptor>${project.basedir}/assembly/assembly.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

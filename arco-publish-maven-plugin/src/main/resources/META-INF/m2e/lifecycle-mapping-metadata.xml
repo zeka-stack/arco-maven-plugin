@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lifecycleMappingMetadata>
+    <pluginExecutions>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>install-node-and-npm</goal>
+                    <goal>install-node-and-yarn</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>false</runOnIncremental>
+                    <runOnConfiguration>true</runOnConfiguration>
+                </execute>
+            </action>
+        </pluginExecution>
+        <pluginExecution>
+            <pluginExecutionFilter>
+                <goals>
+                    <goal>npm</goal>
+                    <goal>yarn</goal>
+                    <goal>gulp</goal>
+                    <goal>grunt</goal>
+                    <goal>bower</goal>
+                    <goal>jspm</goal>
+                    <goal>ember</goal>
+                    <goal>webpack</goal>
+                    <goal>publish-frontend</goal>
+                </goals>
+            </pluginExecutionFilter>
+            <action>
+                <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                    <runOnConfiguration>false</runOnConfiguration>
+                </execute>
+            </action>
+        </pluginExecution>
+    </pluginExecutions>
+</lifecycleMappingMetadata>

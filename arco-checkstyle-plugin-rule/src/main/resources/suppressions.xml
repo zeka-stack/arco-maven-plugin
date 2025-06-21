@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- 不检查 bouncycastle -->
+    <suppress checks=".*" files="[/\\]src[/\\]main[/\\]java[\\/]bouncycastle[\\/]"/>
+    <!-- 不检查 example 目录-->
+    <suppress checks="." files=".*[\\/]example[\\/].*"/>
+    <!-- 不检查 sample 目录 -->
+    <suppress checks="." files=".*[\\/]sample[\\/].*"/>
+    <!-- 忽略单元测试包 -->
+    <suppress checks="[a-zA-Z0-9]*" files="[/\\]src[/\\]test[/\\]"/>
+    <!-- 忽略单元测试资源文件 -->
+    <suppress checks="[a-zA-Z0-9]*" files="[\\/]src[\\/]test[\\/]resources[\\/]"/>
+    <!-- 忽略自动生成的代码 -->
+    <suppress checks="[a-zA-Z0-9]*" files="[\\/]build[\\/]generated-sources[\\/]"/>
+    <!-- 忽略资源文件 -->
+    <suppress checks="[a-zA-Z0-9]*" files="[\\/]src[\\/]main[\\/]resources[\\/]"/>
+    <suppress checks=".*" files="[/\\]target[/\\]"/>
+
+    <suppress checks="MethodName" files="\*Test.java"/>
+    <suppress checks="FileLength"
+              files="dev.dong4j.*.DataTypeUtils.java|dev.dong4j.*.StringUtils.java|dev.dong4j.*.Tools.java"/>
+
+    <suppress checks="IllegalImport"
+              files="dev.dong4j.*.InetAddressCacheUtils.java|dev.dong4j.*.IpParserUtils.java|dev.dong4j.*.EnumUtils.java"/>
+
+</suppressions>

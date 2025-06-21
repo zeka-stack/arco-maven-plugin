@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <!-- Spring Boot 应用打包配置 -->
+    <id>package</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <!-- 排除依赖 -->
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory>
+            <scope>runtime</scope>
+            #{excludes}
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/patch</directory>
+            <outputDirectory>${file.separator}patch</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/plugin</directory>
+            <outputDirectory>${file.separator}plugin</outputDirectory>
+        </fileSet>
+        <!-- 将配置文件输出到 config 目录下 -->
+        <fileSet>
+            <directory>${basedir}/src/main/resources</directory>
+            <includes>
+                <include>#{include}</include>
+            </includes>
+            <filtered>true</filtered>
+            <outputDirectory>${file.separator}config</outputDirectory>
+        </fileSet>
+        <!-- 将资源文件输出到 config 目录下 -->
+        <fileSet>
+            <directory>${basedir}/src/main/resources</directory>
+            <includes>
+                <include>/includes/**</include>
+            </includes>
+            <!-- 设置为 false, 避免文件被修改 -->
+            <filtered>false</filtered>
+            <outputDirectory>${file.separator}config</outputDirectory>
+        </fileSet>
+        <!-- 将 maven 编译后的生成的 pom.properties 文件输出到 config 目录下, 用于获取默认应用名 -->
+        <fileSet>
+            <directory>${project.build.directory}/maven-archiver</directory>
+            <includes>
+                <include>pom.properties</include>
+            </includes>
+            <filtered>true</filtered>
+            <outputDirectory>${file.separator}config</outputDirectory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/classes/META-INF</directory>
+            <includes>
+                <include>build-info.properties</include>
+            </includes>
+            <filtered>true</filtered>
+            <outputDirectory>${file.separator}config</outputDirectory>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <!-- 将启动脚本输出到 bin 目录下 -->
+        <fileSet>
+            <directory>${project.build.directory}/arco-maven-plugin/bin</directory>
+            <outputDirectory>${file.separator}bin</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <!-- 将 依赖输出到 lib 目录下 -->
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <outputDirectory>${file.separator}lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-processor-*</exclude>
+                <exclude>spring-boot-devtools-*</exclude>
+            </excludes>
+        </fileSet>
+        <!-- 将主 jar 输出到 / -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
