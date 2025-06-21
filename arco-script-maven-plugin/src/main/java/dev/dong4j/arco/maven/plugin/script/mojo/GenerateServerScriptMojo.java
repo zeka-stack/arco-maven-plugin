@@ -35,12 +35,8 @@ public class GenerateServerScriptMojo extends ArcoMavenPluginAbstractMojo {
     @Parameter(defaultValue = "${project.basedir}/bin/server.sh")
     private File scriptFile;
     /** jvm 参数 */
-    @Parameter(property = "jvmOptions", defaultValue = "-Xms128M " +
-        "-Xmx256M " +
-        "-XX:MetaspaceSize=64M " +
-        "-XX:MaxMetaspaceSize=128M ")
+    @Parameter(property = "jvmOptions", defaultValue = "-Xms128M -Xmx256M ")
     private String jvmOptions;
-
     /** JVM_SYMBOL */
     private static final String JVM_SYMBOL = "#{jvmOptions}";
     /** SERVER_FILE */

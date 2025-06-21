@@ -220,10 +220,10 @@ function start() {
     fi
 
     if [[ ${SHOW_LOG} = "on" ]]; then
-      tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}" | perl -pe 's/(WARN)|(ERROR)/\e[1;33m$1\e[0m\e[1;31m$2\e[0m/g'
+      tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
 	else
 		if [[ ${TIMEOUT_SHOWLOG} = "on" ]]; then
-			timeout 120 tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}"  | perl -pe 's/(WARN)|(ERROR)/\e[1;33m$1\e[0m\e[1;31m$2\e[0m/g'
+			timeout 120 tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
 		fi
     fi
 

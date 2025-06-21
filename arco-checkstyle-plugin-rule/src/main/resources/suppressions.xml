@@ -11,6 +11,7 @@
     <suppress checks="." files=".*[\\/]example[\\/].*"/>
     <!-- 不检查 sample 目录 -->
     <suppress checks="." files=".*[\\/]sample[\\/].*"/>
+    <suppress checks="." files=".*[\\/]generator[\\/].*"/>
     <!-- 忽略单元测试包 -->
     <suppress checks="[a-zA-Z0-9]*" files="[/\\]src[/\\]test[/\\]"/>
     <!-- 忽略单元测试资源文件 -->
