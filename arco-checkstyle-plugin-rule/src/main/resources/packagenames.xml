@@ -5,7 +5,7 @@
     "https://checkstyle.org/dtds/packages_1_0.dtd">
 
 <checkstyle-packages>
-    <package name="dev.dong4j.arco.maven.plugin.checkstyle">
+    <package name="dev.dong4j.zeka.maven.plugin.checkstyle">
         <package name="checks"/>
     </package>
     <package name="com.puppycrawl.tools.checkstyle">

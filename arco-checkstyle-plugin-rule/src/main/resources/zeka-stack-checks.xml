@@ -54,11 +54,11 @@
         </module>
 
         <!-- 自定义检查 -->
-        <module name="dev.dong4j.arco.maven.plugin.checkstyle.checks.MethodLimitCheck">
+        <module name="dev.dong4j.zeka.maven.plugin.checkstyle.checks.MethodLimitCheck">
             <property name="severity" value="warning"/>
         </module>
 
-        <module name="dev.dong4j.arco.maven.plugin.checkstyle.checks.IllegalNewCheck"/>
+        <module name="dev.dong4j.zeka.maven.plugin.checkstyle.checks.IllegalNewCheck"/>
 
         <!--<module name="SuppressionFilter">-->
         <!--    <property name="file" value="./suppressions.xml"/>-->
