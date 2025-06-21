@@ -101,6 +101,7 @@
         <module>arco-script-maven-plugin</module>
         <module>arco-makeself-maven-plugin</module>
         <module>arco-publish-maven-plugin</module>
+        <module>arco-container-maven-plugin</module>
     </modules>
 
     <!-- Project properties -->

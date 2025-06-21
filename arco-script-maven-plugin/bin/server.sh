@@ -131,7 +131,7 @@ function running() {
       -DIDENTIFY=${APP_NAME}@${ENV}
       -DZEKA_NAME_SPACE=${ENV}
       -Ddeploy.path=${DEPLOY_DIR}
-      -Dstart.type=shell
+      -Dstart.type=${START_TYPE:-shell}
       -Dconfig.path=${DEPLOY_DIR}/config/
       -Dzeka-stack.logging.file.path=${LOG_PATH}/${ENV}
       -Dzeka-stack.logging.file.name=${LOG_NAME}
@@ -160,7 +160,7 @@ function running() {
     -DIDENTIFY="$APP_NAME"@"$ENV" \
     -DZEKA_NAME_SPACE="$ENV" \
     -Ddeploy.path="$DEPLOY_DIR" \
-    -Dstart.type=shell \
+    -Dstart.type="${START_TYPE:-shell}" \
     -Dconfig.path="$DEPLOY_DIR"/config/ \
     -Dzeka-stack.logging.file.path="$LOG_PATH"/"$ENV" \
     -Dzeka-stack.logging.file.name="$LOG_NAME" \
