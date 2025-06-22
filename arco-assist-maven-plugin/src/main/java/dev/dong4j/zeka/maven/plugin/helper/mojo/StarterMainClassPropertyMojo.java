@@ -52,19 +52,19 @@ public class StarterMainClassPropertyMojo extends ZekaMavenPluginAbstractMojo {
 
         this.injectionProperties(INSTALL_SKIP,
             Plugins.TURN_OFF_PLUGIN,
-            "set properties" + INSTALL_SKIP + "=true",
-            "当前模块为部署模块, 不需要手动指定忽略 install 命令, 将自动忽略, 请删除多余配置");
+            "监测到当前模块存在启动类, 自动设置: " + INSTALL_SKIP + "=true",
+            "已监测到当前模块存在启动类, 不需要手动指定忽略 install 命令, 将自动忽略, 可以删除多余配置");
 
         this.injectionProperties(DEPLOY_SKIP,
             Plugins.TURN_OFF_PLUGIN,
-            "set properties " + DEPLOY_SKIP + "=true",
-            "当前模块为部署模块, 不需要手动指定忽略 deploy 命令, 将自动忽略, 请删除多余配置");
+            "监测到当前模块存在启动类, 自动设置: " + DEPLOY_SKIP + "=true",
+            "已监测到当前模块存在启动类, 不需要手动指定忽略 deploy 命令, 将自动忽略, 可以删除多余配置");
 
         String startClassName = System.getProperty(this.getProject().getModel().getArtifactId() + "_START_CLASS");
         this.injectionProperties(this.name,
             startClassName,
-            "set properties " + this.name + "=" + startClassName,
-            "当前模块为部署模块, 不需要手动配置 " + this.name + "属性, 将自动注入, 请删除多余配置");
+            "监测到当前模块存在启动类, 自动设置: " + this.name + "=" + startClassName,
+            "已监测到当前模块存在启动类, 不需要手动配置 " + this.name + "属性, 将自动注入, 可以删除多余配置");
     }
 
     /**
@@ -80,7 +80,7 @@ public class StarterMainClassPropertyMojo extends ZekaMavenPluginAbstractMojo {
         Model model = this.getProject().getModel();
 
         if (model.getProperties().get(name) != null) {
-            this.getLog().warn(warnMessage);
+            this.getLog().info(warnMessage);
         } else {
             this.defineProperty(name, value);
             this.getLog().info(infoMessage);
