@@ -69,7 +69,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
         "arco-project-builder",
         "arco-project-dependencies",
 
-        "blen-toolkit",
+        "blen-kernel",
         "cubo-starter",
         "cubo-starter-examples",
         "cubo-starter-examples",
