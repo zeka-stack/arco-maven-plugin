@@ -73,3 +73,4 @@ rebel.xml
 .flattened-pom.xml
 *.hprof
 .fastRequest
+.maven-copied
