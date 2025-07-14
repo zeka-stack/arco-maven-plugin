@@ -166,7 +166,7 @@ function running() {
     -Dzeka-stack.logging.file.name="$LOG_NAME" \
     -Djar.file="$JAR_FILE" \
     ${JMX_OPTIONS} \
-    ${DEBUG_OPT S} \
+    ${DEBUG_OPTS} \
     ${APM_OPTS} \
     "$JAR_FILE" \
     --spring.profiles.active="$ENV" \
