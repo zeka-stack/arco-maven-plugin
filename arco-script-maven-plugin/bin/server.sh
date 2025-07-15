@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 通用启动脚本, 如果需要自定义, 可在 `${project.basedir}/src/main/resources/bin` 目录下创建同名文件, 框架在打包时将会使用自定义脚本.
+# 通用启动脚本, 如果需要自定义, 可在 `${project.basedir}/bin` 目录下创建同名文件, 框架在打包时将会使用自定义脚本.
 
 #     __________         __                     .__                                  .__
 #     \____    /  ____  |  | _______            |  |  _____    __ __   ____    ____  |  |__    ____  _______
@@ -311,6 +311,19 @@ echo_green "     /_______ \ \___  >|__|_ \(____  /         |____/(____  /|____/ 
 echo_green "             \/     \/      \/     \/                     \/             \/      \/      \/      \/             "
 echo_green "                                        :: Zeka.Stack Boot Startup Script ::                                    "
 echo
+
+# shell 脚本设置的都是环境变量, 在 Java 代码中使用 System.getenv 获取, 而在应用中通过 System.setProperty 设置的属于 JVM 系统属性(等同于 -D)
+# 所以下面的环境变量都你可以被应用覆盖.
+# Spring Boot 中用于配置解析的 Environment 是分层的：
+# 	1.	JVM 系统属性（System.getProperty，如 -DAPP_NAME=...，或在代码中 setProperty）
+#	2.	操作系统环境变量（System.getenv()）
+#	3.	application.yml、application.properties
+# Spring Cloud 中 ${APP_NAME} 解析优先级仍然是：
+#	1.	JVM 启动参数（-DAPP_NAME=xxx）
+#	2.	System.setProperty("APP_NAME", ...)
+#	3.	操作系统环境变量（export APP_NAME=xxx）
+#	4.	application.yml / bootstrap.yml
+#	5.	Spring Cloud Config Server 远程配置
 
 if [[ -n "${JAVA_HOME}" ]] && [[ -x "${JAVA_HOME}/bin/java" ]]; then
   JAVA_EXE="${JAVA_HOME}/bin/java"
