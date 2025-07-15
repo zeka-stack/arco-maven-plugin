@@ -72,6 +72,9 @@ public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
     @Parameter(defaultValue = "${project.basedir}/src/main/resources/application.yml")
     private File mainConfigFile;
 
+    @Parameter(defaultValue = "${project.basedir}/src/main/resources/bootstrap.yml")
+    private File bootstrapConfigFile;
+
     /** objectMapper */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -113,7 +116,7 @@ public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
      * @since 2024.2.0
      */
     private void writePort(Map<String, String> replaceMap) {
-        if (mainConfigFile == null) {
+        if (!mainConfigFile.exists() && !bootstrapConfigFile.exists()) {
             this.getLog().error("application.yml 文件不存在, 无法确认 export port");
         } else {
             final BufferedReader reader = FileUtil.getReader(mainConfigFile, StandardCharsets.UTF_8);
