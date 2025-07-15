@@ -16,6 +16,13 @@
             <fileMode>755</fileMode>
             <lineEnding>unix</lineEnding>
         </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/embed</directory>
+            <outputDirectory>META-INF/assembly</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
         <!-- Include previously compiled and jar code -->
         <fileSet>
             <directory>${project.build.directory}/classes</directory>

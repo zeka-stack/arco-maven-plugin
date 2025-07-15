@@ -3,11 +3,6 @@ package dev.dong4j.zeka.maven.plugin.common;
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Maps;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
-import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,6 +14,11 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>Description: </p>
@@ -29,6 +29,7 @@ import java.util.Properties;
  * @date 2020.03.13 19:08
  * @since 1.0.0
  */
+@Slf4j
 @SuppressWarnings("all")
 public final class FileWriter {
     /** UTF_8 */
@@ -87,17 +88,48 @@ public final class FileWriter {
      * @since 1.0.0
      */
     public void write(String file) {
+        write(file, false);
+    }
+
+    /**
+     * @param file         文件
+     * @param sameFileName 是否写入相同的文件名(会覆盖 outputFile)
+     */
+    public void write(String file, boolean sameFileName) {
         URL url = FileUtils.class.getClassLoader().getResource(file);
         if (url != null) {
             try (InputStream inputStream = url.openStream()) {
                 String content = IOUtils.toString(inputStream, UTF_8);
-                this.writeContent(content);
+                if (sameFileName) {
+                    // 使用 file 创建 File, 然后获取文件名, 传入 writeSameContent
+                    File tempFile = new File(file);
+                    String fileName = tempFile.getName(); // 获取文件名
+                    this.writeSameContent(fileName, content);
+                } else {
+                    this.writeContent(content);
+                }
             } catch (IOException ignored) {
                 throw new IllegalStateException("[INFO] 文件拷贝失败: file = " + file);
             }
         }
     }
 
+    public void writeSameContent(String fileName, String content) throws IOException {
+        if (CollectionUtil.isNotEmpty(this.replaceMap)) {
+            for (Map.Entry<String, String> entry : this.replaceMap.entrySet()) {
+                content = content.replace(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // 获取 this.outputFile 的目录名, 然后拼接 fileName, 创建一个新的 File, 即最终写入的文件
+        File parentDir = this.outputFile.getParentFile();
+        File targetFile = new File(parentDir, fileName);
+
+        try (FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+            log.info("生成文件: {}", targetFile);
+            IOUtils.copy(new StringReader(content), outputStream, UTF_8);
+        }
+    }
 
     /**
      * 直接使用 file 写入 outputFile
@@ -127,6 +159,7 @@ public final class FileWriter {
             }
         }
         try (FileOutputStream outputStream = new FileOutputStream(this.outputFile)) {
+            log.info("生成文件: {}", this.outputFile);
             IOUtils.copy(new StringReader(content), outputStream, UTF_8);
         }
     }

@@ -1,0 +1,41 @@
+services:
+  # 构建基础镜像
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile-B
+    image: zeka-stack-java8-base:latest
+    # 不需要运行该服务
+    entrypoint: [ "true" ]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-M
+    image: ${PACKAGE.NAME}:latest
+    container_name: ${PACKAGE.NAME}
+    working_dir: /app
+    ports:
+      ${PORTS}
+    environment:
+      - START_TYPE=docker
+      - TZ=Asia/Shanghai
+      # 指定日志目录,不写默认为 /mnt/syslogs/zeka.stack
+      - FINAL_LOG_PATH=./logs
+    depends_on:
+      - base
+    entrypoint:
+      - bin/server.sh
+    command:
+      - -s
+      - ${APP_ENV:-dev}
+      - -t
+      - -i
+
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped

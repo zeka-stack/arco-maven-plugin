@@ -12,22 +12,21 @@ import com.google.common.collect.Maps;
 import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
-import lombok.SneakyThrows;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.SneakyThrows;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * dockerfile 生成器
+ * dockerfile 生成器. 需要手动开启: -Ddockerfile.skip=false
  * 1. docker/Dockerfile 是模板文件, 如果不存在自定义 dockerfile, 则会使用此模板;
- * 2. 插件打包时需要将 docker/Dockerfile 写入到 {@link DockerfileScriptMojo#DOCKERFILE};
+ * 2. 插件打包时需要将 docker/Dockerfile 写入到 {@link GenerateDockerfileScriptMojo#DOCKERFILE_M};
  * 3. 插件打包时使用 assembly/assembly.xml, 需要配置 Dockerfile 写入 jar 包的规则;
  * 4. 业务模块存在启动类时才会打包, {@link dev.dong4j.zeka.maven.plugin.helper.mojo.SkipPluginMojo#execute()};
  * 5. 业务模块如果不存在自定义 dockerfile, 将会把插件包 docker/Dockerfile 复制到业务模块的 target/Dockerfile;
@@ -40,29 +39,33 @@ import java.util.Map;
  * @since x.x.x
  */
 @Mojo(name = "generate-dockerfile", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
-public class DockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
+public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
 
     /** Skip */
     @Parameter(property = Plugins.SKIP_DOCKERFILE_SCRIPT, defaultValue = Plugins.TURN_OFF_PLUGIN)
     private boolean skip;
-    /** 最终文件输出到 target 目录下, 和 tar.gz 同级 */
-    @Parameter(defaultValue = "${project.build.directory}/Dockerfile")
+    /** 最终文件输出到 target/docker 目录下 */
+    @Parameter(defaultValue = "${project.build.directory}/docker/Dockerfile")
     private File outputFile;
-    /** 自定义的脚本文件 */
-    @Parameter(defaultValue = "${project.basedir}/Dockerfile")
-    private File scriptFile;
+    /** 自定义的 Dockerfile */
+    @Parameter(defaultValue = "${project.basedir}/docker/Dockerfile")
+    private File userDockerFile;
 
     /** 包名 */
     @Parameter(defaultValue = "${project.build.finalName}")
     private String packageName;
 
     /** 如果没有自定义配置, 则从插件包中获取模板文件 */
-    private static final String DOCKERFILE = "META-INF/docker/Dockerfile";
+    private static final String DOCKERFILE_B = "META-INF/docker/Dockerfile-B";
+    private static final String DOCKERFILE_M = "META-INF/docker/Dockerfile-M";
+    private static final String DOCKERFILE_S = "META-INF/docker/Dockerfile-S";
+    private static final String DOCKER_COMPOSE = "META-INF/docker/docker-compose.yml";
 
     /** PACKAGE_NAME */
     private static final String PACKAGE_NAME = "${PACKAGE.NAME}";
     /** EXPORT_PORT */
     private static final String EXPORT_PORT = "${EXPORT.PORT}";
+    private static final String PORTS = "${PORTS}";
     private static final String HEALTHCHECK = "${HEALTHCHECK}";
 
     /** 主配置文件 */
@@ -81,25 +84,26 @@ public class DockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
     @Override
     public void execute() {
         if (this.skip) {
-            this.getLog().info("build dockerfile is skipped");
+            this.getLog().info("跳过生成 Dockerfile");
             return;
         }
 
         // 存在自定义脚本则将自定义脚本写入到 outputFile
-        if (this.scriptFile.exists()) {
-            new FileWriter(this.outputFile).write(this.scriptFile);
-            this.getLog().info("使用自定义 Dockerfile: " + this.scriptFile.getPath());
+        if (this.userDockerFile.exists()) {
+            new FileWriter(this.outputFile).write(this.userDockerFile);
+            this.getLog().info("使用自定义 Dockerfile: " + this.userDockerFile.getPath());
         } else {
-            Map<String, String> replaceMap = Maps.newHashMapWithExpectedSize(2);
+            Map<String, String> replaceMap = Maps.newHashMapWithExpectedSize(8);
 
             writePort(replaceMap);
 
             replaceMap.put(PACKAGE_NAME, packageName);
-            new FileWriter(this.outputFile, replaceMap).write(DOCKERFILE);
+            new FileWriter(this.outputFile, replaceMap).write(DOCKERFILE_M, true);
+            new FileWriter(this.outputFile, replaceMap).write(DOCKERFILE_B, true);
+            new FileWriter(this.outputFile, replaceMap).write(DOCKERFILE_S, true);
+            new FileWriter(this.outputFile, replaceMap).write(DOCKER_COMPOSE, true);
         }
         this.buildContext.refresh(this.outputFile);
-
-        this.getLog().info("生成 Dockerfile: " + this.outputFile.getPath());
     }
 
     /**
@@ -130,17 +134,26 @@ public class DockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
                         });
                     }
 
+                    String defaultPort = "8080";
                     if (CollectionUtil.isNotEmpty(ports)) {
+                        StringBuilder portBuilder = new StringBuilder();
+                        for (String port : ports) {
+                            portBuilder.append("  - \"").append(port).append(":").append(port).append("\"\n");
+                        }
+                        String portString = portBuilder.toString().trim(); // 去除末尾的换行符
+                        replaceMap.put(PORTS, portString);
+
                         replaceMap.put(EXPORT_PORT, "EXPOSE " + String.join(" ", ports));
                         // 使用第一个端口作为检查检查端口
-                        final String firstPort = ports.get(0);
-                        replaceMap.put(HEALTHCHECK,
-                            StrFormatter.format("HEALTHCHECK --interval=30s --timeout=5s CMD curl -f http://localhost:{}/actuator/health || exit 1", firstPort));
+                        defaultPort = ports.get(0);
                     } else {
                         // 默认暴露 8080 端口
-                        replaceMap.put(EXPORT_PORT, "EXPOSE 8080");
-                        replaceMap.put(HEALTHCHECK, "");
+                        replaceMap.put(EXPORT_PORT, "EXPOSE " + defaultPort);
+                        replaceMap.put(PORTS, "  - \"" + defaultPort + ":" + defaultPort + "\"");
                     }
+                    replaceMap.put(HEALTHCHECK,
+                        // todo-dong4j : (2025.07.15 01:00) [在 endpoint 组件中自定义接口 /ping]
+                        StrFormatter.format("HEALTHCHECK --interval=30s --timeout=5s CMD curl -f http://localhost:{}/actuator/health || exit 1", defaultPort));
 
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);

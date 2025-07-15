@@ -4,6 +4,8 @@
         <pluginExecution>
             <pluginExecutionFilter>
                 <goals>
+                    <goal>generate-dockerfile</goal>
+                    <goal>generate-docker-assembly-config</goal>
                 </goals>
             </pluginExecutionFilter>
             <action>
@@ -15,3 +17,4 @@
         </pluginExecution>
     </pluginExecutions>
 </lifecycleMappingMetadata>
+

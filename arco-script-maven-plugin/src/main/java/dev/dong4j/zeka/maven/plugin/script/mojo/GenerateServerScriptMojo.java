@@ -3,14 +3,13 @@ package dev.dong4j.zeka.maven.plugin.script.mojo;
 import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.SneakyThrows;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -75,7 +74,5 @@ public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {
             new FileWriter(this.outputFile, replaceMap).write(SERVER_FILE);
         }
         this.buildContext.refresh(this.outputFile);
-
-        this.getLog().info("生成 server.sh: " + this.outputFile.getPath());
     }
 }

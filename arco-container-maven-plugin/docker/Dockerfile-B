@@ -1,6 +1,7 @@
 # docker build -f dockerfile-base -t zeka-stack-java8-base:latest .
 # 使用 busybox 作为基础镜像，用于提供基本的 shell 工具
-FROM busybox as base
+## todo-dong4j : (2025.07.15 03:05) [需要支持中文]
+FROM busybox AS base
 # 使用 Eclipse Temurin 提供的 JRE 8 镜像作为运行 Java 应用的基础环境
 FROM eclipse-temurin:8-jre
 # 从 busybox 阶段复制基础命令到最终镜像中，便于调试或脚本执行

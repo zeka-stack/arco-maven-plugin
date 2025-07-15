@@ -69,6 +69,8 @@ public class SkipPluginMojo extends ZekaMavenPluginAbstractMojo implements JavaF
             // 生成自解压的部署包 (手动开启 -Dmakeself.skip=false)
             // this.defineProperty(Plugins.SKIP_MAKESELF, Plugins.TURN_ON_PLUGIN);
             this.defineProperty(Plugins.SKIP_PUBLISH_SINGLE, Plugins.TURN_ON_PLUGIN);
+            // 生成 dockerfile
+            this.defineProperty(Plugins.SKIP_DOCKERFILE_SCRIPT, Plugins.TURN_ON_PLUGIN);
         } else {
             this.skipPluginViCommandLine(Plugins.SKIP_GITCOMMITID, "skip git-commit-id-plugin");
         }

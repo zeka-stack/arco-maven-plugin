@@ -23,7 +23,7 @@ mvn clean deploy
    ├── arco-maven-plugin-common     # 插件项目基础模块， 提供开发插件的工具包
    ├── arco-boot-loader             # 热加载组件， 可动态加载 class， 实现不重启服务加载 class 文件
    ├── arco-boot-maven-plugin       # 项目启动优化插件， 依赖于 arco-boot-loader
-   ├── arco-assist-maven-plugin     # V5 框架开发辅助插件
+   ├── arco-assist-maven-plugin     # V8 框架开发辅助插件
    ├── arco-checkstyle-plugin-rule  # 代码格式检查插件
    ├── arco-pmd-plugin-rule         # 代码质量检查插件 (阿里开发规范)
    ├── arco-enforcer-plugin-rule    # 项目依赖检查插件

@@ -1,0 +1,28 @@
+# 使用 dockerfile-base 构建的基础镜像
+FROM zeka-stack-java8-base:latest
+
+# 添加构建元信息
+LABEL maintainer="dong4j <dong4j@gmail.com>"
+LABEL project="zeka.stack"
+LABEL description="基于 JRE 8 的 Spring Boot 应用容器镜像"
+
+ENV START_TYPE=docker
+WORKDIR /app
+
+# 缓存层：第三方依赖 jar（变化最少）
+COPY ${PACKAGE.NAME}/lib/ /app/lib/
+# 应用层：脚本、配置、主 jar（变化频繁）
+COPY ${PACKAGE.NAME}/bin/     /app/bin/
+COPY ${PACKAGE.NAME}/config/  /app/config/
+COPY ${PACKAGE.NAME}/patch/   /app/patch/
+COPY ${PACKAGE.NAME}/plugin/  /app/plugin/
+COPY ${PACKAGE.NAME}/*.jar    /app/
+
+# 进入部署目录
+WORKDIR /app/${PACKAGE.NAME}
+# 暴露端口, export.port 变量由插件自动注入
+${EXPORT.PORT}
+${HEALTHCHECK}
+# 启动 docker run 时还要加上 -s dev/test/prev/prod 和其他支持的命令和参数
+ENTRYPOINT ["bin/server.sh"]
+

@@ -30,7 +30,7 @@ function init_debug() {
   DEBUG_OPTS="-Dloader.debug=false"
   if [[ "${DEBUG_PORD}" != "-1" ]]; then
     if (("${DEBUG_PORD}" + 10)) &>/dev/null; then
-      DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORD -Dloader.debug"
+      DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORD -Dloader.debug"
       echo_yellow "开启 DEBUG 模式: DEBUG_OPTS=$DEBUG_OPTS"
     else
       echo_red "请输入正确的端口号"
@@ -82,7 +82,9 @@ function prepare() {
   # 从 build-info.properties 读取应用名
   APP_NAME=$(awk -F '=' '{if($1~/build.project.name/) printf $2}' "${DEPLOY_DIR}"/config/build-info.properties)
   JAR_FILE=${DEPLOY_DIR}/${APP_NAME}.jar
-  GC_LOG=${LOG_PATH}/${ENV}/${APP_NAME}/gc.log
+
+  mkdir_log_file
+  GC_LOG=${FINAL_LOG_PATH}/gc.log
 }
 
 # 处理 apm 参数
@@ -103,11 +105,15 @@ function check_pid() {
 
 # 创建日志目录和文件
 function mkdir_log_file() {
-  FINAL_LOG_PATH="${LOG_PATH}/${ENV}/${APP_NAME}"
-  mkdir -p "${FINAL_LOG_PATH}"
-  if [[ ! -f "${FINAL_LOG_PATH}/${LOG_NAME}" ]]; then
-    touch "${FINAL_LOG_PATH}/${LOG_NAME}"
+  # 如果未传入 FINAL_LOG_PATH，则拼接默认路径
+  if [[ -z "${FINAL_LOG_PATH}" ]]; then
+    FINAL_LOG_PATH="${LOG_PATH}/${ENV}/${APP_NAME}"
   fi
+
+  mkdir -p "${FINAL_LOG_PATH}"
+
+  local log_file="${FINAL_LOG_PATH}/${LOG_NAME}"
+  [[ -f "${log_file}" ]] || touch "${log_file}"
 }
 
 # 设置环境, 与应用配置 bootstrap.yml 的 ${ZEKA_NAME_SPACE} 对应, 此处设置的变量会被 spring 在启动时替换
@@ -133,7 +139,7 @@ function running() {
       -Ddeploy.path=${DEPLOY_DIR}
       -Dstart.type=${START_TYPE:-shell}
       -Dconfig.path=${DEPLOY_DIR}/config/
-      -Dzeka-stack.logging.file.path=${LOG_PATH}/${ENV}
+      -Dzeka-stack.logging.file.path=${FINAL_LOG_PATH}
       -Dzeka-stack.logging.file.name=${LOG_NAME}
       -Djar.file=${JAR_FILE}
       ${JMX_OPTIONS}
@@ -162,7 +168,7 @@ function running() {
     -Ddeploy.path="$DEPLOY_DIR" \
     -Dstart.type="${START_TYPE:-shell}" \
     -Dconfig.path="$DEPLOY_DIR"/config/ \
-    -Dzeka-stack.logging.file.path="$LOG_PATH"/"$ENV" \
+    -Dzeka-stack.logging.file.path="$FINAL_LOG_PATH" \
     -Dzeka-stack.logging.file.name="$LOG_NAME" \
     -Djar.file="$JAR_FILE" \
     ${JMX_OPTIONS} \
@@ -212,7 +218,6 @@ function start() {
   pid="$(check_pid)"
 
   if [[ -z "$pid" ]]; then
-    mkdir_log_file
     running
 
     if [[ ${SHOW_INFO} = "on" ]]; then
@@ -220,10 +225,10 @@ function start() {
     fi
 
     if [[ ${SHOW_LOG} = "on" ]]; then
-      tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
+      tail -n 100 -f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
 	else
 		if [[ ${TIMEOUT_SHOWLOG} = "on" ]]; then
-			timeout 120 tail -100f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
+			timeout 120 tail -n 100 -f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
 		fi
     fi
 
@@ -335,8 +340,6 @@ ENABLE_APM="off"
 # shell 启动时使用默认的日志路径
 LOG_PATH="/mnt/syslogs/zeka.stack"
 LOG_NAME="all.log"
-# 最终的日志路径
-FINAL_LOG_PATH=""
 # 自定义 JVM 参数
 JVM_OPTIONS="#{jvmOptions}"
 # 自定义参数, 先设置变量
