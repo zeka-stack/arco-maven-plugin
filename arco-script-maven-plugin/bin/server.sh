@@ -105,7 +105,7 @@ function check_pid() {
 
 # 创建日志目录和文件
 function mkdir_log_file() {
-  # 如果未传入 FINAL_LOG_PATH，则拼接默认路径
+  # 如果FINAL_LOG_PATH 未设置或为空字符串，则拼接默认路径
   if [[ -z "${FINAL_LOG_PATH}" ]]; then
     FINAL_LOG_PATH="${LOG_PATH}/${ENV}/${APP_NAME}"
   fi
@@ -325,18 +325,25 @@ echo
 #	4.	application.yml / bootstrap.yml
 #	5.	Spring Cloud Config Server 远程配置
 
+# 自动检测 Java 路径
 if [[ -n "${JAVA_HOME}" ]] && [[ -x "${JAVA_HOME}/bin/java" ]]; then
   JAVA_EXE="${JAVA_HOME}/bin/java"
-elif type -p java >/dev/null 2>&1; then
-  JAVA_EXE=$(type -p java)
+elif JAVA_PATH=$(which java 2>/dev/null) && [[ -x "$JAVA_PATH" ]]; then
+  JAVA_EXE="$JAVA_PATH"
 elif [[ -x "/usr/bin/java" ]]; then
   JAVA_EXE="/usr/bin/java"
 else
-  # 测试, 预演 jdk 的绝对路径
-  JAVA_EXE="$(find /opt -name 'jdk1.8*')/bin/java"
+  # 在常见路径中查找 Java（只取第一个）
+  JAVA_EXE=$(find /opt /usr/local /usr/lib/jvm -type f -name "java" -perm +111 2>/dev/null | head -n 1)
 fi
 
-echo_green "JAVA_HOME: ${JAVA_EXE}"
+# 校验并输出结果
+if [[ -x "$JAVA_EXE" ]]; then
+  echo_green "✅ 检测到 Java 路径: $JAVA_EXE"
+else
+  echo_red "❌ 未检测到有效的 Java 可执行文件，请检查 JAVA_HOME 或安装 Java。"
+  exit 1
+fi
 
 # 默认 dev 环境
 ENV="prod"
@@ -350,8 +357,10 @@ SHOW_LOG="off"
 TIMEOUT_SHOWLOG="off"
 SHOW_INFO="on"
 ENABLE_APM="off"
-# shell 启动时使用默认的日志路径
-LOG_PATH="/mnt/syslogs/zeka.stack"
+# zeka.stack 的默认日志目录, 如果使用此目录, 日志会在 /mnt/syslogs/zeka.stack/{环境}/{应用名} 目录下, 如果要使用此配置, 需要将 FINAL_LOG_PATH 删除或置为空
+LOG_PATH=${LOG_PATH:-"/mnt/syslogs/zeka.stack"}
+# 设置日志路径为应用目录下的 logs 目录
+FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
 LOG_NAME="all.log"
 # 自定义 JVM 参数
 JVM_OPTIONS="#{jvmOptions}"
@@ -392,6 +401,7 @@ while getopts "s:r:S:d:m:c:n:h:o:tqTiwH" opt; do
     ;;
   T)
     SHOW_LOG="on"
+    # 创建一个临时目录，并将其路径赋值给 LOG_PATH 变量
     LOG_PATH=$(mktemp -d)
     ;;
   h)
