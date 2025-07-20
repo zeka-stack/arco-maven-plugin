@@ -346,7 +346,7 @@ else
 fi
 
 # 默认 dev 环境
-ENV="prod"
+ENV=${ENV:-"prod"}
 # 默认为启动
 FUNC="restart"
 # 默认 debug 关闭
@@ -359,9 +359,9 @@ SHOW_INFO="on"
 ENABLE_APM="off"
 # zeka.stack 的默认日志目录, 如果使用此目录, 日志会在 /mnt/syslogs/zeka.stack/{环境}/{应用名} 目录下, 如果要使用此配置, 需要将 FINAL_LOG_PATH 删除或置为空
 LOG_PATH=${LOG_PATH:-"/mnt/syslogs/zeka.stack"}
-# 设置日志路径为应用目录下的 logs 目录
+# 设置日志路径为应用目录下的 logs 目录(启动脚本会覆盖应用中配置的 zeka-stack.logging.file.path)
 FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
-LOG_NAME="all.log"
+LOG_NAME=${LOG_NAME:-"all.log"}
 # 自定义 JVM 参数
 JVM_OPTIONS="#{jvmOptions}"
 # 自定义参数, 先设置变量
