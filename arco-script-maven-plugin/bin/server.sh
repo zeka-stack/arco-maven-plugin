@@ -1,9 +1,5 @@
 #!/bin/bash
-
-set -euo pipefail
-
-# 通用启动脚本, 如果需要自定义, 可在 `${project.basedir}/bin` 目录下创建同名文件, 框架在打包时将会使用自定义脚本.
-
+# ============================================================================================================
 #     __________         __                     .__                                  .__
 #     \____    /  ____  |  | _______            |  |  _____    __ __   ____    ____  |  |__    ____  _______
 #       /     / _/ __ \ |  |/ /\__  \    ______ |  |  \__  \  |  |  \ /    \ _/ ___\ |  |  \ _/ __ \ \_  __ \
@@ -12,10 +8,24 @@ set -euo pipefail
 #             \/     \/      \/     \/                     \/             \/      \/      \/      \/
 #                                       :: Zeka.Stack Boot Startup Script ::
 
+# Zeka.Stack Boot 通用启动脚本(如果需要自定义, 可在 `${project.basedir}/bin` 目录下创建同名文件, 框架在打包时将会使用自定义脚本.)
+#
+# 用途：
+#   统一管理 Java 应用的启动、停止、重启、状态查看等操作，支持多环境、日志管理、JVM 参数、APM、JMX 等功能。
+#   支持美观输出，适配 Linux/macOS，便于日常运维和自动化部署。
+#
+# 作者：dong4j
+# 版本：1.0.0
+# 用法：详见 usage() 函数或执行 ./server.sh -H
+# ============================================================================================================
+
+set -euo pipefail
 
 ################################################################################
 # 变量定义区
 ################################################################################
+# 说明：定义全局变量、默认参数、环境变量等
+
 # ANSI Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -38,14 +48,17 @@ ENABLE_APM="off"
 LOG_PATH=${LOG_PATH:-"/mnt/syslogs/zeka.stack"}
 # 设置日志路径为应用目录下的 logs 目录(启动脚本会覆盖应用中配置的 zeka-stack.logging.file.path)
 FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
+# 日志文件名，默认 all.log
 LOG_NAME=${LOG_NAME:-"all.log"}
-# 自定义 JVM 参数
+# 自定义 JVM 参数（可通过 -o 覆盖）
 JVM_OPTIONS="-Xms128M -Xmx256M "
 
 ################################################################################
 # 工具函数区
 ################################################################################
-# 颜色与样式
+# 说明：封装常用输出、依赖检测等工具函数，提升脚本可读性和美观性
+
+# 颜色与样式定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -55,19 +68,23 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-# 美观输出函数
+# 标题输出
 print_title()   { echo -e "${BOLD}${CYAN}\n==== $1 ====\n${NC}"; }
+# 成功提示
 print_success() { echo -e "${GREEN}✅ $1${NC}"; }
+# 错误提示
 print_error()   { echo -e "${RED}❌ $1${NC}"; }
+# 警告提示
 print_warn()    { echo -e "${YELLOW}⚠️  $1${NC}"; }
+# 信息提示
 print_info()    { echo -e "${BLUE}ℹ️  $1${NC}"; }
 print_line()    { echo -e "${PURPLE}------------------------------------------------------------------------------------------------------------${NC}"; }
 
-# 兼容原有输出函数
-# 用美观输出函数替换
+# 日志输出兼容
 log_info()  { print_info "$*"; }
 log_error() { print_error "$*"; }
 
+# usage: 打印帮助信息和参数说明
 usage() {
   echo -e "${YELLOW}Usage: $0 [-s|-r|-S|-c] [env] [options]${NC}"
   echo -e "${YELLOW}
@@ -120,6 +137,7 @@ usage() {
   exit 1
 }
 
+# check_dependencies: 检查脚本依赖的外部命令是否存在
 check_dependencies() {
   for cmd in awk pgrep mktemp; do
     command -v $cmd >/dev/null 2>&1 || { print_error "缺少依赖命令: $cmd"; exit 1; }
@@ -129,7 +147,13 @@ check_dependencies() {
 ################################################################################
 # 核心功能函数区
 ################################################################################
-# 检测 Java 路径
+# 说明：实现脚本的主要功能，如 debug/JMX/APM 初始化、应用启动/停止/重启/状态等
+
+# detect_java_exe: 自动检测 Java 可执行文件路径，优先 JAVA_HOME
+# 输出检测结果，未检测到则退出
+# 依赖：JAVA_HOME、which、find
+# 输出：设置 JAVA_EXE 变量
+# 返回：无（失败时 exit 1）
 detect_java_exe() {
   if [[ -n "${JAVA_HOME}" ]] && [[ -x "${JAVA_HOME}/bin/java" ]]; then
     JAVA_EXE="${JAVA_HOME}/bin/java"
@@ -148,7 +172,7 @@ detect_java_exe() {
   fi
 }
 
-# 是否看起远程 debug 端口
+# init_debug: 初始化 debug 参数，支持远程调试
 init_debug() {
   DEBUG_OPTS="-Dloader.debug=false"
   if [[ "${DEBUG_PORD}" != "-1" ]]; then
@@ -162,7 +186,7 @@ init_debug() {
   fi
 }
 
-# 初始化 JMX 参数
+# init_jmx: 初始化 JMX 远程监控参数
 init_jmx() {
   JMX_OPTIONS="-Dcom.sun.management.jmxremote=false"
   if [[ "${JMX_PORD}" != "-1" ]]; then
@@ -184,7 +208,7 @@ init_jmx() {
   fi
 }
 
-# 获取应用部署路径等相关环境
+# prepare: 获取应用部署路径、应用名、JAR 包路径等，创建日志目录
 prepare() {
   local app_home
   app_home="$(pwd)"
@@ -215,7 +239,7 @@ prepare() {
   print_info "日志目录: $FINAL_LOG_PATH"
 }
 
-# 处理 apm 参数
+# init_apm: 处理 APM 参数，支持 SkyWalking
 init_apm() {
   if [[ ${ENABLE_APM} = "on" ]]; then
     APM_OPTS="-javaagent:/opt/skywalking/agent/skywalking-agent.jar\n      -Dskywalking.agent.service_name=${APP_NAME}@${ENV}"
@@ -223,14 +247,14 @@ init_apm() {
   fi
 }
 
-# 获取 pid
+# check_pid: 获取当前环境下应用的进程号
 check_pid() {
   local identify
   identify=${APP_NAME}@${ENV}
   echo $(pgrep -f $identify)
 }
 
-# 创建日志目录和文件
+# mkdir_log_file: 创建日志目录和文件
 mkdir_log_file() {
     # 如果FINAL_LOG_PATH 未设置或为空字符串，则拼接默认路径
   if [[ -z "${FINAL_LOG_PATH}" ]]; then
@@ -313,7 +337,7 @@ running() {
   print_line
 }
 
-# 输出所有参数
+# show_info: 输出所有关键参数信息，便于排查问题
 show_info() {
   print_title "当前参数信息"
   echo -e "${CYAN}ENV: ${YELLOW}${ENV}${NC}"
@@ -334,7 +358,7 @@ show_info() {
   print_line
 }
 
-# 启动应用 (-s env)
+# start: 启动应用，支持 tail 日志、参数输出
 start() {
   print_title "启动应用"
   local pid
@@ -366,7 +390,7 @@ start() {
   fi
 }
 
-# 关闭应用 (-S env)
+# stop: 停止应用，优雅关闭进程
 stop() {
   print_title "停止应用"
   local pid
@@ -396,8 +420,7 @@ stop() {
   fi
 }
 
-
-# 重启应用 (-r env)
+# restart: 重启应用，先 stop 再 start
 restart() {
   print_title "重启应用"
   stop
@@ -405,7 +428,7 @@ restart() {
   start
 }
 
-# 查看应用状态 (-c env)
+# status: 查看应用运行状态
 status() {
   print_title "应用状态"
   local pid
@@ -420,6 +443,7 @@ status() {
 ################################################################################
 # 参数解析区
 ################################################################################
+# 说明：解析命令行参数，设置全局变量
 parse_args() {
   while getopts "s:r:S:d:m:c:n:h:o:tqTiwH" opt; do
     case ${opt} in
@@ -444,6 +468,7 @@ parse_args() {
 ################################################################################
 # 主流程区
 ################################################################################
+# 说明：主入口，依次调用各功能函数，控制脚本整体流程
 main() {
   echo
   echo "     __________         __                     .__                                  .__                         "
@@ -479,4 +504,5 @@ main() {
   esac
 }
 
+# 脚本入口
 main "$@"
