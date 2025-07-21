@@ -18,10 +18,9 @@
 # 版本：1.0.0
 # 用法：详见 usage() 函数或执行 ./server.sh -H
 # ============================================================================================================
-# 脚本在遇到错误时 “立即失败"
-set -euo pipefail
+# 严格模式: 脚本在遇到错误时 [立即失败]
+#set -euo pipefail
 
-# 只在非交互模式下捕获
 handle_err() {
   local ret=$?
   local line=${BASH_LINENO[0]}
@@ -30,12 +29,13 @@ handle_err() {
   exit "$ret"
 }
 
+# 只在非交互模式下捕获
 if [[ $- != *i* ]]; then
   trap handle_err ERR
 fi
 
-# 判断是否通过 SSH 会话执行, 然后自动加载常见 profile 文件，确保 PATH/JAVA_HOME 等环境变量生效
-if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
+# 仅在通过 ssh 远程非交互模式执行时加载 profile
+if [[ -z "$SSH_TTY" && -n "$SSH_CONNECTION" ]]; then
   for profile in /etc/profile ~/.bash_profile ~/.bashrc ~/.profile; do
     [ -f "$profile" ] && source "$profile"
   done
