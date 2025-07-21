@@ -40,32 +40,42 @@ LOG_PATH=${LOG_PATH:-"/mnt/syslogs/zeka.stack"}
 FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
 LOG_NAME=${LOG_NAME:-"all.log"}
 # 自定义 JVM 参数
-JVM_OPTIONS="#{jvmOptions}"
+JVM_OPTIONS="-Xms128M -Xmx256M "
 
 ################################################################################
 # 工具函数区
 ################################################################################
-echo_red()    { echo -e "${RED}$1${NC}"; }
-echo_green()  { echo -e "${GREEN}$1${NC}"; }
-echo_yellow() { echo -e "${YELLOW}$1${NC}"; }
+# 颜色与样式
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
 
-log_info() {
-  echo -e "[$(date +'%Y-%m-%dT%H:%M:%S%z')][$$]: \033[32m [info] \033[0m $*" >&2
-}
+# 美观输出函数
+print_title()   { echo -e "${BOLD}${CYAN}\n==== $1 ====\n${NC}"; }
+print_success() { echo -e "${GREEN}✅ $1${NC}"; }
+print_error()   { echo -e "${RED}❌ $1${NC}"; }
+print_warn()    { echo -e "${YELLOW}⚠️  $1${NC}"; }
+print_info()    { echo -e "${BLUE}ℹ️  $1${NC}"; }
+print_line()    { echo -e "${PURPLE}------------------------------------------------------------------------------------------------------------${NC}"; }
 
-log_error() {
-  echo -e "[$(date +'%Y-%m-%dT%H:%M:%S%z')][$$]: \033[31m [error] \033[0m $*" >&2
-}
+# 兼容原有输出函数
+# 用美观输出函数替换
+log_info()  { print_info "$*"; }
+log_error() { print_error "$*"; }
 
 usage() {
   echo -e "${YELLOW}Usage: $0 [-s|-r|-S|-c] [env] [options]${NC}"
   echo -e "${YELLOW}
   使用说明：
   1. 脚本可在任意目录下执行。
-  2. 最简单的用法是不传入任何参数（即：./server.sh，默认以 ${ENV} 环境启动应用）。
-  3. -s、-r、-S 参数后必须跟环境变量（dev/test/prod）。
-  4. -d、-t、-T、-i 参数不能单独使用，必须跟在 -s 或 -r 后面。
-  5. -h 参数用于内部调用，用于通过 helper 子进程重启主应用，无需手动传入。
+  2. 最简单的用法是不传入任何参数（即：./server.sh，默认以 ${ENV} 环境启动应用）
+  3. -s、-r、-S 参数后必须跟环境变量（dev/test/prod）
+  4. -d、-t、-T、-i 参数不能单独使用，必须跟在 -s 或 -r 后面
   ${NC}"
   echo -e "${YELLOW}
   可用参数列表：
@@ -111,8 +121,8 @@ usage() {
 }
 
 check_dependencies() {
-  for cmd in awk timeout pgrep mktemp; do
-    command -v $cmd >/dev/null 2>&1 || { echo_red "缺少依赖命令: $cmd"; exit 1; }
+  for cmd in awk pgrep mktemp; do
+    command -v $cmd >/dev/null 2>&1 || { print_error "缺少依赖命令: $cmd"; exit 1; }
   done
 }
 
@@ -131,9 +141,9 @@ detect_java_exe() {
     JAVA_EXE=$(find /opt /usr/local /usr/lib/jvm -type f -name "java" -perm +111 2>/dev/null | head -n 1)
   fi
   if [[ -x "$JAVA_EXE" ]]; then
-    echo_green "✅ 检测到 Java 路径: $JAVA_EXE"
+    print_success "检测到 Java 路径: $JAVA_EXE"
   else
-    echo_red "❌ 未检测到有效的 Java 可执行文件，请检查 JAVA_HOME 或安装 Java。"
+    print_error "未检测到有效的 Java 可执行文件，请检查 JAVA_HOME 或安装 Java。"
     exit 1
   fi
 }
@@ -144,9 +154,9 @@ init_debug() {
   if [[ "${DEBUG_PORD}" != "-1" ]]; then
     if (("${DEBUG_PORD}" + 10)) &>/dev/null; then
       DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORD -Dloader.debug"
-      echo_yellow "开启 DEBUG 模式: DEBUG_OPTS=$DEBUG_OPTS"
+      print_warn "开启 DEBUG 模式: DEBUG_OPTS=$DEBUG_OPTS"
     else
-      echo_red "请输入正确的端口号"
+      print_error "请输入正确的端口号"
       exit 1
     fi
   fi
@@ -166,9 +176,9 @@ init_jmx() {
       -Dcom.sun.management.jmxremote.authenticate=false
       -Djava.rmi.server.hostname=${local_ip}"
 
-      echo_yellow "开启 JMX 模式: JMX_OPTIONS=${JMX_OPTIONS}"
+      print_warn "开启 JMX 模式: JMX_OPTIONS=${JMX_OPTIONS}"
     else
-      echo_red "请输入正确的端口号"
+      print_error "请输入正确的端口号"
       exit 1
     fi
   fi
@@ -199,13 +209,17 @@ prepare() {
   mkdir_log_file
 
   GC_LOG=${FINAL_LOG_PATH}/gc.log
+  print_info "部署目录: $DEPLOY_DIR"
+  print_info "应用名: $APP_NAME"
+  print_info "JAR 包: $JAR_FILE"
+  print_info "日志目录: $FINAL_LOG_PATH"
 }
 
 # 处理 apm 参数
 init_apm() {
   if [[ ${ENABLE_APM} = "on" ]]; then
     APM_OPTS="-javaagent:/opt/skywalking/agent/skywalking-agent.jar\n      -Dskywalking.agent.service_name=${APP_NAME}@${ENV}"
-    echo_yellow "开启 APM 模式: APM_OPTS=$APM_OPTS"
+    print_warn "开启 APM 模式: APM_OPTS=$APM_OPTS"
   fi
 }
 
@@ -225,43 +239,44 @@ mkdir_log_file() {
   mkdir -p "${FINAL_LOG_PATH}"
   local log_file="${FINAL_LOG_PATH}/${LOG_NAME}"
   [[ -f "${log_file}" ]] || touch "${log_file}"
+  print_info "日志文件: $log_file"
 }
 
 # 设置环境, 与应用配置 bootstrap.yml 的 ${ZEKA_NAME_SPACE} 对应, 此处设置的变量会被 spring 在启动时替换
 # 使用 -DIDENTIFY 来区分应用 (由于服务器资源有限, 一台服务器可能会部署同一个应用, 只是环境不同而已)
 # 重写 zeka-stack.logging.file.path 配置
 running() {
-  echo -e "JVM 启动参数: ${JVM_OPTIONS}"
-  echo
-  echo_green "启动命令:
-    nohup ${JAVA_EXE} -jar
-      -Djava.security.egd=file:/dev/./urandom
-      ${JVM_OPTIONS}
-      -Xloggc:${GC_LOG}
-      -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log
-      -XX:+HeapDumpOnOutOfMemoryError
-      -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof
-      -XX:OnOutOfMemoryError='kill -9 %p'
-      -Dloader.home=${DEPLOY_DIR}/
-      -Dloader.path=lib/
-      -DAPP_NAME=${APP_NAME}
-      -DIDENTIFY=${APP_NAME}@${ENV}
-      -DZEKA_NAME_SPACE=${ENV}
-      -Ddeploy.path=${DEPLOY_DIR}
-      -Dstart.type=${START_TYPE:-shell}
-      -Dconfig.path=${DEPLOY_DIR}/config/
-      -Dzeka-stack.logging.file.path=${FINAL_LOG_PATH}
-      -Dzeka-stack.logging.file.name=${LOG_NAME}
-      -Djar.file=${JAR_FILE}
-      ${JMX_OPTIONS}
-      ${DEBUG_OPTS}
-      ${APM_OPTS}
-      ${JAR_FILE}
-      --spring.profiles.active=${ENV}
-      --spring.config.location=${DEPLOY_DIR}/config/
-      --slot.root=${DEPLOY_DIR}/
-      --slot.path=patch/
-      --slot.path=plugin/ >${FINAL_LOG_PATH}/${LOG_NAME} 2>&1 &"
+  print_info "JVM 启动参数: ${JVM_OPTIONS}"
+  print_title "启动命令"
+  echo -e "启动命令:
+      nohup ${JAVA_EXE} -jar
+        -Djava.security.egd=file:/dev/./urandom
+        ${JVM_OPTIONS}
+        -Xloggc:${GC_LOG}
+        -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof
+        -XX:OnOutOfMemoryError='kill -9 %p'
+        -Dloader.home=${DEPLOY_DIR}/
+        -Dloader.path=lib/
+        -DAPP_NAME=${APP_NAME}
+        -DIDENTIFY=${APP_NAME}@${ENV}
+        -DZEKA_NAME_SPACE=${ENV}
+        -Ddeploy.path=${DEPLOY_DIR}
+        -Dstart.type=${START_TYPE:-shell}
+        -Dconfig.path=${DEPLOY_DIR}/config/
+        -Dzeka-stack.logging.file.path=${FINAL_LOG_PATH}
+        -Dzeka-stack.logging.file.name=${LOG_NAME}
+        -Djar.file=${JAR_FILE}
+        ${JMX_OPTIONS}
+        ${DEBUG_OPTS}
+        ${APM_OPTS}
+        ${JAR_FILE}
+        --spring.profiles.active=${ENV}
+        --spring.config.location=${DEPLOY_DIR}/config/
+        --slot.root=${DEPLOY_DIR}/
+        --slot.path=patch/
+        --slot.path=plugin/ >${FINAL_LOG_PATH}/${LOG_NAME} 2>&1 &"
 
   nohup "$JAVA_EXE" -jar \
     -Djava.security.egd=file:/dev/./urandom \
@@ -291,69 +306,76 @@ running() {
     --slot.root="$DEPLOY_DIR"/ \
     --slot.path=patch/ \
     --slot.path=plugin/ >"$FINAL_LOG_PATH"/"$LOG_NAME" 2>&1 &
-  echo
-  echo_green "----------------------------------------------------------------------------"
-  echo_green " 启动应用: ${APP_NAME} ${ENV}  "
-  echo_green " 日志路径: ${FINAL_LOG_PATH}/${LOG_NAME}"
-  echo_green "----------------------------------------------------------------------------"
+  print_success "应用 ${APP_NAME} 启动命令已执行。"
+  print_line
+  print_success "启动应用: ${APP_NAME} ${ENV}"
+  print_info "日志路径: ${FINAL_LOG_PATH}/${LOG_NAME}"
+  print_line
 }
 
 # 输出所有参数
 show_info() {
-  echo
-  echo -e "\033[31m ENV: ${ENV} \033[0m"
-  echo -e "\033[32m FUNC: ${FUNC} \033[0m"
-  echo -e "\033[33m DEBUG_PORD: ${DEBUG_PORD} \033[0m"
-  echo -e "\033[34m SHOW_LOG: ${SHOW_LOG} \033[0m"
-  echo -e "\033[34m TIMEOUT_SHOWLOG: ${TIMEOUT_SHOWLOG} \033[0m"
-  echo -e "\033[35m DEBUG_OPTS: ${DEBUG_OPTS} \033[0m"
-  echo -e "\033[35m JMX_OPTIONS: ${JMX_OPTIONS} \033[0m"
-  echo -e "\033[36m APP_NAME: ${APP_NAME} \033[0m"
-  echo -e "\033[31m DEPLOY_DIR: ${DEPLOY_DIR} \033[0m"
-  echo -e "\033[32m JAR_FILE: ${JAR_FILE} \033[0m"
-  echo -e "\033[34m GC_LOG: ${GC_LOG} \033[0m"
-  echo -e "\033[35m FINAL_LOG_PATH: ${FINAL_LOG_PATH} \033[0m"
-  echo -e "\033[36m JAVA_HOME: ${JAVA_HOME} \033[0m"
-  echo -e "\033[32m IDENTIFY: ${APP_NAME}@${ENV} \033[0m"
-  echo -e "\033[33m ZEKA_NAME_SPACE: ${ENV} \033[0m"
-  echo -e "\n"
+  print_title "当前参数信息"
+  echo -e "${CYAN}ENV: ${YELLOW}${ENV}${NC}"
+  echo -e "${CYAN}FUNC: ${YELLOW}${FUNC}${NC}"
+  echo -e "${CYAN}DEBUG_PORD: ${YELLOW}${DEBUG_PORD}${NC}"
+  echo -e "${CYAN}SHOW_LOG: ${YELLOW}${SHOW_LOG}${NC}"
+  echo -e "${CYAN}TIMEOUT_SHOWLOG: ${YELLOW}${TIMEOUT_SHOWLOG}${NC}"
+  echo -e "${CYAN}DEBUG_OPTS: ${YELLOW}${DEBUG_OPTS}${NC}"
+  echo -e "${CYAN}JMX_OPTIONS: ${YELLOW}${JMX_OPTIONS}${NC}"
+  echo -e "${CYAN}APP_NAME: ${YELLOW}${APP_NAME}${NC}"
+  echo -e "${CYAN}DEPLOY_DIR: ${YELLOW}${DEPLOY_DIR}${NC}"
+  echo -e "${CYAN}JAR_FILE: ${YELLOW}${JAR_FILE}${NC}"
+  echo -e "${CYAN}GC_LOG: ${YELLOW}${GC_LOG}${NC}"
+  echo -e "${CYAN}FINAL_LOG_PATH: ${YELLOW}${FINAL_LOG_PATH}${NC}"
+  echo -e "${CYAN}JAVA_HOME: ${YELLOW}${JAVA_HOME}${NC}"
+  echo -e "${CYAN}IDENTIFY: ${YELLOW}${APP_NAME}@${ENV}${NC}"
+  echo -e "${CYAN}ZEKA_NAME_SPACE: ${YELLOW}${ENV}${NC}"
+  print_line
 }
 
 # 启动应用 (-s env)
 start() {
-  echo
-  echo_green "invoke start()"
+  print_title "启动应用"
   local pid
   pid="$(check_pid)"
+
   if [[ -z "$pid" ]]; then
     running
-    if [[ ${SHOW_INFO} = "on" ]]; then
-      show_info
-    fi
-    if [[ ${SHOW_LOG} = "on" ]]; then
-      tail -n 100 -f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
-    else
-      if [[ ${TIMEOUT_SHOWLOG} = "on" ]]; then
-        # 让 tail -n 100 -f 命令最多运行 120 秒，超时后自动终止。
-        timeout 120 tail -n 100 -f "${FINAL_LOG_PATH}"/"${LOG_NAME}"
+
+    [[ ${SHOW_INFO} == "on" ]] && show_info
+
+    if [[ ${SHOW_LOG} == "on" ]]; then
+      tail -n 100 -f "${FINAL_LOG_PATH}/${LOG_NAME}"
+    elif [[ ${TIMEOUT_SHOWLOG} == "on" ]]; then
+      # 自动适配 timeout 命令（macOS 用 gtimeout）
+      if command -v timeout >/dev/null 2>&1; then
+        TIMEOUT_CMD=timeout
+      elif command -v gtimeout >/dev/null 2>&1; then
+        TIMEOUT_CMD=gtimeout
+      else
+        echo -e "\033[0;31m请先安装 timeout 或 gtimeout（macOS 可用 brew install coreutils）\033[0m"
+        exit 1
       fi
+
+      # 让 tail -n 100 -f 命令最多运行 120 秒，超时后自动终止。
+      ${TIMEOUT_CMD} 120 tail -n 100 -f "${FINAL_LOG_PATH}/${LOG_NAME}" || true
     fi
   else
-    echo_green "${APP_NAME}@${ENV} is running. [pid: $pid]"
+    print_warn "${APP_NAME}@${ENV} 已在运行中 [pid: $pid]"
   fi
 }
 
 # 关闭应用 (-S env)
 stop() {
-  echo
-  echo_green "invoke stop()"
+  print_title "停止应用"
   local pid
   pid="$(check_pid)"
   if [[ -z "${pid}" ]]; then
-    echo_red "The ${APP_NAME}@${ENV} does not started!"
+    print_warn "${APP_NAME}@${ENV} 未启动！"
   else
     local current_pid=${pid}
-    echo_red "shudown the ${APP_NAME}@${ENV} [pid: ${current_pid}]"
+    print_warn "正在关闭 ${APP_NAME}@${ENV} [pid: ${current_pid}]"
     kill "${pid}" >/dev/null 2>&1
     local count=0
     local kill_count=0
@@ -370,16 +392,14 @@ stop() {
       fi
       sleep 1s
     done
-    echo
-    echo_green "${APP_NAME}@${ENV} shudown success [pid: ${current_pid}]"
+    print_success "${APP_NAME}@${ENV} 已成功关闭 [pid: ${current_pid}]"
   fi
 }
 
 
 # 重启应用 (-r env)
 restart() {
-  echo
-  echo_green "invoke restart()"
+  print_title "重启应用"
   stop
   sleep 1s
   start
@@ -387,14 +407,13 @@ restart() {
 
 # 查看应用状态 (-c env)
 status() {
-  echo
-  echo_green "invoke status()"
+  print_title "应用状态"
   local pid
   pid="$(check_pid)"
   if [[ -z "${pid}" ]]; then
-    echo_red "${APP_NAME}@${ENV} not running!"
+    print_warn "${APP_NAME}@${ENV} 未运行！"
   else
-    echo_green "${APP_NAME}@${ENV} running. [pid: ${pid}]"
+    print_success "${APP_NAME}@${ENV} 正在运行 [pid: ${pid}]"
   fi
 }
 
@@ -413,11 +432,11 @@ parse_args() {
       t) SHOW_LOG="on";;                                  # 开启日志输出
       q) TIMEOUT_SHOWLOG="on";;                           # 限制日志输出时间
       T) SHOW_LOG="on"; LOG_PATH=$(mktemp -d);;           # 将日志输出到临时目录
-      h|H) usage;;                                        # 帮助说明
+      H) usage;;                                        # 帮助说明
       o) JVM_OPTIONS=${OPTARG};;                          # 设置 JVM 参数
       i) SHOW_INFO="on";;                                 # 输出脚本参数信息
       w) ENABLE_APM="on";;                                # 开启 APM
-      \?) echo_red "参数列表错误 使用 -H 查看帮助"; exit 1;;
+      \?) print_error "参数列表错误 使用 -H 查看帮助"; exit 1;;
     esac
   done
 }
@@ -427,43 +446,36 @@ parse_args() {
 ################################################################################
 main() {
   echo
-  echo_green "     __________         __                     .__                                  .__                         "
-  echo_green "     \____    /  ____  |  | _______            |  |  _____    __ __   ____    ____  |  |__    ____  _______     "
-  echo_green "       /     / _/ __ \ |  |/ /\__  \    ______ |  |  \__  \  |  |  \ /    \ _/ ___\ |  |  \ _/ __ \ \_  __ \    "
-  echo_green "      /     /_ \  ___/ |    <  / __ \_ /_____/ |  |__ / __ \_|  |  /|   |  \\  \___ |   Y  \\  ___/  |  | \/    "
-  echo_green "     /_______ \ \___  >|__|_ \(____  /         |____/(____  /|____/ |___|  / \___  >|___|  / \___  > |__|       "
-  echo_green "             \/     \/      \/     \/                     \/             \/      \/      \/      \/             "
-  echo_green "                                        :: Zeka.Stack Boot Startup Script ::                                    "
+  echo "     __________         __                     .__                                  .__                         "
+  echo "     \____    /  ____  |  | _______            |  |  _____    __ __   ____    ____  |  |__    ____  _______     "
+  echo "       /     / _/ __ \ |  |/ /\__  \    ______ |  |  \__  \  |  |  \ /    \ _/ ___\ |  |  \ _/ __ \ \_  __ \    "
+  echo "      /     /_ \  ___/ |    <  / __ \_ /_____/ |  |__ / __ \_|  |  /|   |  \\  \___ |   Y  \\  ___/  |  | \/    "
+  echo "     /_______ \ \___  >|__|_ \(____  /         |____/(____  /|____/ |___|  / \___  >|___|  / \___  > |__|       "
+  echo "             \/     \/      \/     \/                     \/             \/      \/      \/      \/             "
+  echo "                                        :: Zeka.Stack Boot Startup Script ::                                    "
   echo
+
   check_dependencies
-  detect_java_exe
   parse_args "$@"
-  echo
-  echo_green "--------------------------------------"
-  echo_green " 1. 处理 debug 参数 "
-  echo_green "--------------------------------------"
+  print_line
+  print_info "检测 Java 环境"
+  detect_java_exe
+  print_line
+  print_info "处理 debug 参数"
   init_debug
-  echo
-  echo_green "--------------------------------------"
-  echo_green " 2. 处理 JMX 参数 "
-  echo_green "--------------------------------------"
+  print_info "处理 JMX 参数"
   init_jmx
-  echo
-  echo_green "--------------------------------------"
-  echo_green " 3. 处理部署相关参数 "
-  echo_green "--------------------------------------"
+  print_info "处理部署相关参数"
   prepare
-  echo
-  echo_green "--------------------------------------"
-  echo_green " 4. 初始化 APM 参数 "
-  echo_green "--------------------------------------"
+  print_info "初始化 APM 参数"
   init_apm
+  print_line
   case ${FUNC} in
     start)   start   ;;
     stop)    stop    ;;
     restart) restart ;;
     status)  status  ;;
-    *) echo_red "参数错误 require -s|-r|-S|-c" ;;
+    *) print_error "参数错误 require -s|-r|-S|-c" ;;
   esac
 }
 
