@@ -7,7 +7,7 @@
 #     /_______ \ \___  >|__|_ \(____  /         |____/(____  /|____/ |___|  / \___  >|___|  / \___  > |__|
 #             \/     \/      \/     \/                     \/             \/      \/      \/      \/
 #                                       :: Zeka.Stack Boot Startup Script ::
-
+# ============================================================================================================
 # Zeka.Stack Boot 通用启动脚本(如果需要自定义, 可在 `${project.basedir}/bin` 目录下创建同名文件, 框架在打包时将会使用自定义脚本.)
 #
 # 用途：
@@ -18,8 +18,28 @@
 # 版本：1.0.0
 # 用法：详见 usage() 函数或执行 ./server.sh -H
 # ============================================================================================================
-
+# 脚本在遇到错误时 “立即失败"
 set -euo pipefail
+
+# 只在非交互模式下捕获
+handle_err() {
+  local ret=$?
+  local line=${BASH_LINENO[0]}
+  local cmd="${BASH_COMMAND}"
+  echo -e "\033[0;31m[ERROR] 脚本在第 ${line} 行出错，退出码: ${ret}，命令：${cmd}\033[0m" 1>&2
+  exit "$ret"
+}
+
+if [[ $- != *i* ]]; then
+  trap handle_err ERR
+fi
+
+# 判断是否通过 SSH 会话执行, 然后自动加载常见 profile 文件，确保 PATH/JAVA_HOME 等环境变量生效
+if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
+  for profile in /etc/profile ~/.bash_profile ~/.bashrc ~/.profile; do
+    [ -f "$profile" ] && source "$profile"
+  done
+fi
 
 ################################################################################
 # 变量定义区
@@ -93,6 +113,7 @@ usage() {
   2. 最简单的用法是不传入任何参数（即：./server.sh，默认以 ${ENV} 环境启动应用）
   3. -s、-r、-S 参数后必须跟环境变量（dev/test/prod）
   4. -d、-t、-T、-i 参数不能单独使用，必须跟在 -s 或 -r 后面
+  5. wiki: https://wiki.dong4j.site:1024/server.sh
   ${NC}"
   echo -e "${YELLOW}
   可用参数列表：
@@ -272,8 +293,7 @@ mkdir_log_file() {
 running() {
   print_info "JVM 启动参数: ${JVM_OPTIONS}"
   print_title "启动命令"
-  echo -e "启动命令:
-      nohup ${JAVA_EXE} -jar
+  echo -e "nohup ${JAVA_EXE} -jar
         -Djava.security.egd=file:/dev/./urandom
         ${JVM_OPTIONS}
         -Xloggc:${GC_LOG}
@@ -301,6 +321,7 @@ running() {
         --slot.root=${DEPLOY_DIR}/
         --slot.path=patch/
         --slot.path=plugin/ >${FINAL_LOG_PATH}/${LOG_NAME} 2>&1 &"
+  print_line
 
   nohup "$JAVA_EXE" -jar \
     -Djava.security.egd=file:/dev/./urandom \
