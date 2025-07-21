@@ -119,6 +119,25 @@ check_dependencies() {
 ################################################################################
 # 核心功能函数区
 ################################################################################
+# 检测 Java 路径
+detect_java_exe() {
+  if [[ -n "${JAVA_HOME}" ]] && [[ -x "${JAVA_HOME}/bin/java" ]]; then
+    JAVA_EXE="${JAVA_HOME}/bin/java"
+  elif JAVA_PATH=$(which java 2>/dev/null) && [[ -x "$JAVA_PATH" ]]; then
+    JAVA_EXE="$JAVA_PATH"
+  elif [[ -x "/usr/bin/java" ]]; then
+    JAVA_EXE="/usr/bin/java"
+  else
+    JAVA_EXE=$(find /opt /usr/local /usr/lib/jvm -type f -name "java" -perm +111 2>/dev/null | head -n 1)
+  fi
+  if [[ -x "$JAVA_EXE" ]]; then
+    echo_green "✅ 检测到 Java 路径: $JAVA_EXE"
+  else
+    echo_red "❌ 未检测到有效的 Java 可执行文件，请检查 JAVA_HOME 或安装 Java。"
+    exit 1
+  fi
+}
+
 # 是否看起远程 debug 端口
 init_debug() {
   DEBUG_OPTS="-Dloader.debug=false"
@@ -300,7 +319,7 @@ show_info() {
   echo -e "\n"
 }
 
-启动应用 (-s env)
+# 启动应用 (-s env)
 start() {
   echo
   echo_green "invoke start()"
@@ -416,56 +435,29 @@ main() {
   echo_green "             \/     \/      \/     \/                     \/             \/      \/      \/      \/             "
   echo_green "                                        :: Zeka.Stack Boot Startup Script ::                                    "
   echo
-
   check_dependencies
-
-  # 自动检测 Java 路径
-  if [[ -n "${JAVA_HOME}" ]] && [[ -x "${JAVA_HOME}/bin/java" ]]; then
-    JAVA_EXE="${JAVA_HOME}/bin/java"
-  elif JAVA_PATH=$(which java 2>/dev/null) && [[ -x "$JAVA_PATH" ]]; then
-    JAVA_EXE="$JAVA_PATH"
-  elif [[ -x "/usr/bin/java" ]]; then
-    JAVA_EXE="/usr/bin/java"
-  else
-    JAVA_EXE=$(find /opt /usr/local /usr/lib/jvm -type f -name "java" -perm +111 2>/dev/null | head -n 1)
-  fi
-  if [[ -x "$JAVA_EXE" ]]; then
-    echo_green "✅ 检测到 Java 路径: $JAVA_EXE"
-  else
-    echo_red "❌ 未检测到有效的 Java 可执行文件，请检查 JAVA_HOME 或安装 Java。"
-    exit 1
-  fi
-
+  detect_java_exe
   parse_args "$@"
-
   echo
   echo_green "--------------------------------------"
   echo_green " 1. 处理 debug 参数 "
   echo_green "--------------------------------------"
-
   init_debug
-
   echo
   echo_green "--------------------------------------"
   echo_green " 2. 处理 JMX 参数 "
   echo_green "--------------------------------------"
-
   init_jmx
-
   echo
   echo_green "--------------------------------------"
   echo_green " 3. 处理部署相关参数 "
   echo_green "--------------------------------------"
-
   prepare
-
   echo
   echo_green "--------------------------------------"
   echo_green " 4. 初始化 APM 参数 "
   echo_green "--------------------------------------"
-
   init_apm
-
   case ${FUNC} in
     start)   start   ;;
     stop)    stop    ;;
