@@ -104,9 +104,20 @@ print_line()    { echo -e "${PURPLE}--------------------------------------------
 log_info()  { print_info "$*"; }
 log_error() { print_error "$*"; }
 
+# logview: 直接查看日志文件内容
+logview() {
+  print_title "查看日志: ${FINAL_LOG_PATH}/${LOG_NAME}"
+  if [[ -f "${FINAL_LOG_PATH}/${LOG_NAME}" ]]; then
+    tail -n 100 -f "${FINAL_LOG_PATH}/${LOG_NAME}"
+  else
+    print_error "日志文件不存在: ${FINAL_LOG_PATH}/${LOG_NAME}"
+    exit 1
+  fi
+}
+
 # usage: 打印帮助信息和参数说明
 usage() {
-  echo -e "${YELLOW}Usage: $0 [-s|-r|-S|-c] [env] [options]${NC}"
+  echo -e "${YELLOW}Usage: $0 [-s|-r|-S|-c|-l] [env] [options]${NC}"
   echo -e "${YELLOW}
   使用说明：
   1. 脚本可在任意目录下执行。
@@ -130,6 +141,9 @@ usage() {
 
   -c    查看状态
         示例：bin/server.sh -c test          （查看 test 环境运行状态）
+
+  -l    直接查看日志
+        示例：bin/server.sh -l               （tail -n 100 -f 日志文件）
 
   -t    启动后 tail 全量日志（默认带超时时间）
         示例：bin/server.sh -s dev -t
@@ -466,12 +480,13 @@ status() {
 ################################################################################
 # 说明：解析命令行参数，设置全局变量
 parse_args() {
-  while getopts "s:r:S:d:m:c:n:h:o:tqTiwH" opt; do
+  while getopts "s:r:S:d:m:c:n:h:o:tqTiwHl" opt; do
     case ${opt} in
       s) ENV=${OPTARG}; FUNC="start";;                    # 启动应用, 跟环境变量
       r) ENV=${OPTARG}; FUNC="restart";;                  # 重启应用 跟环境变量
       S) ENV=${OPTARG}; FUNC="stop";;                     # 关闭应用
       c) ENV=${OPTARG}; FUNC="status";;                   # 查看状态
+      l) FUNC="logview";;                                 # 直接查看日志
       d) DEBUG_PORD=${OPTARG};;                           # 使用 debug 模式 跟监听端口
       m) JMX_PORD=${OPTARG};;                             # JMX 端口
       t) SHOW_LOG="on";;                                  # 开启日志输出
@@ -521,7 +536,8 @@ main() {
     stop)    stop    ;;
     restart) restart ;;
     status)  status  ;;
-    *) print_error "参数错误 require -s|-r|-S|-c" ;;
+    logview) logview ;;
+    *) print_error "参数错误 require -s|-r|-S|-c|-l" ;;
   esac
 }
 
