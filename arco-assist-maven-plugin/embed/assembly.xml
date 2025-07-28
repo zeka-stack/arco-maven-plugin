@@ -67,7 +67,7 @@
             <directory>${project.build.directory}/arco-maven-plugin/bin</directory>
             <outputDirectory>${file.separator}bin</outputDirectory>
             <includes>
-                <include>*.sh</include>
+                <include>launcher</include>
             </includes>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
