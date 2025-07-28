@@ -16,6 +16,6 @@ fi
 
 # 执行部署脚本
 cd ${DEPLOY_DIR}
-bin/server.sh -r local -T
+bin/launcher -r local -T
 
 exit 0

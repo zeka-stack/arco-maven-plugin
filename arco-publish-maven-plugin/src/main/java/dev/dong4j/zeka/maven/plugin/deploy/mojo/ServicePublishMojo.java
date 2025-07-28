@@ -10,14 +10,6 @@ import dev.dong4j.zeka.maven.plugin.deploy.mojo.entity.Group;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.entity.Server;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.util.SSHAgent;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.util.TimeoutUtil;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -29,6 +21,13 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>Description: 发布后端服务 </p>
@@ -412,7 +411,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
     }
 
     /**
-     * 执行 server.sh 脚本
+     * 执行 launcher 脚本
      *
      * @param sshAgent        ssh agent
      * @param groupId         group id
@@ -425,9 +424,9 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
                                   String groupId,
                                   String env,
                                   String publishFileName) throws IOException {
-        String cmd = "cd {}/{}/{}/{}; sudo -E -u zekastack bin/server.sh -r {} -n {} &";
+        String cmd = "cd {}/{}/{}/{}; sudo -E -u zekastack bin/launcher -r {} -n {} &";
         if (Boolean.TRUE.equals(this.enbaleApm)) {
-            cmd = "cd {}/{}/{}/{}; sudo -E -u zekastack bin/server.sh -r {} -w -n {} &";
+            cmd = "cd {}/{}/{}/{}; sudo -E -u zekastack bin/launcher -r {} -w -n {} &";
         }
 
         sshAgent.execCommand("执行部署脚本",

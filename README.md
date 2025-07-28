@@ -70,7 +70,7 @@ mvn clean deploy
 
 ### arco-script-maven-plugin
 
-生成通用的启动脚本, 如果项目需要定制启动脚本, 可将自定义脚本添加到与 src 同级的 bin 目录下, 且脚本名为 `server.sh`;
+生成通用的启动脚本, 如果项目需要定制启动脚本, 可将自定义脚本添加到与 src 同级的 bin 目录下, 且脚本名为 `launcher`;
 
 ### arco-makeself-maven-plugin
 

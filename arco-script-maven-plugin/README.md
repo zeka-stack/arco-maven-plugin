@@ -20,11 +20,11 @@
 
 1. 赋予脚本可执行权限：
    ```bash
-   chmod +x bin/server.sh
+   chmod +x bin/launcher
    ```
 2. 在项目根目录下执行脚本：
    ```bash
-   ./bin/server.sh
+   ./bin/launcher
    ```
    默认以 `prod` 环境启动应用。
 
@@ -32,21 +32,21 @@
 
 ## 参数说明
 
-| 参数 | 说明                                  | 示例                                              |
-|----|-------------------------------------|-------------------------------------------------|
-| -s | 启动应用，需指定环境                          | `./bin/server.sh -s dev`                        |
-| -r | 重启应用，需指定环境                          | `./bin/server.sh -r prod`                       |
-| -S | 停止应用，需指定环境                          | `./bin/server.sh -S test`                       |
-| -c | 查看应用状态，需指定环境                        | `./bin/server.sh -c test`                       |
-| -t | 启动后 tail 全量日志（默认带超时时间）              | `./bin/server.sh -s dev -t`                     |
-| -q | 启动后 tail 日志（无超时时间，-t 与 -q 选一，-t 优先） | `./bin/server.sh -s dev -q`                     |
-| -T | 启动后将日志输出到临时文件（仅用于测试，不建议生产使用）        | `./bin/server.sh -s dev -T`                     |
-| -d | 启用 Debug 模式（默认端口 5005）              | `./bin/server.sh -s dev -d 5005`                |
-| -i | 启动时输出所有参数信息                         | `./bin/server.sh -s dev -i`                     |
-| -w | 启用 APM（应用性能监控）                      | `./bin/server.sh -s dev -w`                     |
-| -m | 启用 JMX 远程监控（需指定端口）                  | `./bin/server.sh -s dev -m 10089`               |
-| -o | 覆盖 JVM 启动参数                         | `./bin/server.sh -s dev -o '-Xms256M -Xmx512M'` |
-| -H | 显示帮助信息                              | `./bin/server.sh -H`                            |
+| 参数 | 说明                                  | 示例                                             |
+|----|-------------------------------------|------------------------------------------------|
+| -s | 启动应用，需指定环境                          | `./bin/launcher -s dev`                        |
+| -r | 重启应用，需指定环境                          | `./bin/launcher -r prod`                       |
+| -S | 停止应用，需指定环境                          | `./bin/launcher -S test`                       |
+| -c | 查看应用状态，需指定环境                        | `./bin/launcher -c test`                       |
+| -t | 启动后 tail 全量日志（默认带超时时间）              | `./bin/launcher -s dev -t`                     |
+| -q | 启动后 tail 日志（无超时时间，-t 与 -q 选一，-t 优先） | `./bin/launcher -s dev -q`                     |
+| -T | 启动后将日志输出到临时文件（仅用于测试，不建议生产使用）        | `./bin/launcher -s dev -T`                     |
+| -d | 启用 Debug 模式（默认端口 5005）              | `./bin/launcher -s dev -d 5005`                |
+| -i | 启动时输出所有参数信息                         | `./bin/launcher -s dev -i`                     |
+| -w | 启用 APM（应用性能监控）                      | `./bin/launcher -s dev -w`                     |
+| -m | 启用 JMX 远程监控（需指定端口）                  | `./bin/launcher -s dev -m 10089`               |
+| -o | 覆盖 JVM 启动参数                         | `./bin/launcher -s dev -o '-Xms256M -Xmx512M'` |
+| -H | 显示帮助信息                              | `./bin/launcher -H`                            |
 
 > **注意：**
 > - `-s`、`-r`、`-S`、`-c` 参数后必须跟环境变量（如 dev/test/prod）。

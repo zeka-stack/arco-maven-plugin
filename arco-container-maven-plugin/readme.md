@@ -65,7 +65,7 @@ services:
       - ./app:/app
     depends_on:
       - base
-    command: ["bin/server.sh", "-s", "dev", "-t", "-i"]
+    command: ["bin/launcher", "-s", "dev", "-t", "-i"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s

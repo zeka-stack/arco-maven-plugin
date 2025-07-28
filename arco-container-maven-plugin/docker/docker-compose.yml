@@ -25,7 +25,7 @@ services:
     depends_on:
       - base
     entrypoint:
-      - bin/server.sh
+      - bin/launcher
     command:
       - -s
       - ${APP_ENV:-dev}

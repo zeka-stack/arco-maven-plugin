@@ -19,4 +19,4 @@ ${EXPORT.PORT}
 # 健康检查
 ${HEALTHCHECK}
 # 启动 docker run 时还要加上 -s dev/test/prev/prod 和其他支持的命令和参数
-ENTRYPOINT ["bin/server.sh"]
+ENTRYPOINT ["bin/launcher"]
