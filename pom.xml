@@ -128,7 +128,7 @@
     </properties>
 
     <dependencies>
-        <!--&lt;!&ndash; lombok 插件, 简化代码 (在 package 阶段排除) &ndash;&gt;-->
+        <!-- lombok 插件, 简化代码 (在 package 阶段排除) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
