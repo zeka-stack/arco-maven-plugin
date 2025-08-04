@@ -1,6 +1,12 @@
 package dev.dong4j.zeka.maven.plugin.helper.mojo;
 
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -12,18 +18,11 @@ import org.eclipse.aether.repository.LocalRepository;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-
 /**
  * <p>Description: 删除指定的 maven 依赖 </p>
  * 第一次使用:
- * 1. mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:0.0.1-SNAPSHOT
- * 2. mvn dev.dong4j:arco-assist-maven-plugin:0.0.1-SNAPSHOT:clear -Dname=指定包名(前缀匹配) -Dversion=指定版本号(前缀匹配)
+ * 1. mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:1.0.0-SNAPSHOT
+ * 2. mvn dev.dong4j:arco-assist-maven-plugin:1.0.0-SNAPSHOT:clear -Dname=指定包名(前缀匹配) -Dversion=指定版本号(前缀匹配)
  * <p>
  * 之后可简化: mvn arco-assist:clear -Dname= -Dversion=
  * 全部功能:

@@ -9,7 +9,7 @@
     <parent>
         <groupId>dev.dong4j</groupId>
         <artifactId>arco-supreme</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <!-- 因为 arco-supreme 是另一个 git 项目, 因此这里使用如下配置, 表示: 无本地路径，直接从仓库获取 -->
         <relativePath/>
     </parent>
@@ -106,7 +106,7 @@
 
     <!-- Project properties -->
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
 
         <maven.version>3.6.3</maven.version>
         <maven-plugin.version>3.6.0</maven-plugin.version>

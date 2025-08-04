@@ -63,6 +63,7 @@ public class GenerateDockerAssemblyConfigFileMojo extends ZekaMavenPluginAbstrac
      *
      * @since 1.0.0
      */
+    @SuppressWarnings("D")
     @Override
     public void execute() {
 
