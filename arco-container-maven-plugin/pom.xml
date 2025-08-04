@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.dong4j</groupId>
         <artifactId>arco-maven-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>arco-container-maven-plugin</artifactId>

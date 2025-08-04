@@ -17,9 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 扩展 {@link URLStreamHandler} 已以实现 jar in jar 中的资源加载, {@link CustomJarFile}.
- * 原始的 JarFile URL 只支持一个 '!/', 比如: jar:file:/tmp/target/demo-1.0.0-SNAPSHOT.jar!/com/example/SpringBootDemoApplication.class
+ * 原始的 JarFile URL 只支持一个 '!/', 比如: jar:file:/tmp/target/demo-2.0.0-SNAPSHOT.jar!/com/example/SpringBootDemoApplication.class
  * 这里扩展为支持多个 '!/', 用于处理 jar in jar 的问题:
- * jar:file:/tmp/target/demo-1.0.0-SNAPSHOT.jar!/lib/spring-boot-2.2.1.RELEASE.jar!/META-INF/MANIFEST.MF
+ * jar:file:/tmp/target/demo-2.0.0-SNAPSHOT.jar!/lib/spring-boot-2.2.1.RELEASE.jar!/META-INF/MANIFEST.MF
  * <p>
  * 为了被 JVM 加载为一个 URL protocol handler, 需要满足:
  * 1. 必须是 public

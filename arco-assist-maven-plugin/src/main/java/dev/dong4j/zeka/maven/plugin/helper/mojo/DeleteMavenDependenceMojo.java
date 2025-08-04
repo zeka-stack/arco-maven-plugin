@@ -21,8 +21,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * <p>Description: 删除指定的 maven 依赖 </p>
  * 第一次使用:
- * 1. mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:1.0.0-SNAPSHOT
- * 2. mvn dev.dong4j:arco-assist-maven-plugin:1.0.0-SNAPSHOT:clear -Dname=指定包名(前缀匹配) -Dversion=指定版本号(前缀匹配)
+ * 1. mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT
+ * 2. mvn dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT:clear -Dname=指定包名(前缀匹配) -Dversion=指定版本号(前缀匹配)
  * <p>
  * 之后可简化: mvn arco-assist:clear -Dname= -Dversion=
  * 全部功能:
@@ -238,7 +238,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param versions versions
      * @since 1.7.1
      */
-    @SuppressWarnings("java:S3776")
+    @SuppressWarnings({"java:S3776", "D"})
     private void deleteAllFile(@NotNull File rootFile, String[] names, String[] versions) {
         if (names.length == 0 && versions.length != 0) {
             Arrays.stream(Objects.requireNonNull(rootFile.listFiles())).filter(File::isDirectory).forEach(nameFile -> {
