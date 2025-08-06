@@ -95,16 +95,6 @@ final class StringSequence implements CharSequence {
     }
 
     /**
-     * Is empty boolean
-     *
-     * @return the boolean
-     * @since 1.0.0
-     */
-    boolean isEmpty() {
-        return this.length() == 0;
-    }
-
-    /**
      * Length int
      *
      * @return the int
