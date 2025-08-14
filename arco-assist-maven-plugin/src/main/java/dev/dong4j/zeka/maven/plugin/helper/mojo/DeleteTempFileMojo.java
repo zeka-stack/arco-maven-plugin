@@ -3,12 +3,11 @@ package dev.dong4j.zeka.maven.plugin.helper.mojo;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>Description: 删除 checkstyle pmd 等临时文件 </p>
@@ -27,7 +26,6 @@ public class DeleteTempFileMojo extends ZekaMavenPluginAbstractMojo {
     private boolean skip;
 
     /** TEMP_FILES */
-    @SuppressWarnings("java:S1171")
     private static final List<String> TEMP_FILES = new ArrayList<String>() {
         private static final long serialVersionUID = -7121985380840710018L;
 

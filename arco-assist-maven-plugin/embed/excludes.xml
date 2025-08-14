@@ -56,7 +56,7 @@
     <exclude>com.fasterxml.jackson.module:jackson-module-parameter-names</exclude>
     <!--endregion-->
     <!--region reduce package size (tootls dependencies)-->
-    <exclude>javax.validation:validation-api</exclude>
+    <exclude>jakarta.validation:jakarta.validation-api</exclude>
     <exclude>org.hibernate.validator:hibernate-validator</exclude>
     <exclude>org.jboss.logging:jboss-logging</exclude>
     <exclude>org.mapstruct:mapstruct</exclude>

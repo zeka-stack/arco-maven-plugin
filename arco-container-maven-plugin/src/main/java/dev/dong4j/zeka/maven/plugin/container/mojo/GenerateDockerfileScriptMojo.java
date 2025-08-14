@@ -115,6 +115,7 @@ public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
      * @param replaceMap replace map
      * @since 2024.2.0
      */
+    @SuppressWarnings("D")
     private void writePort(Map<String, String> replaceMap) {
         if (!mainConfigFile.exists() && !bootstrapConfigFile.exists()) {
             this.getLog().error("application.yml 文件不存在, 无法确认 export port");
