@@ -1,5 +1,7 @@
 package dev.dong4j.zeka.maven.plugin.common.exception;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when an additional property with a null value is encountered.
  *
@@ -12,6 +14,7 @@ package dev.dong4j.zeka.maven.plugin.common.exception;
 public class NullAdditionalPropertyValueException extends IllegalArgumentException {
 
     /** serialVersionUID */
+    @Serial
     private static final long serialVersionUID = -7157595142587204486L;
 
     /**

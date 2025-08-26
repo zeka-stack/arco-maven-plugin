@@ -1,9 +1,9 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader.jar;
 
 import dev.dong4j.zeka.maven.plugin.boot.loader.data.RandomAccessData;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -98,6 +98,7 @@ class JarFileEntries implements CentralDirectoryVisitor, Iterable<CustomJarEntry
     private final Map<Integer, FileHeader> entriesCache = Collections
         .synchronizedMap(new LinkedHashMap<Integer, FileHeader>(16, 0.75f, true) {
 
+            @Serial
             private static final long serialVersionUID = 3626484089358515308L;
 
             @Override

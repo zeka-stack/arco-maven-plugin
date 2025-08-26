@@ -3,6 +3,7 @@ package dev.dong4j.zeka.maven.plugin.helper.mojo;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -27,6 +28,7 @@ public class DeleteTempFileMojo extends ZekaMavenPluginAbstractMojo {
 
     /** TEMP_FILES */
     private static final List<String> TEMP_FILES = new ArrayList<String>() {
+        @Serial
         private static final long serialVersionUID = -7121985380840710018L;
 
         {

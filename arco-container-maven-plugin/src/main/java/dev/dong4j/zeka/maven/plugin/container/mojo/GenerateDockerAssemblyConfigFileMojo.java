@@ -47,10 +47,11 @@ public class GenerateDockerAssemblyConfigFileMojo extends ZekaMavenPluginAbstrac
     /** DEPENDENCES_EXCLUDES */
     public static final String DEPENDENCES_EXCLUDES = "#{excludes}";
     /** DEFAULT_DEPENDENCES_EXCLUDES */
-    public static final String DEFAULT_DEPENDENCES_EXCLUDES = "<excludes>\n" +
-        "    <!-- 排除自己, 排除 devtools -->\n" +
-        "    <exclude>${groupId}:${project.artifactId}</exclude>\n" +
-        "</excludes>";
+    public static final String DEFAULT_DEPENDENCES_EXCLUDES = """
+        <excludes>
+            <!-- 排除自己, 排除 devtools -->
+            <exclude>${groupId}:${project.artifactId}</exclude>
+        </excludes>""";
     /** PROPERTIES_INCLUDE */
     public static final String PROPERTIES_INCLUDE = "#{include}";
     /** BOOT_PROPERTIES_INCLUDE */

@@ -3,6 +3,8 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 import com.github.eirslett.maven.plugins.frontend.lib.FrontendPluginFactory;
 import com.github.eirslett.maven.plugins.frontend.lib.ProxyConfig;
 import com.github.eirslett.maven.plugins.frontend.lib.TaskRunnerException;
+import java.io.File;
+import java.util.Collections;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -10,9 +12,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.sonatype.plexus.build.incremental.BuildContext;
-
-import java.io.File;
-import java.util.Collections;
 
 /**
  * <p>Description: </p>
@@ -88,7 +87,7 @@ public final class YarnMojo extends AbstractFrontendMojo {
         if (this.buildContext == null || this.buildContext.hasDelta(packageJson)
             || !this.buildContext.isIncremental()) {
             ProxyConfig proxyConfig = this.getProxyConfig();
-            factory.getYarnRunner(proxyConfig, this.getRegistryUrl()).execute(this.arguments,
+            factory.getYarnRunner(proxyConfig, this.getRegistryUrl(), false).execute(this.arguments,
                 this.environmentVariables);
         } else {
             this.getLog().info("Skipping yarn install as package.json unchanged");
