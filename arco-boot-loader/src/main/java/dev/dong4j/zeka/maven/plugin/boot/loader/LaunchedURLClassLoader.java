@@ -2,17 +2,14 @@ package dev.dong4j.zeka.maven.plugin.boot.loader;
 
 import dev.dong4j.zeka.maven.plugin.boot.loader.jar.CustomJarFile;
 import dev.dong4j.zeka.maven.plugin.boot.loader.jar.Handler;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.util.Enumeration;
 import java.util.jar.JarFile;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 通过扩展的 jar 协议, 以实现 jar in jar 这种情况下的 class 文件加载
@@ -144,28 +141,26 @@ public class LaunchedURLClassLoader extends URLClassLoader {
      */
     private void definePackage(String className, String packageName) {
         try {
-            AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-                String packageEntryName = packageName.replace('.', '/') + "/";
-                String classEntryName = className.replace('.', '/') + ".class";
-                for (URL url : this.getURLs()) {
-                    try {
-                        URLConnection connection = url.openConnection();
-                        if (connection instanceof JarURLConnection) {
-                            JarFile jarFile = ((JarURLConnection) connection).getJarFile();
-                            if (jarFile.getEntry(classEntryName) != null && jarFile.getEntry(packageEntryName) != null
-                                && jarFile.getManifest() != null) {
-                                this.definePackage(packageName, jarFile.getManifest(), url);
-                                return null;
-                            }
+            String packageEntryName = packageName.replace('.', '/') + "/";
+            String classEntryName = className.replace('.', '/') + ".class";
+            for (URL url : this.getURLs()) {
+                try {
+                    URLConnection connection = url.openConnection();
+                    if (connection instanceof JarURLConnection) {
+                        JarFile jarFile = ((JarURLConnection) connection).getJarFile();
+                        if (jarFile.getEntry(classEntryName) != null
+                            && jarFile.getEntry(packageEntryName) != null
+                            && jarFile.getManifest() != null) {
+                            this.definePackage(packageName, jarFile.getManifest(), url);
+                            return;
                         }
-                    } catch (IOException ex) {
-                        // Ignore
                     }
+                } catch (IOException ex) {
+                    // Ignore
                 }
-                return null;
-            }, AccessController.getContext());
-        } catch (java.security.PrivilegedActionException ex) {
-            // Ignore
+            }
+        } catch (Exception ex) {
+            // Ignore or log if needed
         }
     }
 
