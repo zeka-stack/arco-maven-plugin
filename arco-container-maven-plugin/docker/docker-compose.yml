@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-B
-    image: zeka-stack-java8-base:latest
+    image: zeka-stack-java17-base:latest
     # 不需要运行该服务
     entrypoint: [ "true" ]
 
