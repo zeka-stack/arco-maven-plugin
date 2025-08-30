@@ -1,4 +1,4 @@
-# docker build -f dockerfile-base -t zeka-stack-java17-base:latest .
+# 在 target 同级目录执行: docker build -f target/docker/Dockerfile-B -t zeka-stack-java17-base:latest .
 # 使用 busybox 作为基础镜像，用于提供基本的 shell 工具
 ## todo-dong4j : (2025.07.15 03:05) [需要支持中文]
 FROM busybox AS base

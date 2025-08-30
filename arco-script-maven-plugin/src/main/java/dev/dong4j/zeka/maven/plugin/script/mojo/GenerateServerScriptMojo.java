@@ -30,6 +30,8 @@ public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {
     /** Output file */
     @Parameter(defaultValue = "${project.build.directory}/arco-maven-plugin/bin/launcher")
     private File outputFile;
+    @Parameter(defaultValue = "${project.build.directory}/arco-maven-plugin/bin/docker-build")
+    private File dockerBuildFile;
     /** 自定义的脚本文件 */
     @Parameter(defaultValue = "${project.basedir}/bin/launcher")
     private File scriptFile;
@@ -40,6 +42,7 @@ public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {
     private static final String JVM_SYMBOL = "#{jvmOptions}";
     /** SERVER_FILE */
     private static final String SERVER_FILE = "META-INF/bin/launcher";
+    private static final String DOCKER_BUILD_FILE = "META-INF/bin/docker-build";
 
     /**
      * Execute *
@@ -53,6 +56,9 @@ public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {
             this.getLog().info("arco-script-maven-plugin is skipped");
             return;
         }
+
+        // 将插件包中的 docker-build 写入到业务项目的 target/arco-maven-plugin/bin/docker-build
+        new FileWriter(this.dockerBuildFile).write(DOCKER_BUILD_FILE);
 
         // 存在自定义脚本则将自定义脚本写入到 outputFile
         if (this.scriptFile.exists()) {

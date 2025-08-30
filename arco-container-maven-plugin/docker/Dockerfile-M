@@ -1,3 +1,8 @@
+# arco-container-maven-plugin 自动生成的 Dockerfile(多层构建)
+# 使用方式:
+# 1. maven 构建: ./mvnw clean pakcage -Pdocker
+# 2. docker 构建(在 target 同级目录执行): docker build -f target/docker/Dockerfile-M -t your-app:latest target
+
 # 使用 dockerfile-base 构建的基础镜像
 FROM zeka-stack-java17-base:latest
 
@@ -10,13 +15,13 @@ ENV START_TYPE=docker
 WORKDIR /app
 
 # 缓存层：第三方依赖 jar（变化最少）
-COPY ${PACKAGE.NAME}/lib/ /app/lib/
+COPY docker/${PACKAGE.NAME}/lib/ /app/lib/
 # 应用层：脚本、配置、主 jar（变化频繁）
-COPY ${PACKAGE.NAME}/bin/     /app/bin/
-COPY ${PACKAGE.NAME}/config/  /app/config/
-COPY ${PACKAGE.NAME}/patch/   /app/patch/
-COPY ${PACKAGE.NAME}/plugin/  /app/plugin/
-COPY ${PACKAGE.NAME}/*.jar    /app/
+COPY arco-maven-plugin/bin/ /app/bin/
+COPY docker/${PACKAGE.NAME}/config/ /app/config/
+COPY docker/${PACKAGE.NAME}/patch/ /app/patch/
+COPY docker/${PACKAGE.NAME}/plugin/ /app/plugin/
+COPY docker/${PACKAGE.NAME}/*.jar /app/
 
 # 进入部署目录
 WORKDIR /app/${PACKAGE.NAME}

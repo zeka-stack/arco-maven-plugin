@@ -1,3 +1,8 @@
+# arco-container-maven-plugin 自动生成的 Dockerfile(单层构建, 无法利用多级缓存)
+# 使用方式:
+# 1. maven 构建: ./mvnw clean pakcage -Ddockerfile.skip=false
+# 2. docker 构建(在 target 同级目录执行): docker build -f target/docker/Dockerfile-S -t your-app:latest target
+
 # 使用 dockerfile-base 构建的基础镜像
 FROM zeka-stack-java17-base:latest
 
