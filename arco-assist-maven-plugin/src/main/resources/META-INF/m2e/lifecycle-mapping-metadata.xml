@@ -13,6 +13,7 @@
                     <goal>upload-file</goal>
                     <goal>delete-temp-file</goal>
                     <goal>generate-compiled-id</goal>
+                    <goal>assembly-outputTimestamp-property</goal>
                 </goals>
             </pluginExecutionFilter>
             <action>
