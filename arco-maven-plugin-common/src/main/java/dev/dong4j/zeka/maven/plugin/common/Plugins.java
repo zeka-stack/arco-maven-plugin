@@ -58,5 +58,7 @@ public final class Plugins {
     public static final String SKIP_PUBLISH_SINGLE = "publish-single.skip";
     /** SKIP_PUBLISH_BATCH */
     public static final String SKIP_PUBLISH_BATCH = "publish-batch.skip";
+    /** 启动类后缀 */
+    public static final String START_CLASS_SUFFIX = "_START_CLASS";
 
 }

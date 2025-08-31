@@ -9,7 +9,7 @@ import org.apache.maven.project.MavenProject;
 
 
 /**
- * Maven 插件 Mojo：为项目注入 outputTimestamp.<project.version> 属性
+ * Maven 插件 Mojo：为项目注入 outputTimestamp.project.version 属性
  *
  * <p>功能说明：
  * 1. 根据当前 Maven 项目的版本号 (project.version)，生成属性名 outputTimestamp.<版本号>

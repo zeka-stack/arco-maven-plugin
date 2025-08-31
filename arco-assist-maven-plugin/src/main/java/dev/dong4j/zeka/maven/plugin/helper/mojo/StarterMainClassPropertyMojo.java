@@ -37,10 +37,11 @@ public class StarterMainClassPropertyMojo extends ZekaMavenPluginAbstractMojo {
 
     /**
      * 检查当前模块是否为可部署包 (是否存在 被 @SpringBootApplication 或 @EnableAutoConfiguration 标识的类), 实现如下功能:
-     * 1. 将 main class 绑定到 ${name} 配置上, 直接使用 ${name} 即可获取到 main class, 模块不需要再配置 start.class 配置;
+     * 1. 将 main class 绑定到 ${start.class} 配置上, 直接使用 ${start.class} 即可获取到 main class, maven-jar-plugin 或 spring-boot-maven-plugin 直接使用 ${start.class} 启动类;
      * 2. 检查打包插件配置是否正确;
      *
      * @since 1.0.0
+     * @see SkipPluginMojo#execute()
      */
     @Override
     @SneakyThrows
@@ -60,7 +61,8 @@ public class StarterMainClassPropertyMojo extends ZekaMavenPluginAbstractMojo {
             "监测到当前模块存在启动类, 自动设置: " + DEPLOY_SKIP + "=true",
             "已监测到当前模块存在启动类, 不需要手动指定忽略 deploy 命令, 将自动忽略, 可以删除多余配置");
 
-        String startClassName = System.getProperty(this.getProject().getModel().getArtifactId() + "_START_CLASS");
+        // 在 SkipPluginMojo 中会检测启动类, 然后注入到环境变量中, 这里直接获取即可
+        String startClassName = System.getProperty(this.getProject().getModel().getArtifactId() + Plugins.START_CLASS_SUFFIX);
         this.injectionProperties(this.name,
             startClassName,
             "监测到当前模块存在启动类, 自动设置: " + this.name + "=" + startClassName,

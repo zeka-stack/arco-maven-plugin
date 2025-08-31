@@ -51,7 +51,7 @@ public class SkipPluginMojo extends ZekaMavenPluginAbstractMojo implements JavaF
         } else if (moduleType.equals(ModuleType.DELOPY)) {
             // 是启动类模块则开启以下插件
             JavaFile javaFile = this.mainClass(this.project);
-            System.setProperty(this.getProject().getModel().getArtifactId() + "_START_CLASS", javaFile.getClassName());
+            System.setProperty(this.getProject().getModel().getArtifactId() + Plugins.START_CLASS_SUFFIX, javaFile.getClassName());
             // 生成 build-info.properties
             this.defineProperty(Plugins.SKIP_BUILD_INFO, Plugins.TURN_ON_PLUGIN);
             // 创建 profiles 文件
