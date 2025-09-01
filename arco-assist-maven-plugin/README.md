@@ -2,12 +2,32 @@
 
 ## 概述
 
-`arco-assist-maven-plugin` 是 Arco 框架的核心辅助 Maven 插件,提供了一系列自动化构建功能,用于简化项目构建、部署和开发工作流。该插件包含多个
-Mojo,每个 Mojo 负责特定的功能,帮助开发者自动处理构建过程中的各种任务。
+`arco-assist-maven-plugin` 是 Arco 框架的核心辅助 Maven 插件，提供了一系列自动化构建功能，用于简化项目构建、部署和开发工作流。
 
-## 主要功能
+**最核心的功能**：自定义打包部署包。框架已经内置了 `maven-assembly-plugin` 相关配置，使用者只需要执行简单的 Maven 命令即可生成标准化的部署包。
 
-### 核心功能
+## 快速开始
+
+对于使用 zeka.stack 框架的项目，最简单的使用方式：
+
+```bash
+mvn clean package
+```
+
+执行后会在 `target` 目录下生成一个 `xxx.tar.gz` 部署包，包含：
+
+- 应用 JAR 包
+- 启动脚本 (`bin/launcher`)
+- 依赖库 (`lib/` 目录)
+- 配置文件
+
+**部署使用：**
+
+1. 上传 `xxx.tar.gz` 到服务器
+2. 解压：`tar -xzf xxx.tar.gz`
+3. 启动：`bin/launcher`
+
+## 核心功能
 
 #### 1. Assembly 配置动态生成 (`GenerateAssemblyConfigFileMojo`)
 
@@ -34,6 +54,43 @@ Mojo,每个 Mojo 负责特定的功能,帮助开发者自动处理构建过程�
 #### 6. 插件智能控制 (`SkipPluginMojo`)
 
 根据模块类型自动启用/禁用相关插件,通过是否存在 starter class 自动判断并控制插件的生效状态。
+
+## 框架内置配置
+
+zeka.stack 框架已经内置了完整的插件配置，无需手动添加。框架会自动：
+
+1. **检测项目类型**：自动判断是否为启动模块（包含 `@SpringBootApplication`）
+2. **生成打包配置**：自动生成 `assembly.xml` 配置文件
+3. **智能插件控制**：根据模块类型启用/禁用相关插件
+4. **时间戳管理**：自动注入构建时间戳和版本时间戳
+
+**框架内置的 maven-assembly-plugin 配置：**
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-assembly-plugin</artifactId>
+    <configuration>
+        <!-- 避免将构建产物附加到构建生命周期 -->
+        <attach>false</attach>
+        <appendAssemblyId>false</appendAssemblyId>
+        <!-- 由 arco-assist-maven-plugin 自动生成，无需手动配置 -->
+        <descriptors>
+            <descriptor>${project.build.directory}/arco-maven-plugin/assembly/assembly.xml</descriptor>
+        </descriptors>
+        <!-- 统一使用模块名，结合时间戳生成唯一构建产物 -->
+        <finalName>${project.build.finalName}_${current.time}</finalName>
+        <!-- 可重现构建配置，确保同版本构建结果一致 -->
+        <outputTimestamp>${outputTimestamp.project.version}</outputTimestamp>
+    </configuration>
+</plugin>
+```
+
+**这意味着：**
+
+- ✅ **零配置体验**：业务项目无需添加任何插件配置
+- ✅ **自动化处理**：插件会自动检测项目类型并生成对应配置
+- ✅ **标准化输出**：所有项目都有统一的部署包结构
 
 ### 辅助功能
 
@@ -73,9 +130,29 @@ Mojo,每个 Mojo 负责特定的功能,帮助开发者自动处理构建过程�
 
 ## 使用方式
 
-### 1. 插件配置
+### 1. 基础使用（推荐）
 
-在项目的 `pom.xml` 中添加插件配置:
+对于大多数场景，直接使用框架提供的默认配置即可：
+
+```bash
+# 基础构建，生成 tar.gz 部署包
+mvn clean package
+
+# 跳过测试的快速构建
+mvn clean package -Dmaven.test.skip=true
+
+# 查看详细构建过程
+mvn clean package -X
+```
+
+**生成的文件：**
+
+- `target/项目名_时间戳.tar.gz` - 标准部署包
+- `target/项目名_时间戳/` - 解压后的目录结构
+
+### 2. 高级配置
+
+如果需要自定义插件行为，可以在项目的 `pom.xml` 中覆盖以下配置：
 
 ```xml
 <plugin>
@@ -170,9 +247,11 @@ Mojo,每个 Mojo 负责特定的功能,帮助开发者自动处理构建过程�
 </plugin>
 ```
 
-### 2. 单独执行目标
+### 3. 单独执行目标
 
-#### 核心功能目标
+对于特殊需求，可以单独执行特定功能：
+
+#### 核心功能
 
 ```bash
 # 1. 生成 Assembly 配置
@@ -191,14 +270,14 @@ mvn arco-assist:generate-build-info
 mvn arco-assist:timestamp-property -Dname=current.time -Dpattern=MMddHHmm -DtimeZone=GMT+8
 ```
 
-#### 智能控制目标
+#### 智能控制
 
 ```bash
 # 智能跳过插件
 mvn arco-assist:skip-plugin
 ```
 
-#### 辅助功能目标
+#### 辅助功能
 
 ```bash
 # 生成 Spring 环境配置
@@ -219,7 +298,25 @@ mvn arco-assist:clear -Dname=arco-meta -Dversion=2.0.0
 mvn arco-assist:clear  # 清理无效目录和缓存
 ```
 
-### 3. 配置参数
+### 4. 常用配置参数
+
+#### 快速配置调优
+
+最常用的命令行配置，无需修改 POM 文件：
+
+```bash
+# 跳过代码检查（紧急发布时）
+mvn clean package -Dcheckstyle.skip=true -Dpmd.skip=true
+
+# 强制启用构建信息生成（依赖模块）
+mvn clean package -Dbuild.info.skip=false
+
+# 自定义时间戳格式
+mvn clean package -Dname=current.time -Dpattern=yyyyMMdd-HHmm
+
+# 跳过临时文件清理
+mvn clean package -Ddelete.temp.file.skip=true
+```
 
 #### 构建信息生成配置
 
