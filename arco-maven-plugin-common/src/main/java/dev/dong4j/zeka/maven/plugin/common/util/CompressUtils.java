@@ -99,7 +99,7 @@ public class CompressUtils {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("tar file error", e);
                 }
             }
         }
@@ -112,9 +112,10 @@ public class CompressUtils {
      * @param source   source
      * @param target   target
      * @param fileName file name
-     * @throws Exception exception
+     * @throws IOException exception
      * @since 1.5.0
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void compress(String source, String target, String fileName) throws IOException {
 
         List<File> list = getFiles(source);
@@ -138,7 +139,7 @@ public class CompressUtils {
      * @param outPutPath out put path
      * @param fileName   file name
      * @return the file
-     * @throws Exception exception
+     * @throws IOException exception
      * @since 1.5.0
      */
     public static @NotNull File compressTar(List<File> list, String inPutPath, String outPutPath, String fileName) throws IOException {
@@ -186,7 +187,7 @@ public class CompressUtils {
             }
             filterFile(new File(outputDir));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("decompress file error.", e);
         }
     }
 
@@ -215,6 +216,10 @@ public class CompressUtils {
                             writeFile(in, out);
                         }
                     }
+
+                    // ZIP 格式通常不保留 Unix 权限信息，使用公共方法设置权限
+                    File extractedFile = new File(outputDir + File.separator + entry.getName());
+                    setExecutablePermissions(extractedFile, 0, false);
                 }
             }
         }
@@ -234,7 +239,7 @@ public class CompressUtils {
             // 创建输出目录
             createFile(outputDir, null);
             TarArchiveEntry entry;
-            while ((entry = tarIn.getNextTarEntry()) != null) {
+            while ((entry = tarIn.getNextEntry()) != null) {
                 // 是目录
                 if (entry.isDirectory()) {
                     // 创建空目录
@@ -244,12 +249,10 @@ public class CompressUtils {
                     File file = createFile(outputDir + File.separator + entry.getName(), null);
                     try (OutputStream out = new FileOutputStream(file)) {
                         writeFile(tarIn, out);
-
-                        if (file.getName().endsWith(".sh")) {
-                            dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setFilePermissions(file);
-                            dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setPosixFilePermissions(file.getAbsoluteFile().toPath());
-                        }
                     }
+
+                    // 使用公共方法处理文件权限
+                    setExecutablePermissions(file, entry.getMode(), true);
                 }
             }
         }
@@ -259,26 +262,29 @@ public class CompressUtils {
     /**
      * 解压缩tar.bz2文件
      *
-     * @param file      压缩包文件
-     * @param outputDir 目标文件夹
+     * @param sourceFile 压缩包文件
+     * @param outputDir  目标文件夹
      * @throws IOException io exception
      * @since 1.5.0
      */
-    public static void decompressTarBz2(File file, String outputDir) throws IOException {
+    public static void decompressTarBz2(File sourceFile, String outputDir) throws IOException {
         try (TarArchiveInputStream tarIn =
                  new TarArchiveInputStream(
                      new BZip2CompressorInputStream(
-                         new FileInputStream(file)))) {
+                         new FileInputStream(sourceFile)))) {
             createFile(outputDir, null);
             TarArchiveEntry entry;
-            while ((entry = tarIn.getNextTarEntry()) != null) {
+            while ((entry = tarIn.getNextEntry()) != null) {
                 if (entry.isDirectory()) {
                     createFile(outputDir, entry.getName());
                 } else {
-                    try (OutputStream out = new FileOutputStream(
-                        outputDir + File.separator + entry.getName())) {
+                    File file = new File(outputDir + File.separator + entry.getName());
+                    try (OutputStream out = new FileOutputStream(file)) {
                         writeFile(tarIn, out);
                     }
+
+                    // 使用公共方法处理文件权限
+                    setExecutablePermissions(file, entry.getMode(), true);
                 }
             }
         }
@@ -297,6 +303,54 @@ public class CompressUtils {
         byte[] b = new byte[BUFFER_SIZE];
         while ((length = in.read(b)) != -1) {
             out.write(b, 0, length);
+        }
+    }
+
+    /**
+     * 设置文件执行权限，特别处理启动脚本和构建脚本
+     *
+     * @param file    目标文件
+     * @param mode    文件权限模式（可选，tar 格式有效）
+     * @param hasMode 是否有有效的权限模式
+     * @since 1.5.0
+     */
+    private static void setExecutablePermissions(File file, int mode, boolean hasMode) {
+        final boolean launcher = file.getName().endsWith(".sh") ||
+            file.getName().equals("launcher") ||
+            file.getName().equals("docker-build");
+
+        if (hasMode && mode != 0) {
+            try {
+                // 如果文件具有执行权限，则设置为可执行
+                if ((mode & 73) != 0) { // 检查任意执行权限位 (73 = 0111 八进制)
+                    dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setFilePermissions(file);
+                    dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setPosixFilePermissions(file.getAbsoluteFile().toPath());
+                }
+            } catch (Exception e) {
+                log.debug("Failed to set file permissions for: {}", file.getName(), e);
+                // 如果权限设置失败，对已知的可执行文件作为后备方案
+                if (launcher) {
+                    setLauncherPermissions(file);
+                }
+            }
+        } else if (launcher) {
+            // 后备方案：对已知的可执行文件设置权限
+            setLauncherPermissions(file);
+        }
+    }
+
+    /**
+     * 为启动脚本设置执行权限
+     *
+     * @param file 目标文件
+     * @since 1.5.0
+     */
+    private static void setLauncherPermissions(File file) {
+        try {
+            dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setFilePermissions(file);
+            dev.dong4j.zeka.maven.plugin.common.util.FileUtils.setPosixFilePermissions(file.getAbsoluteFile().toPath());
+        } catch (Exception e) {
+            log.debug("Failed to set launcher permissions for: {}", file.getName(), e);
         }
     }
 
@@ -327,10 +381,11 @@ public class CompressUtils {
      * @return the file
      * @since 1.5.0
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static @NotNull File createFile(String outputDir, String subDir) {
         File file = new File(outputDir);
         // 子目录不为空
-        if (!(subDir == null || subDir.trim().equals(""))) {
+        if (!(subDir == null || subDir.trim().isEmpty())) {
             file = new File(outputDir + File.separator + subDir);
         }
         if (!file.exists()) {
