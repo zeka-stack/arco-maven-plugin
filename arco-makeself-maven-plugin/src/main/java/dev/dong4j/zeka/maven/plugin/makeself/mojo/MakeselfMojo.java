@@ -8,18 +8,6 @@ import dev.dong4j.zeka.maven.plugin.common.enums.ModuleType;
 import dev.dong4j.zeka.maven.plugin.common.util.CompressUtils;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
 import dev.dong4j.zeka.maven.plugin.common.util.PluginUtils;
-import lombok.SneakyThrows;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +21,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import lombok.SneakyThrows;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The Class MakeselfMojo.
@@ -292,6 +291,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
     public void execute() {
         ModuleType moduleType = PluginUtils.moduleType();
 
+        // -Dmakeself.skip=false 开启插件
         if (this.skip
             || !moduleType.equals(ModuleType.DELOPY)
             || (SystemUtils.IS_OS_WINDOWS && !this.forceInvokeOnWindows)) {

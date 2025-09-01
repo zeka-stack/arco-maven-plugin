@@ -94,14 +94,14 @@
 ```
 
 1. **默认情况**（什么都不配）：
-    - outputTimestamp = 1980-01-01T00:00:00Z
+    - `outputTimestamp = 1980-01-01T00:00:00Z`
     - 产物稳定、可重现。
 2. **跟随 Git commit 时间**：
-    - mvn clean package -Puse-git-timestamp
+    - `mvn clean package -Puse-git-timestamp`
     - 会自动把 outputTimestamp 设置为 git.commit.time。
 3. **遵循开源标准**（CI/CD 推荐）：
 
-    ```
+    ```shell
     export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
     mvn clean package
     ```
@@ -110,7 +110,7 @@
 
 4. **用户手动指定**：
 
-    ```
+    ```shell
     mvn clean package -Dproject.build.outputTimestamp=2025-08-30T12:00:00Z
     ```
 
@@ -148,6 +148,60 @@
 
 - **同一版本号 → 固定的 outputTimestamp → 构建产物完全一致**
 - **不同版本号 → 不同的 outputTimestamp → 产物可区分，但仍然在同版本内可重现**
+
+因为这个插件是在框架层配置的, 所以按照 "约定大于配置" 的思路, 使用者只需要在项目配置中添加 `properties` 即可, 比如现在发布 2.0.0 的新版本:
+
+```properties
+<properties>
+  <!-- 每个版本固定一个 outputTimestamp -->
+  <outputTimestamp.1.0.0>2025-08-01T00:00:00Z</outputTimestamp.1.0.0>
+  <outputTimestamp.1.1.0>2025-08-15T00:00:00Z</outputTimestamp.1.1.0>
+  <outputTimestamp.1.2.0>2025-08-30T00:00:00Z</outputTimestamp.1.2.0>
+
+  <outputTimestamp.2.0.0>2025-09-01T00:00:00Z</outputTimestamp.2.0.0>
+</properties>
+```
+
+为了能够正确读取到 `outputTimestamp.project.version` 这个配置, 我们使用 mojo 来自动注入:
+
+```java
+@Mojo(name = "assembly-outputTimestamp-property", defaultPhase = LifecyclePhase.INITIALIZE)
+public class AssemblyOutputTimestampMojo extends AbstractMojo {
+
+    /** 注入 MavenProject 对象，获取版本号等信息 */
+    @SuppressWarnings("deprecation")
+    @Component
+    private MavenProject project;
+
+    @Override
+    public void execute() throws MojoExecutionException {
+        String version = project.getVersion();
+        // 属性名固定为 outputTimestamp.project.version
+        String propertyName = "outputTimestamp.project.version";
+        // 属性值为 outputTimestamp.<project.version>
+        String propertyKey = "outputTimestamp." + version;
+
+        final String propertyValue = project.getProperties().getProperty(propertyKey);
+        if (StringUtils.isBlank(propertyValue)) {
+            // 如果属性值不存在，则使用默认时间戳
+            getLog().error("[" + propertyKey + "] 未配置, 请添加对应的配置, 确保 value 格式正确");
+        }
+        // 注入到 MavenProject properties
+        this.project.getProperties().put(propertyName, propertyValue);
+        getLog().info("Injected property: " + propertyName + "=" + propertyValue);
+    }
+}
+```
+
+**约定:**
+
+1. 在升级框架版本时, 在  `arco-supreme` 的 pom.xml 中添加配置 `outputTimestamp` 配置, 格式为 `outputTimestamp.{project.version}`;
+2. 业务项目在父项目中添加配置 `outputTimestamp` 配置, 会覆盖掉框架的内置配置;
+3. `outputTimestamp` 的 value 格式支持多种:
+    1. ISO 8601 UTC 时间: `yyyy-MM-dd'T'HH:mm:ss'Z'`
+    2. Unix epoch 秒数, 如将 `git log -1 --pretty=%ct` 的输出作为 value;
+
+---
 
 ### **4.3 版本发布时的操作规范**
 

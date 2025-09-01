@@ -43,7 +43,6 @@ public class AssemblyOutputTimestampMojo extends AbstractMojo {
             getLog().error("[" + propertyKey + "] 未配置, 请添加对应的配置, 确保 value 格式正确");
         }
         // 注入到 MavenProject properties
-        // defineProperty(propertyName, propertyValue);
         this.project.getProperties().put(propertyName, propertyValue);
         getLog().info("Injected property: " + propertyName + "=" + propertyValue);
     }
