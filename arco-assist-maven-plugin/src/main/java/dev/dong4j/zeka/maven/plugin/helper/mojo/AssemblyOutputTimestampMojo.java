@@ -1,5 +1,6 @@
 package dev.dong4j.zeka.maven.plugin.helper.mojo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -34,10 +35,16 @@ public class AssemblyOutputTimestampMojo extends AbstractMojo {
         // 属性名固定为 outputTimestamp.project.version
         String propertyName = "outputTimestamp.project.version";
         // 属性值为 outputTimestamp.<project.version>
-        String propertyValue = "outputTimestamp." + version;
+        String propertyKey = "outputTimestamp." + version;
 
+        final String propertyValue = project.getProperties().getProperty(propertyKey);
+        if (StringUtils.isBlank(propertyValue)) {
+            // 如果属性值不存在，则使用默认时间戳
+            getLog().error("[" + propertyKey + "] 未配置, 请添加对应的配置, 确保 value 格式正确");
+        }
         // 注入到 MavenProject properties
-        project.getProperties().setProperty(propertyName, propertyValue);
+        // defineProperty(propertyName, propertyValue);
+        this.project.getProperties().put(propertyName, propertyValue);
         getLog().info("Injected property: " + propertyName + "=" + propertyValue);
     }
 }
