@@ -2,9 +2,6 @@
 <assembly>
     <!-- Spring Boot 应用打包配置 -->
     <id>package</id>
-    <formats>
-        <format>tar.gz</format>
-    </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
     <!-- 排除依赖 -->
     <dependencySets>

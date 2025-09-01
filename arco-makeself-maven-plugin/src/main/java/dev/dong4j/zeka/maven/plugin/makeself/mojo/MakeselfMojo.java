@@ -63,13 +63,13 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
     /** MAKESELF_HEADER_SCRIPT */
     private static final String MAKESELF_HEADER_SCRIPT = "makeself-header.sh";
     /** LAUNCHER_SCRIPT */
-    private static final String LAUNCHER_SCRIPT = "launcher.sh";
+    private static final String LAUNCHER_SCRIPT = "runner.sh";
     /** 服务器使用 zekastack 用户启动, 本地不需要切换用户, 使用此 key 标识 */
     private static final String PACKAGE_TYPE = "package.type";
     /** LOCAL_PACKAGE_TYPE */
     private static final String LOCAL_PACKAGE_TYPE = "local";
     /** LOCAL_AUNCHER_SCRIPT */
-    private static final String LOCAL_AUNCHER_SCRIPT = "launcher-local.sh";
+    private static final String LOCAL_AUNCHER_SCRIPT = "runner-local.sh";
     /** BASH */
     private static final String BASH = "bash";
 
@@ -83,7 +83,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
     @Parameter(defaultValue = "Make self-extrabable archives", property = "label")
     private String label;
     /** 从解压文件目录中执行的命令, 如果要执行此目录中包含的程序, 则必须在命令前面加上 './', 例如 ./program.sh */
-    @Parameter(defaultValue = "./launcher.sh", property = "startupScript")
+    @Parameter(defaultValue = "./runner.sh", property = "startupScript")
     private String startupScript;
     /**
      * 传递给脚本的参数
@@ -272,7 +272,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}/makeself-tmp/", readonly = true)
     private File targetDirectory;
     /** 自定义的脚本文件 */
-    @Parameter(defaultValue = "${project.basedir}/bin/launcher.sh")
+    @Parameter(defaultValue = "${project.basedir}/bin/runner.sh")
     private File scriptFile;
     /** The makeself. */
     private File makeself;
@@ -371,7 +371,6 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
             // 删除临时文件
             if (this.deleteTempFiles) {
                 FileUtils.deleteFiles(targetDir);
-                FileUtils.deleteFiles(archiveFile);
                 FileUtils.deleteFiles(this.targetDirectory.getAbsolutePath());
             }
         } catch (IOException e) {
@@ -473,7 +472,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
         File makeselfHeader = new File(this.targetDirectory, MAKESELF_HEADER_SCRIPT);
         this.writingFile(classloader, makeselfHeader, MAKESELF_LOCATION + MAKESELF_HEADER_SCRIPT);
 
-        // 写入 launcher.sh
+        // 写入 runner.sh
         File launcher = new File(decompressFile, LAUNCHER_SCRIPT);
         String launcherScript;
         if (this.scriptFile.exists()) {
@@ -509,7 +508,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
                 FileUtils.setFilePermissions(targetFile);
                 FileUtils.setPosixFilePermissions(path);
             } catch (IOException e) {
-                this.getLog().error("", e);
+                this.getLog().error("targetFile: " + targetFile.getAbsoluteFile() + " sourceFile: " + sourceFile, e);
             }
         }
     }
