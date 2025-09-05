@@ -70,8 +70,8 @@ LOG_PATH=${LOG_PATH:-"/mnt/syslogs/zeka.stack"}
 FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
 # 日志文件名，默认 all.log
 LOG_NAME=${LOG_NAME:-"all.log"}
-# 自定义 JVM 参数（可通过 -o 覆盖）
-JVM_OPTIONS="-Xms128M -Xmx256M "
+# 自定义 JVM 参数,会通过 arco-script-maven-plugin 进行占位符替换, 对 pom.xml 中定义 JVM 参数生效（可通过 -o 覆盖）
+JVM_OPTIONS="#{jvmOptions} "
 
 ################################################################################
 # 工具函数区
@@ -310,11 +310,15 @@ running() {
   echo -e "nohup ${JAVA_EXE} -jar
         -Djava.security.egd=file:/dev/./urandom
         ${JVM_OPTIONS}
-        -Xloggc:${GC_LOG}
+        -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M
         -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log
         -XX:+HeapDumpOnOutOfMemoryError
         -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof
         -XX:OnOutOfMemoryError='kill -9 %p'
+        -XX:+UseG1GC
+        -XX:+ParallelRefProcEnabled
+        -XX:+AlwaysPreTouch
+        -XX:+UseStringDeduplication
         -Dloader.home=${DEPLOY_DIR}/
         -Dloader.path=lib/
         -DAPP_NAME=${APP_NAME}
@@ -340,11 +344,15 @@ running() {
   nohup "$JAVA_EXE" -jar \
     -Djava.security.egd=file:/dev/./urandom \
     ${JVM_OPTIONS} \
-    -Xloggc:"$GC_LOG" \
-    -XX:ErrorFile="$DEPLOY_DIR"/app_error_%p.log \
+    -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M \
+    -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log \
     -XX:+HeapDumpOnOutOfMemoryError \
-    -XX:HeapDumpPath="$DEPLOY_DIR"/app_error.hprof \
+    -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof \
     -XX:OnOutOfMemoryError='kill -9 %p' \
+    -XX:+UseG1GC \
+    -XX:+ParallelRefProcEnabled \
+    -XX:+AlwaysPreTouch \
+    -XX:+UseStringDeduplication \
     -Dloader.home="$DEPLOY_DIR"/ \
     -Dloader.path=lib/ \
     -DAPP_NAME="$APP_NAME" \
@@ -492,7 +500,7 @@ parse_args() {
       t) SHOW_LOG="on";;                                  # 开启日志输出
       q) TIMEOUT_SHOWLOG="on";;                           # 限制日志输出时间
       T) SHOW_LOG="on"; LOG_PATH=$(mktemp -d);;           # 将日志输出到临时目录
-      H) usage;;                                        # 帮助说明
+      H) usage;;                                          # 帮助说明
       o) JVM_OPTIONS=${OPTARG};;                          # 设置 JVM 参数
       i) SHOW_INFO="on";;                                 # 输出脚本参数信息
       w) ENABLE_APM="on";;                                # 开启 APM

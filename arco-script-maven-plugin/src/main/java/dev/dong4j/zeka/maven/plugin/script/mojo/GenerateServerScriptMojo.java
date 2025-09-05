@@ -11,7 +11,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-
 /**
  * <p>Description: package 打包时动态生成启动脚本并替换自定义参数 </p>
  *
@@ -36,7 +35,7 @@ public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {
     @Parameter(defaultValue = "${project.basedir}/bin/launcher")
     private File scriptFile;
     /** jvm 参数 */
-    @Parameter(property = "jvmOptions", defaultValue = "-Xms128M -Xmx256M ")
+    @Parameter(property = "jvmOptions", defaultValue = "-Xms128M -Xmx256M")
     private String jvmOptions;
     /** JVM_SYMBOL */
     private static final String JVM_SYMBOL = "#{jvmOptions}";

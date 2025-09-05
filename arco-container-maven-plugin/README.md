@@ -312,7 +312,7 @@ docker buildx build \
   2) 一键运行 (Build & Run)
 ```
 
-> 📖 详细使用说明请参考：[DOCKER_BUILD_GUIDE.md](./DOCKER_BUILD_GUIDE.md)
+> 📖 详细使用说明请参考：[docker_build_guide.md](./docker_build_guide.md)
 
 ### 高级配置
 
