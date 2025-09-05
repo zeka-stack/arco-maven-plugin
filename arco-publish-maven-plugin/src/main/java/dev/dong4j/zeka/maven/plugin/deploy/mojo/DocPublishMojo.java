@@ -8,6 +8,10 @@ import cn.hutool.core.util.ZipUtil;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.entity.Group;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.util.SSHAgent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
@@ -15,11 +19,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Description: 发布项目文档服务
@@ -58,7 +57,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
         this.publishUploadPath = this.project.getProperties()
             .getProperty("publish.upload.path",
                 "/home/"
-                    + System.getProperty("publish.username", "publisher")
+                    + System.getProperty("publish.username", "zekastack")
                     + "/" + DEFAULT_TAG);
 
         this.departmentName = this.project.getProperties().getProperty("publish.department.name", "");
