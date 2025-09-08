@@ -36,7 +36,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2024.02.04 18:26
- * @since x.x.x
+ * @since 1.0.0
  */
 @Mojo(name = "generate-dockerfile", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
 public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
