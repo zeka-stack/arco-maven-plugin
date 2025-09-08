@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2021 -08-15 19:03
- * @since 1.9.0
+ * @since 1.0.0
  */
 @Slf4j
 public class SpringBootPublishSingleMojo extends ServicePublishMojo implements PublishConfigAnalyse {
@@ -19,7 +19,7 @@ public class SpringBootPublishSingleMojo extends ServicePublishMojo implements P
     /**
      * Execute
      *
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override

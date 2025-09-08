@@ -14,7 +14,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 23:54
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Mojo(name = "karma", defaultPhase = LifecyclePhase.TEST, threadSafe = true)
 public final class KarmaRunMojo extends AbstractFrontendMojo {
@@ -35,7 +35,7 @@ public final class KarmaRunMojo extends AbstractFrontendMojo {
      * Skip execution
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     protected boolean skipExecution() {
@@ -47,7 +47,7 @@ public final class KarmaRunMojo extends AbstractFrontendMojo {
      *
      * @param factory factory
      * @throws TaskRunnerException task runner exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public synchronized void execute(FrontendPluginFactory factory) throws TaskRunnerException {

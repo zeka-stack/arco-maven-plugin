@@ -6,17 +6,16 @@ import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 校验工程内是否有非法的new
  * <p>对于反射调用,暂时未实现</p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.02.28 16:14
  * @since 1.0.0

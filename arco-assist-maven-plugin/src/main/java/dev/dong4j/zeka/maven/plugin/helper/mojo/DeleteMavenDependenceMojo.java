@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2021.01.20 18:53
- * @since 1.7.1
+ * @since 1.0.0
  */
 @Mojo(name = "clear", requiresProject = false)
 public class DeleteMavenDependenceMojo extends AbstractMojo {
@@ -93,7 +93,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      *
      * @throws MojoExecutionException mojo execution exception
      * @throws MojoFailureException   mojo failure exception
-     * @since 1.7.1
+     * @since 1.0.0
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -111,7 +111,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * Clear
      *
      * @param rootFile root file
-     * @since 1.7.1
+     * @since 1.0.0
      */
     private void clear(File rootFile) {
         String artifactId = System.getProperty("name", "");
@@ -155,7 +155,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * 删除更新的缓存文件
      *
      * @param rootFile root file
-     * @since 1.8.0
+     * @since 1.0.0
      */
     @Contract(pure = true)
     private void deleteErrorFile(File rootFile) {
@@ -175,7 +175,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param rootFile   root file
      * @param artifactId artifact id
      * @param version    version
-     * @since 1.7.1
+     * @since 1.0.0
      */
     private void deleteByNameAndVersion(File rootFile, String artifactId, String version) {
         Arrays.stream(Objects.requireNonNull(rootFile.listFiles())).filter(File::isDirectory).forEach(nameFile -> {
@@ -195,7 +195,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param rootFile root file
      * @param names    names
      * @param version  version
-     * @since 1.7.1
+     * @since 1.0.0
      */
     private void deleteByVersion(File rootFile, String[] names, String version) {
         Arrays.stream(Objects.requireNonNull(rootFile.listFiles()))
@@ -220,7 +220,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      *
      * @param rootFile   root file
      * @param artifactId 支持正则
-     * @since 1.7.1
+     * @since 1.0.0
      */
     private void deleteByName(File rootFile, String artifactId) {
         Arrays.stream(Objects.requireNonNull(rootFile.listFiles())).filter(File::isDirectory).forEach(file -> {
@@ -236,7 +236,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param rootFile root file
      * @param names    names
      * @param versions versions
-     * @since 1.7.1
+     * @since 1.0.0
      */
     @SuppressWarnings({"java:S3776", "D"})
     private void deleteAllFile(@NotNull File rootFile, String[] names, String[] versions) {
@@ -270,7 +270,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * Delete file
      *
      * @param file file
-     * @since 1.7.1
+     * @since 1.0.0
      */
     private void deleteFile(File file) {
         try {
@@ -289,7 +289,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param regex        regex
      * @param beTestString be test string
      * @return the boolean
-     * @since 1.7.1
+     * @since 1.0.0
      */
     public static boolean match(String regex, String beTestString) {
         return beTestString.startsWith(regex);

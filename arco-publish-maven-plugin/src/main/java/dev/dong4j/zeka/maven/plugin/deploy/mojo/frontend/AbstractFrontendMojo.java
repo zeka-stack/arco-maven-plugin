@@ -3,15 +3,14 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 import com.github.eirslett.maven.plugins.frontend.lib.FrontendException;
 import com.github.eirslett.maven.plugins.frontend.lib.FrontendPluginFactory;
 import com.github.eirslett.maven.plugins.frontend.lib.TaskRunnerException;
+import java.io.File;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.aether.RepositorySystemSession;
-
-import java.io.File;
-import java.util.Map;
 
 /**
  * <p>Description: </p>
@@ -20,7 +19,7 @@ import java.util.Map;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 public abstract class AbstractFrontendMojo extends AbstractMojo {
 
@@ -73,7 +72,7 @@ public abstract class AbstractFrontendMojo extends AbstractMojo {
      * Determines if this execution should be skipped.
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private boolean skipTestPhase() {
         return this.skipTests && this.isTestingPhase();
@@ -83,7 +82,7 @@ public abstract class AbstractFrontendMojo extends AbstractMojo {
      * Determines if the current execution is during a testing phase (e.g., "test" or "integration-test").
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private boolean isTestingPhase() {
         String phase = this.execution.getLifecyclePhase();
@@ -95,7 +94,7 @@ public abstract class AbstractFrontendMojo extends AbstractMojo {
      *
      * @param factory factory
      * @throws FrontendException frontend exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected abstract void execute(FrontendPluginFactory factory) throws FrontendException;
 
@@ -103,7 +102,7 @@ public abstract class AbstractFrontendMojo extends AbstractMojo {
      * Implemented by children to determine if this execution should be skipped.
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected abstract boolean skipExecution();
 
@@ -111,7 +110,7 @@ public abstract class AbstractFrontendMojo extends AbstractMojo {
      * Execute
      *
      * @throws MojoFailureException mojo failure exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     @SuppressWarnings("java:S3776")

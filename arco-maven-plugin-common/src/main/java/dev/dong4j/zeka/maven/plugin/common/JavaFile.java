@@ -1,14 +1,13 @@
 package dev.dong4j.zeka.maven.plugin.common;
 
-import lombok.Data;
-
 import java.io.File;
+import lombok.Data;
 
 /**
  * <p>Description: </p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.07 15:12
  * @since 1.0.0

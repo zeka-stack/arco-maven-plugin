@@ -14,7 +14,7 @@ import java.util.List;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public class MyClassLoader extends ClassLoader {
@@ -31,7 +31,7 @@ public class MyClassLoader extends ClassLoader {
      * @param rootPath   root path
      * @param clazzPaths 某个路径下
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public MyClassLoader(String rootPath, String... clazzPaths) throws IOException {
 
@@ -48,7 +48,7 @@ public class MyClassLoader extends ClassLoader {
      *
      * @param file file
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void loadClassPath(File file) throws IOException {
         if (file.isDirectory()) {
@@ -78,7 +78,7 @@ public class MyClassLoader extends ClassLoader {
      *
      * @param filePath file path
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private String filePathToClassName(String filePath) {
         String className = filePath.replace(this.rootPath, "").replaceAll("\\\\", ".");
@@ -94,7 +94,7 @@ public class MyClassLoader extends ClassLoader {
      * @param name name
      * @return the class
      * @throws ClassNotFoundException class not found exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -117,7 +117,7 @@ public class MyClassLoader extends ClassLoader {
      *
      * @param args args
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void main(String[] args) throws Exception {
         while (true) {

@@ -3,14 +3,13 @@ package dev.dong4j.zeka.maven.plugin.boot.boost;
 import dev.dong4j.zeka.maven.plugin.boot.loader.PropertiesLauncher;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>Description: Spring Boot JAR 增强启动器
@@ -90,7 +89,7 @@ public class BootLauncher extends PropertiesLauncher {
      * @param archives archives
      * @return the class loader
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     protected ClassLoader createClassLoader(@NotNull List<Archive> archives) throws Exception {

@@ -3,12 +3,11 @@ package dev.dong4j.zeka.maven.plugin.helper.mojo;
 import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
+import java.io.File;
 import lombok.SneakyThrows;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.io.File;
 
 /**
  * <p>Description: 正常编译之后生成一个标识文件 </p>
@@ -17,7 +16,7 @@ import java.io.File;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.05.14 13:05
- * @since 1.5.0
+ * @since 1.0.0
  */
 @Mojo(name = "generate-compiled-id", defaultPhase = LifecyclePhase.COMPILE, threadSafe = true)
 public class CompiledProcessorMojo extends ZekaMavenPluginAbstractMojo {
@@ -34,7 +33,7 @@ public class CompiledProcessorMojo extends ZekaMavenPluginAbstractMojo {
     /**
      * Execute
      *
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override

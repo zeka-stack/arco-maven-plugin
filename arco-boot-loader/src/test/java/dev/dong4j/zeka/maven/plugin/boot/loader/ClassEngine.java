@@ -1,15 +1,15 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.ToolProvider;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.ToolProvider;
 
 /**
  * Created by gaofla on 2018/3/14.
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class ClassEngine {
 
@@ -30,7 +30,7 @@ public class ClassEngine {
     /**
      * Class engine
      *
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private ClassEngine() {
         this.parentClassLoader = (URLClassLoader) this.getClass().getClassLoader();
@@ -41,7 +41,7 @@ public class ClassEngine {
      * Gets instance *
      *
      * @return the instance
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static ClassEngine getInstance() {
         if (customClassCompiler == null) {
@@ -67,7 +67,7 @@ public class ClassEngine {
      * @param newClassLoader  new class loader
      * @return class class
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public Class<?> compileAndLoadClass(String className, String javaCode, String javaCodeVersion, boolean newClassLoader) throws Exception {
         // TODO newClassLoader 每次可以新new一个classloader来加载
@@ -85,7 +85,7 @@ public class ClassEngine {
      * @param classNameSuffix class name suffix
      * @return class class
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public Class<?> compileAndLoadClass(String className, String javaCode, String classNameSuffix) throws Exception {
         Class clz;
@@ -109,7 +109,7 @@ public class ClassEngine {
      * @param className         class name
      * @param customClassLoader custom class loader
      * @return class class
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private Class<?> loadClass(ClassFileManager fileManager, String className, CustomerClassLoader customClassLoader) {
         JavaClassObject jco = fileManager.getMainJavaClassObject();
@@ -125,7 +125,7 @@ public class ClassEngine {
      * @param className       class name
      * @param classNameSuffix class name suffix
      * @return new java code
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private String getNewJavaCode(String originJavaCode, String className, String classNameSuffix) {
         Pattern pattern = Pattern.compile("([^A-Za-z0-9_])" + className + "(?![A-Za-z0-9_]+)");
@@ -148,7 +148,7 @@ public class ClassEngine {
      * @return class file manager
      * @throws IllegalAccessException illegal access exception
      * @throws InstantiationException instantiation exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private ClassFileManager compile(String fullClassName, String javaCode) throws IllegalAccessException, InstantiationException {
 
@@ -184,7 +184,7 @@ public class ClassEngine {
      *
      * @param diagnostics diagnostics
      * @return string string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static String compileError(DiagnosticCollector<JavaFileObject> diagnostics) {
         StringBuilder sb = new StringBuilder();
@@ -199,7 +199,7 @@ public class ClassEngine {
      *
      * @param diagnostic diagnostic
      * @return string string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static String compileError(Diagnostic<?> diagnostic) {
         StringBuilder sb = new StringBuilder();
@@ -219,7 +219,7 @@ public class ClassEngine {
      * Gets parent class loader *
      *
      * @return the parent class loader
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public URLClassLoader getParentClassLoader() {
         return this.parentClassLoader;
@@ -229,7 +229,7 @@ public class ClassEngine {
      * Sets parent class loader *
      *
      * @param parentClassLoader parent class loader
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public void setParentClassLoader(URLClassLoader parentClassLoader) {
         this.parentClassLoader = parentClassLoader;

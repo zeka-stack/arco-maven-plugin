@@ -1,12 +1,6 @@
 package dev.dong4j.zeka.maven.plugin.common.util;
 
 import com.google.common.base.Joiner;
-import lombok.SneakyThrows;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +17,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>Description: </p>
@@ -64,7 +63,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      *
      * @param file file
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static String readToString(String file) {
         URL url = FileUtils.class.getClassLoader().getResource(file);
@@ -119,7 +118,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      *
      * @param paths paths
      * @return the string
-     * @since 1.3.0
+     * @since 1.0.0
      */
     public static @NotNull String appendPath(@NotNull String... paths) {
         // 删除前缀后后缀
@@ -143,7 +142,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      * 删除空目录
      *
      * @param dir 将要删除的目录路径
-     * @since 1.3.0
+     * @since 1.0.0
      */
     public static void doDeleteEmptyDir(String dir) {
         boolean success = (new File(dir)).delete();
@@ -159,7 +158,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      *
      * @param dir 将要删除的文件目录
      * @return boolean Returns "true" if all deletions were successful.
-     * @since 1.3.0
+     * @since 1.0.0
      */
     public static boolean deleteDir(@NotNull File dir) {
         if (dir.isDirectory()) {
@@ -220,7 +219,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      * 设置所有者对于此抽象路径名执行权限
      *
      * @param file file
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void setFilePermissions(@NotNull File file) {
         if (!file.setExecutable(true, true)) {
@@ -234,7 +233,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      * 为脚本设置可执行权限
      *
      * @param path path
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void setPosixFilePermissions(Path path) {
         Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxr-xr--");

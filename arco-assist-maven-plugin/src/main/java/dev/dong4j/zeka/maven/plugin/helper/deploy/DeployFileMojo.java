@@ -1,5 +1,11 @@
 package dev.dong4j.zeka.maven.plugin.helper.deploy;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.SneakyThrows;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -32,13 +38,6 @@ import org.codehaus.plexus.util.WriterFactory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Installs the artifact in the remote repository.
  * <p>
@@ -56,7 +55,7 @@ import java.util.List;
  * [-DrepositoryLayout=legacy]
  *
  * @author dong4j
- * @version 1.3.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.04.02 11:29
  * @since 1.0.0

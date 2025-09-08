@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.12 16:08
- * @since 1.5.0
+ * @since 1.0.0
  */
 @UtilityClass
 public final class Plugins {

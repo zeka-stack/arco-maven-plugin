@@ -1,13 +1,13 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gaofla on 2018/3/14.
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class ClassFileManager extends ForwardingJavaFileManager {
 
@@ -29,7 +29,7 @@ public class ClassFileManager extends ForwardingJavaFileManager {
      * Class file manager
      *
      * @param standardManager standard manager
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public ClassFileManager(StandardJavaFileManager
                                 standardManager) {
@@ -41,7 +41,7 @@ public class ClassFileManager extends ForwardingJavaFileManager {
      * Gets main java class object *
      *
      * @return the main java class object
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public JavaClassObject getMainJavaClassObject() {
         if (this.javaClassObjectList != null && this.javaClassObjectList.size() > 0) {
@@ -55,7 +55,7 @@ public class ClassFileManager extends ForwardingJavaFileManager {
      * Gets inner class java class object *
      *
      * @return the inner class java class object
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public List<JavaClassObject> getInnerClassJavaClassObject() {
         if (this.javaClassObjectList != null && this.javaClassObjectList.size() > 0) {
@@ -77,7 +77,7 @@ public class ClassFileManager extends ForwardingJavaFileManager {
      * @param sibling   sibling
      * @return the java file for output
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public JavaFileObject getJavaFileForOutput(JavaFileManager.Location location,

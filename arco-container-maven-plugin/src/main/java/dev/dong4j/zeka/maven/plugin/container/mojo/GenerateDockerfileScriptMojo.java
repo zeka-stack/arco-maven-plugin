@@ -81,7 +81,7 @@ public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
     /**
      * Execute *
      *
-     * @since 2024.1.1
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override
@@ -113,7 +113,7 @@ public class GenerateDockerfileScriptMojo extends ZekaMavenPluginAbstractMojo {
      * 从项目的 application.yml 文件中读取 zeka-stack.docker.export 配置并写入到 map
      *
      * @param replaceMap replace map
-     * @since 2024.2.0
+     * @since 1.0.0
      */
     @SuppressWarnings("D")
     private void writePort(Map<String, String> replaceMap) {

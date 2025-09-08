@@ -15,10 +15,10 @@ import org.apache.maven.plugins.annotations.Parameter;
  * <p>Description: package 打包时动态生成启动脚本并替换自定义参数 </p>
  *
  * @author dong4j
- * @version 1.5.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.07.02 17:29
- * @since 1.5.0
+ * @since 1.0.0
  */
 @Mojo(name = "generate-server-script", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
 public class GenerateServerScriptMojo extends ZekaMavenPluginAbstractMojo {

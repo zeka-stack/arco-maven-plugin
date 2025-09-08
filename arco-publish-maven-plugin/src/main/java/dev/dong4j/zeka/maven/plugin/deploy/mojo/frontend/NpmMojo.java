@@ -3,6 +3,8 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 import com.github.eirslett.maven.plugins.frontend.lib.FrontendPluginFactory;
 import com.github.eirslett.maven.plugins.frontend.lib.ProxyConfig;
 import com.github.eirslett.maven.plugins.frontend.lib.TaskRunnerException;
+import java.io.File;
+import java.util.Collections;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -11,9 +13,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
-import java.io.File;
-import java.util.Collections;
-
 /**
  * <p>Description: </p>
  *
@@ -21,7 +20,7 @@ import java.util.Collections;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Mojo(name = "npm", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class NpmMojo extends AbstractFrontendMojo {
@@ -67,7 +66,7 @@ public final class NpmMojo extends AbstractFrontendMojo {
      * Skip execution
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     protected boolean skipExecution() {
@@ -79,7 +78,7 @@ public final class NpmMojo extends AbstractFrontendMojo {
      *
      * @param factory factory
      * @throws TaskRunnerException task runner exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public synchronized void execute(FrontendPluginFactory factory) throws TaskRunnerException {
@@ -96,7 +95,7 @@ public final class NpmMojo extends AbstractFrontendMojo {
      * Gets proxy config *
      *
      * @return the proxy config
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private ProxyConfig getProxyConfig() {
         if (this.npmInheritsProxyConfigFromMaven) {
@@ -111,7 +110,7 @@ public final class NpmMojo extends AbstractFrontendMojo {
      * Gets registry url *
      *
      * @return the registry url
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private String getRegistryUrl() {
         // check to see if overridden via `-D`, otherwise fallback to pom value

@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2021 -08-15 17:05
- * @since 1.9.0
+ * @since 1.0.0
  */
 @Slf4j
 @Mojo(name = "publish-doc", defaultPhase = LifecyclePhase.DEPLOY, threadSafe = true)
@@ -49,7 +49,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
     /**
      * Execute
      *
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     public void subExecute() {
@@ -89,7 +89,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
     /**
      * 只处理 public.hosts.doc 配置, 默认部署到 192.168.2.5
      *
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     protected void processor() {
@@ -101,7 +101,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
      *
      * @param hosts hosts
      * @param env   env
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     protected void buildGroup(String hosts, String env) {
@@ -112,7 +112,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
      * Publish
      *
      * @param groups groups
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     protected void publish(@NotNull List<Group> groups) {
@@ -160,7 +160,7 @@ public class DocPublishMojo extends ServicePublishMojo implements PublishConfigA
      * @param file            待部署的服务压缩包
      * @param groupId         服务分组名
      * @param env             部署环境
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override

@@ -6,7 +6,7 @@ import java.io.Serial;
  * Exception thrown when an additional property with a null value is encountered.
  *
  * @author dong4j
- * @version 1.3.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.13 18:35
  * @since 1.0.0

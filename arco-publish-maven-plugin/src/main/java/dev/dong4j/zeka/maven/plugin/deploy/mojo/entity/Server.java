@@ -1,10 +1,9 @@
 package dev.dong4j.zeka.maven.plugin.deploy.mojo.entity;
 
-import lombok.Data;
-import org.apache.maven.plugins.annotations.Parameter;
-
 import java.util.List;
 import java.util.Objects;
+import lombok.Data;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * <p>Description:  </p>
@@ -13,7 +12,7 @@ import java.util.Objects;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 14:56
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Data
 public class Server {
@@ -30,7 +29,7 @@ public class Server {
      *
      * @param o o
      * @return the boolean
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Override
     public boolean equals(Object o) {
@@ -48,7 +47,7 @@ public class Server {
      * Hash code
      *
      * @return the int
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Override
     public int hashCode() {

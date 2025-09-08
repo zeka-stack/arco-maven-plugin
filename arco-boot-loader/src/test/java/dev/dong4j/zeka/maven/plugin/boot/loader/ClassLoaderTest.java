@@ -11,7 +11,7 @@ import sun.net.spi.nameservice.dns.DNSNameService;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.10 17:56
- * @since 1.5.0
+ * @since 1.0.0
  */
 @Slf4j
 @SuppressWarnings("all")
@@ -20,7 +20,7 @@ class ClassLoaderTest {
     /**
      * Test classloader
      *
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Test
     void test_classloader() {
@@ -32,7 +32,7 @@ class ClassLoaderTest {
     /**
      * Test parent classloader
      *
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Test
     void test_parent_classloader() {

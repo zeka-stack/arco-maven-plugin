@@ -9,7 +9,6 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTag;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
-
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
  * @email "mailto:dong4j@gmail.com"
  * @date 2022.01.21 00:06
  * @see JavadocTypeCheck
- * @since 2022.1.1
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public class JavadocCheck extends AbstractCheck {

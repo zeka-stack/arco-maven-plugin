@@ -4,11 +4,6 @@ import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.JarFileArchive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.util.SystemPropertyUtils;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.util.Assert;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,6 +24,10 @@ import java.util.Set;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.util.Assert;
 
 /**
  * 通过属性文件配置类路径和主类的存档启动程序.
@@ -132,7 +131,7 @@ public class PropertiesLauncher extends Launcher {
     /**
      * Properties launcher
      *
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public PropertiesLauncher() {
         try {
@@ -149,7 +148,7 @@ public class PropertiesLauncher extends Launcher {
      * Gets home directory *
      *
      * @return the home directory
-     * @since 1.5.0
+     * @since 1.0.0
      */
     protected File getHomeDirectory() {
         try {
@@ -163,7 +162,7 @@ public class PropertiesLauncher extends Launcher {
      * Debug
      *
      * @param message message
-     * @since 1.5.0
+     * @since 1.0.0
      */
     protected void debug(String message) {
         if (Boolean.getBoolean(DEBUG)) {
@@ -176,7 +175,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @throws Exception   exception
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void initializeProperties() throws Exception, IOException {
         List<String> configs = new ArrayList<>();
@@ -210,7 +209,7 @@ public class PropertiesLauncher extends Launcher {
      * @param resource resource
      * @throws IOException io exception
      * @throws Exception   exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void loadResource(InputStream resource) throws IOException, Exception {
         this.properties.load(resource);
@@ -236,7 +235,7 @@ public class PropertiesLauncher extends Launcher {
      * @param config config
      * @return the resource
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private InputStream getResource(@NotNull String config) throws Exception {
         if (config.startsWith("classpath:")) {
@@ -255,7 +254,7 @@ public class PropertiesLauncher extends Launcher {
      * @param path path
      * @return the string
      * @throws UnsupportedEncodingException unsupported encoding exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @NotNull String handleUrl(@NotNull String path) throws UnsupportedEncodingException {
         if (path.startsWith(JAR_FILE) || path.startsWith(FILE_PREFIX)) {
@@ -275,7 +274,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param config config
      * @return the boolean
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Contract(pure = true)
     private boolean isUrl(@NotNull String config) {
@@ -287,7 +286,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param config config
      * @return the classpath resource
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private InputStream getClasspathResource(@NotNull String config) {
         while (config.startsWith(SEPARATOR)) {
@@ -304,7 +303,7 @@ public class PropertiesLauncher extends Launcher {
      * @param config config
      * @return the file resource
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable InputStream getFileResource(String config) throws Exception {
         File file = new File(config);
@@ -321,7 +320,7 @@ public class PropertiesLauncher extends Launcher {
      * @param config config
      * @return the url resource
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable InputStream getURLResource(String config) throws Exception {
         URL url = new URL(config);
@@ -346,7 +345,7 @@ public class PropertiesLauncher extends Launcher {
      * @param url url
      * @return the boolean
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private boolean exists(@NotNull URL url) throws IOException {
         // Try a URL connection content-length header...
@@ -375,7 +374,7 @@ public class PropertiesLauncher extends Launcher {
      * Initialize paths
      *
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void initializePaths() throws Exception {
         String path = this.getProperty(PATH);
@@ -390,7 +389,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param commaSeparatedPaths comma separated paths
      * @return the list
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @NotNull List<String> parsePathsProperty(@NotNull String commaSeparatedPaths) {
         List<String> paths = new ArrayList<>();
@@ -412,7 +411,7 @@ public class PropertiesLauncher extends Launcher {
      * @param args args
      * @return the string [ ]
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     protected String[] getArgs(String... args) throws Exception {
         String loaderArgs = this.getProperty(ARGS);
@@ -431,7 +430,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @return the main class
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     protected String getMainClass() throws Exception {
@@ -448,7 +447,7 @@ public class PropertiesLauncher extends Launcher {
      * @param archives archives
      * @return the class loader
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     protected ClassLoader createClassLoader(@NotNull List<Archive> archives) throws Exception {
@@ -473,7 +472,7 @@ public class PropertiesLauncher extends Launcher {
      * @param className class name
      * @return the class loader
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     private ClassLoader wrapWithCustomClassLoader(ClassLoader parent, String className) throws Exception {
@@ -497,7 +496,7 @@ public class PropertiesLauncher extends Launcher {
      * @param initargs       initargs
      * @return the class loader
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable ClassLoader newClassLoader(@NotNull Class<ClassLoader> loaderClass, Class<?>[] parameterTypes, Object... initargs)
         throws Exception {
@@ -516,7 +515,7 @@ public class PropertiesLauncher extends Launcher {
      * @param propertyKey property key
      * @return the property
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private String getProperty(String propertyKey) throws Exception {
         return this.getProperty(propertyKey, null, null);
@@ -529,7 +528,7 @@ public class PropertiesLauncher extends Launcher {
      * @param defaultValue default value
      * @return the property with default
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private String getPropertyWithDefault(String propertyKey, String defaultValue) throws Exception {
         return this.getProperty(propertyKey, null, defaultValue);
@@ -543,7 +542,7 @@ public class PropertiesLauncher extends Launcher {
      * @param defaultValue default value
      * @return the property
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable String getProperty(String propertyKey, String manifestKey, String defaultValue) throws Exception {
         if (manifestKey == null) {
@@ -597,7 +596,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @return the class path archives
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     protected List<Archive> getClassPathArchives() throws Exception {
@@ -623,7 +622,7 @@ public class PropertiesLauncher extends Launcher {
      * @param path path
      * @return the class path archives
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     protected @NotNull List<Archive> getClassPathArchives(String path) throws Exception {
         String root = this.cleanupPath(this.handleUrl(path));
@@ -657,7 +656,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param root root
      * @return the boolean
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private boolean isAbsolutePath(@NotNull String root) {
         // Windows contains ":" others start with "/"
@@ -670,7 +669,7 @@ public class PropertiesLauncher extends Launcher {
      * @param file file
      * @return the archive
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable Archive getArchive(File file) throws IOException {
         if (this.isNestedArchivePath(file)) {
@@ -688,7 +687,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param file file
      * @return the boolean
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private boolean isNestedArchivePath(@NotNull File file) {
         return file.getPath().contains(NESTED_ARCHIVE_SEPARATOR);
@@ -700,7 +699,7 @@ public class PropertiesLauncher extends Launcher {
      * @param path path
      * @return the nested archives
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @Nullable List<Archive> getNestedArchives(String path) throws Exception {
         Archive parent = this.parent;
@@ -749,7 +748,7 @@ public class PropertiesLauncher extends Launcher {
      * entries from there with low priority (i.e. at end).
      *
      * @param lib lib
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void addNestedEntries(@NotNull List<Archive> lib) {
         try {
@@ -768,7 +767,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param path path
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @NotNull String cleanupPath(String path) {
         path = path.trim();
@@ -796,7 +795,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param string string
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Contract("null -> null")
     private static String toCamelCase(CharSequence string) {
@@ -819,7 +818,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param str str
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static @NotNull String capitalize(@NotNull String str) {
         return Character.toUpperCase(str.charAt(0)) + str.substring(1);
@@ -833,7 +832,7 @@ public class PropertiesLauncher extends Launcher {
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.06.15 10:43
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static final class PrefixMatchingArchiveFilter implements Archive.EntryFilter {
 
@@ -846,7 +845,7 @@ public class PropertiesLauncher extends Launcher {
          * Prefix matching archive filter
          *
          * @param prefix prefix
-         * @since 1.5.0
+         * @since 1.0.0
          */
         private PrefixMatchingArchiveFilter(String prefix) {
             this.prefix = prefix;
@@ -857,7 +856,7 @@ public class PropertiesLauncher extends Launcher {
          *
          * @param entry entry
          * @return the boolean
-         * @since 1.5.0
+         * @since 1.0.0
          */
         @Override
         public boolean matches(Archive.@NotNull Entry entry) {
@@ -876,7 +875,7 @@ public class PropertiesLauncher extends Launcher {
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.06.15 10:43
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static final class ArchiveEntryFilter implements Archive.EntryFilter {
 
@@ -885,7 +884,7 @@ public class PropertiesLauncher extends Launcher {
          *
          * @param entry entry
          * @return the boolean
-         * @since 1.5.0
+         * @since 1.0.0
          */
         @Override
         public boolean matches(Archive.@NotNull Entry entry) {
@@ -899,7 +898,7 @@ public class PropertiesLauncher extends Launcher {
      *
      * @param args args
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void main(String[] args) throws Exception {
         PropertiesLauncher launcher = new PropertiesLauncher();

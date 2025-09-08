@@ -12,7 +12,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * <p>Description: 在 validate 阶段将解析到的 main class 注入到 name </p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.07 11:34
  * @since 1.0.0

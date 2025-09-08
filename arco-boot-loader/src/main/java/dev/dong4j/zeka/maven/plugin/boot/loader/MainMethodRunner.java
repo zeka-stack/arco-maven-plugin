@@ -12,7 +12,7 @@ import java.util.Set;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.04.30 01:00
- * @since 1.3.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public class MainMethodRunner {

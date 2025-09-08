@@ -19,7 +19,7 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Mojo(name = "install-node-and-npm", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
@@ -82,7 +82,7 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
      * Skip execution
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     protected boolean skipExecution() {
@@ -94,7 +94,7 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
      *
      * @param factory factory
      * @throws InstallationException installation exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public void execute(FrontendPluginFactory factory) throws InstallationException {
@@ -135,7 +135,7 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
      * Gets node download root *
      *
      * @return the node download root
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @SuppressWarnings("java:S1874")
     private String getNodeDownloadRoot() {
@@ -149,7 +149,7 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
      * Gets npm download root *
      *
      * @return the npm download root
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @SuppressWarnings("java:S1874")
     private String getNpmDownloadRoot() {

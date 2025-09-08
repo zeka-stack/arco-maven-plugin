@@ -33,10 +33,10 @@ import org.jetbrains.annotations.NotNull;
  * <p>Description: 发布后端服务 </p>
  *
  * @author dong4j
- * @version 1.1.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.25 17:10
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Slf4j
 abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
@@ -94,7 +94,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
     /**
      * Execute
      *
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public void execute() {
@@ -114,14 +114,14 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
     /**
      * Sub execute
      *
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected abstract void subExecute();
 
     /**
      * Init
      *
-     * @since 1.6.0
+     * @since 1.0.0
      */
     protected void init() {
         this.username = System.getProperty("publish.username");
@@ -160,7 +160,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
     /**
      * 如果指定了 -Dpublish.env=xxx, 则只部署 xxx 环境的服务
      *
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected void processor() {
         if (NO_ENVIRONMENT.equals(this.environment)) {
@@ -178,7 +178,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      *
      * @param hosts hosts
      * @param env   env
-     * @since 1.9.0
+     * @since 1.0.0
      */
     protected void buildGroup(String hosts, String env) {
     }
@@ -187,7 +187,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * Publish
      *
      * @param groups groups
-     * @since 1.6.0
+     * @since 1.0.0
      */
     protected void publish(@NotNull List<Group> groups) {
 
@@ -209,7 +209,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      *
      * @param groups groups
      * @param map    map
-     * @since 1.7.3
+     * @since 1.0.0
      */
     protected void publish(@NotNull List<Group> groups, Map<String, File> map) {
         groups.stream()
@@ -261,7 +261,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      *
      * @param hostName host name
      * @return the ssh agent
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @SneakyThrows
     protected @NotNull SSHAgent buildAgent(String hostName) {
@@ -278,7 +278,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param file            待部署的服务压缩包
      * @param groupId         服务分组名
      * @param env             部署环境
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @SneakyThrows
     protected void uploadAndPublish(@NotNull SSHAgent sshAgent, String publishFileName, File file, String groupId, String env) {
@@ -302,7 +302,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param file            待部署的压缩包(不含时间戳)
      * @param groupId         项目所属模块
      * @param env             部署环境
-     * @since 1.7.3
+     * @since 1.0.0
      */
     @SneakyThrows
     protected void generalStep(SSHAgent sshAgent, String publishFileName, File file, String groupId, String env) {
@@ -355,7 +355,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param groupId         group id
      * @param env             env
      * @throws IOException io exception
-     * @since 1.7.3
+     * @since 1.0.0
      */
     protected void betweenStep(@NotNull SSHAgent sshAgent,
                                String publishFileName,
@@ -400,7 +400,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param file      file
      * @param stopWatch stop watch
      * @param javaHome  java home
-     * @since 1.7.3
+     * @since 1.0.0
      */
     @SneakyThrows
     protected void bottomStep(SSHAgent sshAgent, File file, StopWatch stopWatch, String javaHome) {
@@ -418,7 +418,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param env             env
      * @param publishFileName publish file name
      * @throws IOException io exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected void runServerShell(@NotNull SSHAgent sshAgent,
                                   String groupId,
@@ -445,7 +445,7 @@ abstract class ServicePublishMojo extends ZekaMavenPluginAbstractMojo {
      * @param sshAgent ssh agent
      * @param env      env
      * @throws IOException io exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     protected void fixLogDirectoryPermission(@NotNull SSHAgent sshAgent, String env, String publishFileName) throws IOException {
         sshAgent.execCommand("修复日志目录权限", StrFormatter.format(

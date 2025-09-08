@@ -7,7 +7,7 @@ package dev.dong4j.zeka.maven.plugin.common.enums;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.07.05 14:39
- * @since 1.5.0
+ * @since 1.0.0
  */
 public enum ModuleType {
     /** maven 管理模块, packaging 为 pom */

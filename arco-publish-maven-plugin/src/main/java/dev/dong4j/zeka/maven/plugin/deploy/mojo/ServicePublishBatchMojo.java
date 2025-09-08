@@ -13,7 +13,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 13:01
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Slf4j
 @SuppressWarnings("all")
@@ -23,7 +23,7 @@ public class ServicePublishBatchMojo extends ServicePublishMojo {
     /**
      * Execute
      *
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Override
     public void subExecute() {

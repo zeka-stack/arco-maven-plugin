@@ -1,9 +1,5 @@
 package dev.dong4j.zeka.maven.plugin.common.support;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -13,6 +9,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 基于RFC 3986的URI编解码实用方法.
@@ -538,7 +537,7 @@ public abstract class Uris {
      *
      * @param path the URI path (e.g. "/products/index.html")
      * @return the extracted file extension (e.g. "html")
-     * @since 4.3.2
+     * @since 1.0.0
      */
     public static @Nullable String extractFileExtension(@NotNull String path) {
         int end = path.indexOf('?');

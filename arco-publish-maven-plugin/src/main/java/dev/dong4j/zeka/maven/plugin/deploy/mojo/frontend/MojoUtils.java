@@ -1,6 +1,10 @@
 package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 
 import com.github.eirslett.maven.plugins.frontend.lib.ProxyConfig;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoFailureException;
@@ -15,11 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * <p>Description: </p>
  *
@@ -27,7 +26,7 @@ import java.util.List;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 @UtilityClass
 class MojoUtils {
@@ -41,7 +40,7 @@ class MojoUtils {
      * @param <E> parameter
      * @param e   e
      * @return the mojo failure exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     static <E extends Throwable> MojoFailureException toMojoFailureException(E e) {
         String causeMessage = e.getCause() != null ? ": " + e.getCause().getMessage() : "";
@@ -54,7 +53,7 @@ class MojoUtils {
      * @param mavenSession maven session
      * @param decrypter    decrypter
      * @return the proxy config
-     * @since 1.7.0
+     * @since 1.0.0
      */
     static ProxyConfig getProxyConfig(MavenSession mavenSession, SettingsDecrypter decrypter) {
         if (mavenSession == null ||
@@ -87,7 +86,7 @@ class MojoUtils {
      * @param proxy     proxy
      * @param decrypter decrypter
      * @return the proxy
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private static Proxy decryptProxy(Proxy proxy, SettingsDecrypter decrypter) {
         DefaultSettingsDecryptionRequest decryptionRequest = new DefaultSettingsDecryptionRequest(proxy);
@@ -102,7 +101,7 @@ class MojoUtils {
      * @param mavenSession maven session
      * @param decrypter    decrypter
      * @return the server
-     * @since 1.7.0
+     * @since 1.0.0
      */
     static Server decryptServer(String serverId, MavenSession mavenSession, SettingsDecrypter decrypter) {
         if (StringUtils.isEmpty(serverId)) {
@@ -126,7 +125,7 @@ class MojoUtils {
      * @param triggerfiles triggerfiles
      * @param srcdir       srcdir
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     static boolean shouldExecute(BuildContext buildContext, List<File> triggerfiles, File srcdir) {
 

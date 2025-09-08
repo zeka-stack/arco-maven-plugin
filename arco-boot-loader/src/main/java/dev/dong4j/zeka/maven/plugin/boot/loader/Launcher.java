@@ -4,8 +4,6 @@ import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.JarFileArchive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.jar.CustomJarFile;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -13,6 +11,7 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 通过 {@link Archive#getNestedArchives} 方法找到 /BOOT-INF/lib 下所有 jar 及 / BOOT-INF/classes 目录所对应的 archive
@@ -22,7 +21,7 @@ import java.util.List;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.04.30 15:43
- * @since 1.3.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public abstract class Launcher {

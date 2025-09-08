@@ -4,14 +4,13 @@ import ch.ethz.ssh2.ChannelCondition;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
-import org.apache.commons.io.IOUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
 
 /**
  * <p>Description: https://www.jianshu.com/p/513c72dfee1b </p>
@@ -20,7 +19,7 @@ import java.nio.charset.Charset;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 21:41
- * @since 1.6.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public class RemoteShellExecutor {
@@ -45,7 +44,7 @@ public class RemoteShellExecutor {
      * @param ip      ip
      * @param usr     usr
      * @param pasword pasword
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public RemoteShellExecutor(String ip, String usr, String pasword) {
         this.ip = ip;
@@ -58,7 +57,7 @@ public class RemoteShellExecutor {
      *
      * @return boolean boolean
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private boolean login() throws IOException {
         this.conn = new Connection(this.ip);
@@ -72,7 +71,7 @@ public class RemoteShellExecutor {
      * @param cmds cmds
      * @return int int
      * @throws Exception exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public int exec(String cmds) throws Exception {
         InputStream stdOut = null;
@@ -117,7 +116,7 @@ public class RemoteShellExecutor {
      * @param cmds cmds
      * @return int int
      * @throws Exception exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public int exec2(String cmds) throws Exception {
         InputStream stdOut = null;
@@ -188,7 +187,7 @@ public class RemoteShellExecutor {
      * @param charset charset
      * @return the string
      * @throws Exception exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private String processStream(InputStream in, String charset) throws Exception {
         byte[] buf = new byte[1024];
@@ -206,7 +205,7 @@ public class RemoteShellExecutor {
      * @param charset charset
      * @return the string
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private String processStdErr(InputStream in, String charset)
         throws IOException {

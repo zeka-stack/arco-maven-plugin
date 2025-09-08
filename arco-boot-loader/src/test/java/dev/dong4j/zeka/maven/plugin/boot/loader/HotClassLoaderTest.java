@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 class HotClassLoaderTest {
 
@@ -18,7 +18,7 @@ class HotClassLoaderTest {
      * Test
      *
      * @throws Exception exception
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Test
     void test() throws Exception {

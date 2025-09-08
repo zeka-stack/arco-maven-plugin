@@ -1,9 +1,5 @@
 package dev.dong4j.zeka.maven.plugin.deploy.mojo.util;
 
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.Contract;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -11,6 +7,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
 
 /**
  * <p>Description: 简单超时工具类</p>
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeoutException;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.07.02 23:10
- * @since 1.5.0
+ * @since 1.0.0
  */
 @Slf4j
 @UtilityClass
@@ -36,7 +35,7 @@ public final class TimeoutUtil {
      * @param timeout timeout
      * @return the t
      * @throws TimeoutException timeout exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Contract("null, _ -> null")
     public static <T> T process(Callable<T> task, long timeout) throws TimeoutException {

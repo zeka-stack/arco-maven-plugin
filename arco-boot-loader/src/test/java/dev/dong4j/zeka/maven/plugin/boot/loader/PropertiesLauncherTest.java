@@ -3,14 +3,6 @@ package dev.dong4j.zeka.maven.plugin.boot.loader;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
 import dev.dong4j.zeka.maven.plugin.boot.loader.archive.JarFileArchive;
-import org.assertj.core.api.Condition;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.test.util.ReflectionTestUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import org.assertj.core.api.Condition;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.07.04 21:47
- * @since 1.5.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 class PropertiesLauncherTest {

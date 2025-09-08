@@ -22,7 +22,7 @@ public class PluginUtils {
      * Module type
      *
      * @return the module type
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static ModuleType moduleType() {
         String moduleType = System.getProperty(Plugins.MODULE_TYPE);
@@ -33,7 +33,7 @@ public class PluginUtils {
      * Module type
      *
      * @param type type
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void moduleType(@NotNull ModuleType type) {
         System.setProperty(Plugins.MODULE_TYPE, type.name());

@@ -9,21 +9,20 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import lombok.SneakyThrows;
-import org.apache.maven.project.MavenProject;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import lombok.SneakyThrows;
+import org.apache.maven.project.MavenProject;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <p>Description:  </p>
  *
  * @author dong4j
- * @version 1.3.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.13 19:17
  * @since 1.0.0
@@ -90,7 +89,7 @@ public interface JavaFileScanner {
      *
      * @param project project
      * @return the boolean
-     * @since 1.5.0
+     * @since 1.0.0
      */
     default boolean isDeployModel(MavenProject project) {
         return this.mainClass(project) != null;
@@ -170,7 +169,7 @@ public interface JavaFileScanner {
      * <p>Description: </p>
      *
      * @author dong4j
-     * @version 1.0.3
+     * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.03.07 15:12
      * @since 1.0.0

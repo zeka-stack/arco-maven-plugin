@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.04.30 15:44
- * @since 1.3.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public class LaunchedURLClassLoader extends URLClassLoader {

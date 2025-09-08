@@ -2,11 +2,10 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 
 import com.github.eirslett.maven.plugins.frontend.lib.CacheDescriptor;
 import com.github.eirslett.maven.plugins.frontend.lib.CacheResolver;
+import java.io.File;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.repository.LocalRepositoryManager;
-
-import java.io.File;
 
 /**
  * <p>Description: </p>
@@ -15,7 +14,7 @@ import java.io.File;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 public class RepositoryCacheResolver implements CacheResolver {
 
@@ -28,7 +27,7 @@ public class RepositoryCacheResolver implements CacheResolver {
      * Repository cache resolver
      *
      * @param repositorySystemSession repository system session
-     * @since 1.7.0
+     * @since 1.0.0
      */
     public RepositoryCacheResolver(RepositorySystemSession repositorySystemSession) {
         this.repositorySystemSession = repositorySystemSession;
@@ -39,7 +38,7 @@ public class RepositoryCacheResolver implements CacheResolver {
      *
      * @param cacheDescriptor cache descriptor
      * @return the file
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public File resolve(CacheDescriptor cacheDescriptor) {
@@ -55,7 +54,7 @@ public class RepositoryCacheResolver implements CacheResolver {
      *
      * @param cacheDescriptor cache descriptor
      * @return the default artifact
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private DefaultArtifact createArtifact(CacheDescriptor cacheDescriptor) {
         String version = cacheDescriptor.getVersion().replaceAll("^v", "");

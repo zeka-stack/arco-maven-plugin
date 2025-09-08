@@ -3,14 +3,13 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.util;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -20,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 21:41
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Slf4j
 @UtilityClass
@@ -34,7 +33,7 @@ public class GanymedUtil {
      * @param username username
      * @param password password
      * @return the connection
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private static Connection login(String ip, int port, String username, String password) {
         boolean flag;
@@ -61,7 +60,7 @@ public class GanymedUtil {
      * @param connection connection
      * @param command    即将执行的命令
      * @return 命令执行完后返回的结果值 string
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private static String execCommand(Connection connection, String command) {
         String result = "";
@@ -94,7 +93,7 @@ public class GanymedUtil {
      *
      * @param in 输入流对象
      * @return 以纯文本的格式返回 string
-     * @since 1.6.0
+     * @since 1.0.0
      */
     private static String processStdout(InputStream in) {
         InputStream stdout = new StreamGobbler(in);
@@ -121,7 +120,7 @@ public class GanymedUtil {
      * @param password password
      * @param command  command
      * @return the string
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public static String ganymedExecCommand(String host, int port, String username, String password, String command) {
 

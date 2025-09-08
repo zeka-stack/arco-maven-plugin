@@ -7,6 +7,12 @@ import ch.ethz.ssh2.SCPInputStream;
 import ch.ethz.ssh2.SCPOutputStream;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -16,13 +22,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -42,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 21:40
- * @since 1.6.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 public final class SSHAgent {
@@ -63,7 +62,7 @@ public final class SSHAgent {
      * @param passwd   passwd
      * @param port     port
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void initSession(String hostName, String userName, String passwd, String port) throws IOException {
         int portNumber = 0;
@@ -101,7 +100,7 @@ public final class SSHAgent {
      * @param command command
      * @return string
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void execCommand(String explain, String command) throws IOException {
         this.execCommand(explain, command, true);
@@ -114,7 +113,7 @@ public final class SSHAgent {
      * @param command    command
      * @param showResult show result
      * @throws IOException io exception
-     * @since 1.7.3
+     * @since 1.0.0
      */
     public void execCommand(String explain, String command, boolean showResult) throws IOException {
         this.execCommand(explain, command, 60 * 1000, showResult);
@@ -155,7 +154,7 @@ public final class SSHAgent {
      * @param file                  file
      * @param remoteTargetDirectory remote target directory
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void transferFile(@NotNull File file, String remoteTargetDirectory) throws IOException {
         if (file.isDirectory()) {
@@ -185,7 +184,7 @@ public final class SSHAgent {
      * @param localFile             local file
      * @param remoteTargetDirectory remote target directory
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void transferFile(String localFile, String remoteTargetDirectory) throws IOException {
         this.transferFile(new File(localFile), remoteTargetDirectory);
@@ -197,7 +196,7 @@ public final class SSHAgent {
      * @param localDirectory        local directory
      * @param remoteTargetDirectory remote target directory
      * @throws IOException io exception
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void transferDirectory(String localDirectory, String remoteTargetDirectory) throws IOException {
         File dir = new File(localDirectory);
@@ -226,7 +225,7 @@ public final class SSHAgent {
      * Gets file *
      *
      * @param fileName file name
-     * @since 1.7.1
+     * @since 1.0.0
      */
     @SneakyThrows
     public void getFile(String fileName) {
@@ -242,7 +241,7 @@ public final class SSHAgent {
     /**
      * Close
      *
-     * @since 1.6.0
+     * @since 1.0.0
      */
     public void close() {
         this.connection.close();
@@ -253,7 +252,7 @@ public final class SSHAgent {
      *
      * @param o o
      * @return the boolean
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Contract(value = "null -> false", pure = true)
     @Override
@@ -272,7 +271,7 @@ public final class SSHAgent {
      * Hash code
      *
      * @return the int
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Override
     public int hashCode() {

@@ -9,18 +9,17 @@ import cn.hutool.core.util.ZipUtil;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.entity.Group;
 import dev.dong4j.zeka.maven.plugin.deploy.mojo.util.SSHAgent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Description: 发布前端服务 </p>
@@ -29,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 17:57
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Slf4j
 @Mojo(name = "publish-frontend", defaultPhase = LifecyclePhase.DEPLOY, threadSafe = true)
@@ -42,7 +41,7 @@ public class FrontendPublishMojo extends ServicePublishMojo implements PublishCo
     /**
      * Execute
      *
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public void subExecute() {
@@ -76,7 +75,7 @@ public class FrontendPublishMojo extends ServicePublishMojo implements PublishCo
      * Publish
      *
      * @param groups groups
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @Override
     protected void publish(@NotNull List<Group> groups) {
@@ -110,7 +109,7 @@ public class FrontendPublishMojo extends ServicePublishMojo implements PublishCo
      *
      * @param hosts hosts
      * @param env   env
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     protected void buildGroup(String hosts, String env) {
@@ -125,7 +124,7 @@ public class FrontendPublishMojo extends ServicePublishMojo implements PublishCo
      * @param file            待部署的服务压缩包
      * @param groupId         服务分组名
      * @param env             部署环境
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override
@@ -180,7 +179,7 @@ public class FrontendPublishMojo extends ServicePublishMojo implements PublishCo
      * Check
      *
      * @return the file
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private File check() {
         // 部署包相对于 pom.xml 所在的路径

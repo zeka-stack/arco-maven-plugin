@@ -20,7 +20,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
  * <p>Description: </p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.07 11:34
  * @since 1.0.0
@@ -73,7 +73,7 @@ public abstract class ZekaMavenPluginAbstractMojo extends AbstractMojo {
      *
      * @throws MojoExecutionException mojo execution exception
      * @throws MojoFailureException   mojo failure exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {

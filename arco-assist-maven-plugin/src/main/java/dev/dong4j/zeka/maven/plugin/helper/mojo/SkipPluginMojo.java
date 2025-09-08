@@ -18,7 +18,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  * <p>Description: 在 validate 阶段根据当前模块类型禁用部分插件 </p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.07 11:34
  * @since 1.0.0
@@ -80,7 +80,7 @@ public class SkipPluginMojo extends ZekaMavenPluginAbstractMojo implements JavaF
      * Sets module type *
      *
      * @return the module type
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private ModuleType setModuleType() {
         String packaging = this.getProject().getPackaging();
@@ -105,7 +105,7 @@ public class SkipPluginMojo extends ZekaMavenPluginAbstractMojo implements JavaF
      *
      * @param via     via
      * @param message message
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void skipPluginViCommandLine(String via, String message) {
         // 忽略 生成 git.properties

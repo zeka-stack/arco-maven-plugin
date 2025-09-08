@@ -4,13 +4,6 @@ import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
 import dev.dong4j.zeka.maven.plugin.common.exception.NullAdditionalPropertyValueException;
-import lombok.SneakyThrows;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -18,6 +11,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import lombok.SneakyThrows;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * <p>Description: 用于生成 build-info.properties  </p>
@@ -42,7 +41,7 @@ public class GenerateProjectBuildInfoMojo extends ZekaMavenPluginAbstractMojo {
      * {@link Instant#parse(CharSequence)}. Defaults to {@code session.request.startTime}.
      * To disable the {@code build.time} property entirely, use {@code 'off'}.
      *
-     * @since 2.2.0
+     * @since 1.0.0
      */
     @Parameter(defaultValue = "off")
     private String time;

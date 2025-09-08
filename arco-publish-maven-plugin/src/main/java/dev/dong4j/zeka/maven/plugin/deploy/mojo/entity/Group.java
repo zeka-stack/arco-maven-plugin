@@ -1,9 +1,8 @@
 package dev.dong4j.zeka.maven.plugin.deploy.mojo.entity;
 
+import java.util.Set;
 import lombok.Data;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.util.Set;
 
 /**
  * <p>Description:  </p>
@@ -12,7 +11,7 @@ import java.util.Set;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 14:55
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Data
 public class Group {

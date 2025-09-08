@@ -3,6 +3,7 @@ package dev.dong4j.zeka.maven.plugin.helper.mojo;
 import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
+import java.io.File;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -10,13 +11,11 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.io.File;
-
 /**
  * <p>Description: 在 validate 阶段将 maven 的 profile 写入到指定文件, 在应用启动时获取此配置 </p>
  *
  * @author dong4j
- * @version 1.0.3
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.03.07 11:34
  * @since 1.0.0

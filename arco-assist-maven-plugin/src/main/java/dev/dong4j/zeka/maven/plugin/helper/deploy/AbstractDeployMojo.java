@@ -12,7 +12,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * Abstract class for Deploy mojo's.
  *
  * @author dong4j
- * @version 1.3.0
+ * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.04.02 11:27
  * @since 1.0.0

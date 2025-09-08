@@ -1,9 +1,8 @@
 package dev.dong4j.zeka.maven.plugin.common.support;
 
+import java.util.Collection;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
 
 /**
  * 过滤器工具类
@@ -18,7 +17,7 @@ public abstract class Filters {
     /**
      * Filters
      *
-     * @since 1.9.0
+     * @since 1.0.0
      */
     private Filters() {
     }

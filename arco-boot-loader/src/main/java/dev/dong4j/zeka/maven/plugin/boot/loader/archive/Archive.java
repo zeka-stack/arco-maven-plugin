@@ -50,7 +50,7 @@ public interface Archive extends Iterable<Archive.Entry>, AutoCloseable {
      * Closes the {@code Archive}, releasing any open resources.
      *
      * @throws Exception if an error occurs during close processing
-     * @since 2.2.0
+     * @since 1.0.0
      */
     @Override
     default void close() throws Exception {

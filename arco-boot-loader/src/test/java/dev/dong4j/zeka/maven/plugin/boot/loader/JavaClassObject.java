@@ -1,10 +1,10 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
-import javax.tools.SimpleJavaFileObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import javax.tools.SimpleJavaFileObject;
 
 /**
  * Created by gaofla on 2018/3/14.
@@ -13,7 +13,7 @@ import java.net.URI;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class JavaClassObject extends SimpleJavaFileObject {
 
@@ -27,7 +27,7 @@ public class JavaClassObject extends SimpleJavaFileObject {
      *
      * @param name name
      * @param kind kind
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public JavaClassObject(String name, Kind kind) {
         super(URI.create("string:///" + name.replace('.', '/')
@@ -39,7 +39,7 @@ public class JavaClassObject extends SimpleJavaFileObject {
      * Get bytes
      *
      * @return the byte [ ]
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public byte[] getBytes() {
         return this.bos.toByteArray();
@@ -50,7 +50,7 @@ public class JavaClassObject extends SimpleJavaFileObject {
      *
      * @return the output stream
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public OutputStream openOutputStream() throws IOException {

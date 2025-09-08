@@ -1,12 +1,11 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.io.IOUtils;
 
 /**
  * <p>Description: </p>
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class ClassLoadStudy {
     /**
@@ -23,7 +22,7 @@ public class ClassLoadStudy {
      *
      * @param args args
      * @throws Exception exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void main(String[] args) throws Exception {
         HotDeploy hot = new HotDeploy("Dynamic.Task");
@@ -42,7 +41,7 @@ public class ClassLoadStudy {
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 class HotDeploy {
     /** instance */
@@ -56,7 +55,7 @@ class HotDeploy {
      * Hot deploy
      *
      * @param name name
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public HotDeploy(String name) {
         this.CLASS_NAME = name; // 类的完全限定名
@@ -68,7 +67,7 @@ class HotDeploy {
      * 获取一个任务
      *
      * @return the task
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public Runnable getTask() {
         if (instance == null) { // 双重检查锁, 单例, 线程安全
@@ -89,7 +88,7 @@ class HotDeploy {
      * 创建一个任务, 重新加载 class 文件
      *
      * @return the runnable
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private Runnable createTask() {
         try {
@@ -108,7 +107,7 @@ class HotDeploy {
      * 监视器, 监视class文件是否被修改过, 如果是的话, 则重新加载
      *
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public void monitor() throws IOException {
         Thread t = new Thread(() -> {
@@ -141,7 +140,7 @@ class HotDeploy {
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 class HotDeployClassLoader extends ClassLoader {
     /**
@@ -150,7 +149,7 @@ class HotDeployClassLoader extends ClassLoader {
      * @param name name
      * @return the class
      * @throws ClassNotFoundException class not found exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
@@ -171,7 +170,7 @@ class HotDeployClassLoader extends ClassLoader {
      * Gets loader *
      *
      * @return the loader
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static HotDeployClassLoader getLoader() {
         return new HotDeployClassLoader();

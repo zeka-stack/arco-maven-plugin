@@ -18,7 +18,7 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 19:28
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Mojo(name = "install-node-and-yarn", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class InstallNodeAndYarnMojo extends AbstractFrontendMojo {
@@ -73,7 +73,7 @@ public final class InstallNodeAndYarnMojo extends AbstractFrontendMojo {
      * Skip execution
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     protected boolean skipExecution() {
@@ -85,7 +85,7 @@ public final class InstallNodeAndYarnMojo extends AbstractFrontendMojo {
      *
      * @param factory factory
      * @throws InstallationException installation exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public void execute(FrontendPluginFactory factory) throws InstallationException {

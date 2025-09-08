@@ -2,14 +2,13 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo;
 
 import cn.hutool.core.collection.CollectionUtil;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
+import java.util.ArrayList;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.util.ArrayList;
 
 /**
  * <p>Description: 独立部署 </p>
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.10.20 13:01
- * @since 1.6.0
+ * @since 1.0.0
  */
 @Slf4j
 @SuppressWarnings("all")
@@ -36,7 +35,7 @@ public class ServicePublishSingleMojo extends ServicePublishMojo implements Publ
     /**
      * Execute
      *
-     * @since 1.6.0
+     * @since 1.0.0
      */
     @SneakyThrows
     @Override
@@ -78,7 +77,7 @@ public class ServicePublishSingleMojo extends ServicePublishMojo implements Publ
      *
      * @param hosts hosts
      * @param env   env
-     * @since 1.9.0
+     * @since 1.0.0
      */
     @Override
     protected void buildGroup(String hosts, String env) {

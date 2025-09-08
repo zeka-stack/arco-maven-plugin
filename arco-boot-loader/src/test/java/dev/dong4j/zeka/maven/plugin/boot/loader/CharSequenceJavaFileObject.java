@@ -1,7 +1,7 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
-import javax.tools.SimpleJavaFileObject;
 import java.net.URI;
+import javax.tools.SimpleJavaFileObject;
 
 /**
  * Created by gaofla on 2018/3/14.
@@ -10,7 +10,7 @@ import java.net.URI;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class CharSequenceJavaFileObject extends SimpleJavaFileObject {
 
@@ -23,7 +23,7 @@ public class CharSequenceJavaFileObject extends SimpleJavaFileObject {
      *
      * @param className class name
      * @param content   content
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public CharSequenceJavaFileObject(String className,
                                       CharSequence content) {
@@ -37,7 +37,7 @@ public class CharSequenceJavaFileObject extends SimpleJavaFileObject {
      *
      * @param ignoreEncodingErrors ignore encoding errors
      * @return the char content
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     public CharSequence getCharContent(

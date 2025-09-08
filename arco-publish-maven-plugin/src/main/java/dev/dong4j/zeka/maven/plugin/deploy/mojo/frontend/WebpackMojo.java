@@ -2,15 +2,14 @@ package dev.dong4j.zeka.maven.plugin.deploy.mojo.frontend;
 
 import com.github.eirslett.maven.plugins.frontend.lib.FrontendPluginFactory;
 import com.github.eirslett.maven.plugins.frontend.lib.TaskRunnerException;
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.sonatype.plexus.build.incremental.BuildContext;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * <p>Description: </p>
@@ -19,7 +18,7 @@ import java.util.List;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.12.09 23:54
- * @since 1.7.0
+ * @since 1.0.0
  */
 @Mojo(name = "webpack", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class WebpackMojo extends AbstractFrontendMojo {
@@ -67,7 +66,7 @@ public final class WebpackMojo extends AbstractFrontendMojo {
      * Skip execution
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     protected boolean skipExecution() {
@@ -79,7 +78,7 @@ public final class WebpackMojo extends AbstractFrontendMojo {
      *
      * @param factory factory
      * @throws TaskRunnerException task runner exception
-     * @since 1.7.0
+     * @since 1.0.0
      */
     @Override
     public synchronized void execute(FrontendPluginFactory factory) throws TaskRunnerException {
@@ -99,7 +98,7 @@ public final class WebpackMojo extends AbstractFrontendMojo {
      * Should execute
      *
      * @return the boolean
-     * @since 1.7.0
+     * @since 1.0.0
      */
     private boolean shouldExecute() {
         if (this.triggerfiles == null || this.triggerfiles.isEmpty()) {

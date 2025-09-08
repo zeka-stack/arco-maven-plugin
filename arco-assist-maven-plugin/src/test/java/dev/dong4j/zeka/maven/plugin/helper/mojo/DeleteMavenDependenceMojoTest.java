@@ -1,14 +1,13 @@
 package dev.dong4j.zeka.maven.plugin.helper.mojo;
 
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * <p>Description:  </p>
@@ -17,7 +16,7 @@ import java.util.Collection;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2021.01.25 18:37
- * @since 1.8.0
+ * @since 1.0.0
  */
 @Slf4j
 class DeleteMavenDependenceMojoTest {
@@ -25,7 +24,7 @@ class DeleteMavenDependenceMojoTest {
     /**
      * Test 1
      *
-     * @since 1.8.0
+     * @since 1.0.0
      */
     @Test
     void test_1() {

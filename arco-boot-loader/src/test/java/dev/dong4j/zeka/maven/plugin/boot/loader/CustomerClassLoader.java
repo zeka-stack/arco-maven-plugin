@@ -10,7 +10,7 @@ import java.net.URLClassLoader;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 15:23
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class CustomerClassLoader extends URLClassLoader {
     /** customClassLoader */
@@ -20,7 +20,7 @@ public class CustomerClassLoader extends URLClassLoader {
      * Customer class loader
      *
      * @param parent parent
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private CustomerClassLoader(ClassLoader parent) {
         super(new URL[0], parent);
@@ -32,7 +32,7 @@ public class CustomerClassLoader extends URLClassLoader {
      * @param className class name
      * @return the class
      * @throws ClassNotFoundException class not found exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public Class findClassByClassName(String className) throws ClassNotFoundException {
         return this.findClass(className);
@@ -44,7 +44,7 @@ public class CustomerClassLoader extends URLClassLoader {
      * @param fullName full name
      * @param jco      jco
      * @return class class
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public Class loadClass(String fullName, JavaClassObject jco) {
         byte[] classData = jco.getBytes();
@@ -56,7 +56,7 @@ public class CustomerClassLoader extends URLClassLoader {
      *
      * @param parent parent
      * @return default same custom class loader
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static CustomerClassLoader getDefaultSameCustomClassLoader(ClassLoader parent) {
         if (customClassLoader == null) {

@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.12 11:39
- * @since 1.5.0
+ * @since 1.0.0
  */
 @Slf4j
 @UtilityClass
@@ -51,7 +51,7 @@ public class CompressUtils {
      *
      * @param path path
      * @return the files
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static @NotNull List<File> getFiles(String path) {
         List<File> list = new LinkedList<>();
@@ -81,7 +81,7 @@ public class CompressUtils {
      * @param target    tar 输出流的目标文件
      * @return File 指定返回的目标文件
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Contract("_, _, _ -> param3")
     public static File pack(List<File> files, String inPutPath, File target) throws IOException {
@@ -113,7 +113,7 @@ public class CompressUtils {
      * @param target   target
      * @param fileName file name
      * @throws IOException exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void compress(String source, String target, String fileName) throws IOException {
@@ -140,7 +140,7 @@ public class CompressUtils {
      * @param fileName   file name
      * @return the file
      * @throws IOException exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static @NotNull File compressTar(List<File> list, String inPutPath, String outPutPath, String fileName) throws IOException {
         File outPutFile = new File(outPutPath + File.separator + fileName + ".tar.gz");
@@ -167,7 +167,7 @@ public class CompressUtils {
      *
      * @param filePath  file path
      * @param outputDir output dir
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void decompress(String filePath, String outputDir) {
         File file = new File(filePath);
@@ -197,7 +197,7 @@ public class CompressUtils {
      * @param file      要解压的zip文件对象
      * @param outputDir 要解压到某个指定的目录下
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void unZip(File file, String outputDir) throws IOException {
         try (ZipFile zipFile = new ZipFile(file, StandardCharsets.UTF_8)) {
@@ -231,7 +231,7 @@ public class CompressUtils {
      * @param sourceFile file
      * @param outputDir  output dir
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void decompressTarGz(File sourceFile, String outputDir) throws IOException {
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
@@ -265,7 +265,7 @@ public class CompressUtils {
      * @param sourceFile 压缩包文件
      * @param outputDir  目标文件夹
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void decompressTarBz2(File sourceFile, String outputDir) throws IOException {
         try (TarArchiveInputStream tarIn =
@@ -296,7 +296,7 @@ public class CompressUtils {
      * @param in  in
      * @param out out
      * @throws IOException io exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void writeFile(@NotNull InputStream in, OutputStream out) throws IOException {
         int length;
@@ -312,7 +312,7 @@ public class CompressUtils {
      * @param file    目标文件
      * @param mode    文件权限模式（可选，tar 格式有效）
      * @param hasMode 是否有有效的权限模式
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static void setExecutablePermissions(File file, int mode, boolean hasMode) {
         final boolean launcher = file.getName().endsWith(".sh") ||
@@ -343,7 +343,7 @@ public class CompressUtils {
      * 为启动脚本设置执行权限
      *
      * @param file 目标文件
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static void setLauncherPermissions(File file) {
         try {
@@ -358,7 +358,7 @@ public class CompressUtils {
      * 删除 Mac 压缩再解压产生的 __MACOSX 文件夹和 . 开头的其他文件
      *
      * @param filteredFile filtered file
-     * @since 1.5.0
+     * @since 1.0.0
      */
     public static void filterFile(File filteredFile) {
         if (filteredFile != null) {
@@ -379,7 +379,7 @@ public class CompressUtils {
      * @param outputDir 输出目录
      * @param subDir    子目录
      * @return the file
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static @NotNull File createFile(String outputDir, String subDir) {

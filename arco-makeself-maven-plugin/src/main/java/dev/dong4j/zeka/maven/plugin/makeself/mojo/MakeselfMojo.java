@@ -45,7 +45,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.06.11 16:07
- * @since 1.5.0
+ * @since 1.0.0
  */
 @SuppressWarnings("all")
 @Mojo(name = "makeself", defaultPhase = LifecyclePhase.PACKAGE, requiresProject = false, threadSafe = true)
@@ -284,7 +284,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      *
      * @throws MojoExecutionException mojo execution exception
      * @throws MojoFailureException   mojo failure exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Override
     @SneakyThrows
@@ -396,7 +396,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * @param targetDir   target dir
      * @param archiveFile archive file
      * @return the 解压后的文件目录
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void decompress(String targetDir, String archiveFile) {
         File file = new File(targetDir);
@@ -413,7 +413,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * @param attach attach
      * @throws IOException          io exception
      * @throws InterruptedException interrupted exception
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void execute(List<String> target, boolean attach) throws IOException, InterruptedException {
         // Create Process Builder
@@ -449,7 +449,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * 将 makeself.sh 和 makeself-header.sh 写入 makeself-tmp
      *
      * @param decompressFile decompress file
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void extractMakeself(String decompressFile) {
         this.getLog().debug("Extracting Makeself");
@@ -494,7 +494,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * @param classloader classloader
      * @param targetFile  target file   需要写入的文件
      * @param sourceFile  source file   原始文件路径(插件内部文件)
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private void writingFile(ClassLoader classloader, @NotNull File targetFile, String sourceFile) {
         if (!targetFile.exists()) {
@@ -517,7 +517,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * Help args.
      *
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @NotNull String helpArgs() {
         this.getLog().debug("Loading help arguments");
@@ -535,7 +535,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      * Load args.
      *
      * @return the string
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private @NotNull List<String> loadArgs() {
         this.getLog().debug("Loading arguments");
@@ -675,7 +675,7 @@ public class MakeselfMojo extends ZekaMavenPluginAbstractMojo {
      *
      * @param value value
      * @return the boolean
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @Contract(value = "!null -> param1; null -> false", pure = true)
     private boolean isTrue(Boolean value) {
