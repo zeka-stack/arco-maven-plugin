@@ -12,15 +12,72 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * <p>Description: Spring Boot JAR 增强启动器
+ * Spring Boot JAR增强启动器，支持插件化和补丁加载机制
  * <p>
- * https://docs.spring.io/spring-boot/docs/2.2.1.RELEASE/reference/htmlsingle/#executable-jar
- * https://blog.csdn.net/hengyunabc/article/details/50120001
- * {@code
- * --slot.root=${DEPLOY_DIR}/ \
- * --slot.path=patch/ \
- * --slot.path=plugin/ \
- * }*
+ * 该启动器继承自Spring Boot的PropertiesLauncher，提供了增强的类加载机制
+ * 支持在运行时动态加载补丁（patch）和插件（plugin）目录中的JAR文件
+ * 实现了热更新、插件化部署和灵活的扩展机制
+ * <p>
+ * 主要特性：
+ * - 补丁支持：支持动态加载补丁目录中的JAR文件
+ * - 插件支持：支持动态加载插件目录中的JAR文件
+ * - 优先级控制：patch和plugin目录中的JAR优先级高于lib目录
+ * - 灵活配置：支持通过命令行参数配置路径
+ * - 完全兼容：完全兼容Spring Boot原生启动机制
+ * <p>
+ * 支持的命令行参数：
+ * - <b>--slot.root</b>：指定根目录路径，默认为当前工作目录
+ * - <b>--slot.path</b>：指定附加的类路径，可多次指定
+ * <p>
+ * 使用示例：
+ * <pre>
+ * # 指定根目录和补丁、插件目录
+ * java -jar myapp.jar \
+ *   --slot.root=/opt/myapp/ \
+ *   --slot.path=patch/ \
+ *   --slot.path=plugin/ \
+ *   --spring.profiles.active=prod
+ *
+ * # 使用默认配置（当前目录下的patch和plugin目录）
+ * java -jar myapp.jar --slot.path=patch/ --slot.path=plugin/
+ * </pre>
+ * <p>
+ * 目录结构示例：
+ * <pre>
+ * /opt/myapp/
+ * ├── myapp.jar              # 主程序 JAR
+ * ├── patch/                 # 补丁目录（高优先级）
+ * │   ├── bugfix-1.0.jar
+ * │   └── hotfix-2.0.jar
+ * ├── plugin/                # 插件目录
+ * │   ├── redis-plugin.jar
+ * │   └── kafka-plugin.jar
+ * └── lib/                   # 原始依赖目录（低优先级）
+ *     ├── spring-boot.jar
+ *     └── other-deps.jar
+ * </pre>
+ * <p>
+ * 类加载优先级（从高到低）：
+ * 1. <b>patch目录</b>：用于热修复和紧急补丁
+ * 2. <b>plugin目录</b>：用于功能扩展和插件加载
+ * 3. <b>lib目录</b>：原始应用依赖库
+ * <p>
+ * 应用场景：
+ * - 生产环境的热修复和补丁更新
+ * - 插件化架构的微服务应用
+ * - 多租户SaaS应用的定制化部署
+ * - A/B测试和灰度发布场景
+ * - 快速迭代和持续集成部署
+ * <p>
+ * 技术实现：
+ * - 基于Spring Boot PropertiesLauncher扩展
+ * - 自定义ClassLoader实现动态类加载
+ * - 支持JAR和目录两种归档格式
+ * - 统一的异常处理和日志输出
+ * <p>
+ * 相关文档：
+ * - <a href="https://docs.spring.io/spring-boot/docs/2.2.1.RELEASE/reference/htmlsingle/#executable-jar">Spring Boot Executable JAR</a>
+ * - <a href="https://blog.csdn.net/hengyunabc/article/details/50120001">Spring Boot类加载机制</a>
  *
  * @author dong4j
  * @version 1.0.0
