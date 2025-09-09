@@ -19,23 +19,58 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * <p>Description: 删除指定的 maven 依赖 </p>
- * 第一次使用:
- * 1. mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT
- * 2. mvn dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT:clear -Dname=指定包名(前缀匹配) -Dversion=指定版本号(前缀匹配)
+ * Maven本地仓库依赖清理Mojo，用于删除指定的Maven依赖缓存
  * <p>
- * 之后可简化: mvn arco-assist:clear -Dname= -Dversion=
- * 全部功能:
- * 1. 删除 dev/dong4j 下所有的 zeka.stack 依赖
+ * 该Mojo提供了强大的Maven本地仓库清理功能，支持按包名、版本号进行精确或模糊删除
+ * 主要用于开发过程中清理过期的SNAPSHOT版本、解决依赖冲突或释放磁盘空间
+ * 支持多种清理策略，从全量清理到精确匹配，满足不同的清理需求
+ * <p>
+ * 主要特性：
+ * - 多种清理模式：支持全量、按名称、按版本、组合条件等多种清理方式
+ * - 前缀匹配：支持包名和版本号的前缀匹配，提供灵活的过滤能力
+ * - 安全机制：限定在dev/dong4j目录下操作，避免误删系统依赖
+ * - 缓存清理：自动清理Maven的lastUpdated等缓存文件
+ * - 无项目依赖：可在任何目录下独立运行，不需要Maven项目上下文
+ * <p>
+ * 支持的清理模式：
+ * 1. <b>全量清理</b>：删除所有zeka.stack相关依赖
+ * 2. <b>版本清理</b>：删除所有包中的指定版本
+ * 3. <b>精确清理</b>：删除指定包的指定版本
+ * 4. <b>包清理</b>：删除指定包的所有版本
+ * 5. <b>缓存清理</b>：删除无效目录和缓存文件
+ * <p>
+ * 使用场景：
+ * - 开发环境中清理过期的SNAPSHOT版本
+ * - 解决Maven依赖缓存导致的问题
+ * - 释放本地仓库的磁盘空间
+ * - CI/CD环境中的依赖环境重置
+ * - 版本升级时的旧版本清理
+ * <p>
+ * 命令使用示例：
+ * <pre>
+ * # 首次安装插件
+ * mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT
+ *
+ * # 1. 删除所有zeka.stack依赖
  * mvn arco-assist:clear -Dname=all -Dversion=all
- * 2. 删除 dev/dong4j 下所有包中指定的版本
- * mvn arco-assist:clear -Dname=all -Dversion=x.x.x
- * 3. 删除 dev/dong4j 下指定的包中指定的版本
- * mvn arco-assist:clear -Dname=xxx -Dversion=x.x.x
- * 4. 删除 dev/dong4j 下指定的包中所有的版本
- * mvn arco-assist:clear -Dname=xxx -Dversion=all
- * 5. 删除无效的目录和缓存
+ *
+ * # 2. 删除所有包中的指定版本
+ * mvn arco-assist:clear -Dname=all -Dversion=2.0.0
+ *
+ * # 3. 删除指定包的指定版本
+ * mvn arco-assist:clear -Dname=blen-kernel -Dversion=2.0.0
+ *
+ * # 4. 删除指定包的所有版本
+ * mvn arco-assist:clear -Dname=blen-kernel -Dversion=all
+ *
+ * # 5. 清理无效缓存
  * mvn arco-assist:clear
+ * </pre>
+ * <p>
+ * 安全限制：
+ * - 仅在dev/dong4j目录下操作，避免影响其他依赖
+ * - 支持的包名列表通过STACK_DEPENDENCE数组控制
+ * - 自动识别和清理无效目录（如unknown、${revision}等）
  *
  * @author dong4j
  * @version 1.0.0

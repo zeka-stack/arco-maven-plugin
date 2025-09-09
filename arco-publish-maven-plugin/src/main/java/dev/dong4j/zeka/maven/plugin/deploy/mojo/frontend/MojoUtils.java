@@ -20,7 +20,11 @@ import org.slf4j.LoggerFactory;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * <p>Description: </p>
+ * Maven 插件工具类，提供代理配置、服务器解密和执行条件判断等实用功能
+ * <p>
+ * 该工具类封装了前端构建插件常用的工具方法，包括 Maven 代理配置的获取和解密、
+ * 服务器认证信息的处理、增量构建的条件判断等。支持从 Maven 设置中
+ * 自动读取代理配置，并处理加密密码的解密操作。
  *
  * @author dong4j
  * @version 1.0.0
@@ -31,15 +35,15 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @UtilityClass
 class MojoUtils {
 
-    /** LOGGER */
+    /** 日志记录器 */
     private static final Logger LOGGER = LoggerFactory.getLogger(MojoUtils.class);
 
     /**
-     * To mojo failure exception
+     * 将异常转换为 Maven 插件失败异常
      *
-     * @param <E> parameter
-     * @param e   e
-     * @return the mojo failure exception
+     * @param <E> 异常类型参数
+     * @param e   原始异常
+     * @return Maven 插件失败异常
      * @since 1.0.0
      */
     static <E extends Throwable> MojoFailureException toMojoFailureException(E e) {
@@ -48,11 +52,15 @@ class MojoUtils {
     }
 
     /**
-     * Gets proxy config *
+     * 获取 Maven 代理配置，包括从设置中读取活跃代理并自动解密
+     * <p>
+     * 该方法从 Maven 会话中获取配置的代理列表，过滤出活跃的代理设置，
+     * 并使用提供的解密器对加密的用户名和密码进行解密处理。
+     * 支持多个代理配置同时生效。
      *
-     * @param mavenSession maven session
-     * @param decrypter    decrypter
-     * @return the proxy config
+     * @param mavenSession Maven 执行会话
+     * @param decrypter    设置解密器
+     * @return 代理配置对象
      * @since 1.0.0
      */
     static ProxyConfig getProxyConfig(MavenSession mavenSession, SettingsDecrypter decrypter) {
@@ -81,11 +89,11 @@ class MojoUtils {
     }
 
     /**
-     * Decrypt proxy
+     * 解密代理设置中的加密信息
      *
-     * @param proxy     proxy
-     * @param decrypter decrypter
-     * @return the proxy
+     * @param proxy     代理对象
+     * @param decrypter 设置解密器
+     * @return 解密后的代理对象
      * @since 1.0.0
      */
     private static Proxy decryptProxy(Proxy proxy, SettingsDecrypter decrypter) {
@@ -95,12 +103,12 @@ class MojoUtils {
     }
 
     /**
-     * Decrypt server
+     * 从 Maven 设置中获取并解密指定的服务器配置
      *
-     * @param serverId     server id
-     * @param mavenSession maven session
-     * @param decrypter    decrypter
-     * @return the server
+     * @param serverId     服务器 ID
+     * @param mavenSession Maven 执行会话
+     * @param decrypter    设置解密器
+     * @return 解密后的服务器对象，找不到时返回 null
      * @since 1.0.0
      */
     static Server decryptServer(String serverId, MavenSession mavenSession, SettingsDecrypter decrypter) {
@@ -119,12 +127,17 @@ class MojoUtils {
     }
 
     /**
-     * Should execute
+     * 判断是否应该执行构建任务，支持增量构建和文件变更检测
+     * <p>
+     * 该方法综合考虑多个因素来决定是否执行构建：
+     * 1. 非增量构建时始终执行
+     * 2. 触发文件发生变更时执行
+     * 3. 源目录中有文件变更时执行
      *
-     * @param buildContext build context
-     * @param triggerfiles triggerfiles
-     * @param srcdir       srcdir
-     * @return the boolean
+     * @param buildContext 构建上下文
+     * @param triggerfiles 触发文件列表
+     * @param srcdir       源目录
+     * @return true 如果应该执行构建
      * @since 1.0.0
      */
     static boolean shouldExecute(BuildContext buildContext, List<File> triggerfiles, File srcdir) {

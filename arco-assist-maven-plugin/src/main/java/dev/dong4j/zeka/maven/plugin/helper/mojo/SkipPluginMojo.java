@@ -15,7 +15,61 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * <p>Description: 在 validate 阶段根据当前模块类型禁用部分插件 </p>
+ * Maven插件条件控制Mojo，在validate阶段根据模块类型动态禁用部分插件
+ * <p>
+ * 该Mojo在Maven验证阶段执行，自动检测当前模块的类型和特点
+ * 根据模块类型（POM、空模块、部署模块、依赖模块）智能控制相关插件的启用和禁用
+ * 优化构建效率，避免在不适合的模块中执行不必要的插件
+ * <p>
+ * 主要特性：
+ * - 智能检测：自动检测模块类型和启动类存在
+ * - 插件管理：根据模块类型动态禁用或启用插件
+ * - 性能优化：避免在POM模块中执行代码质量检查
+ * - 参数注入：为部署模块自动设置启动类参数
+ * - 配置管理：统一管理各种构建插件的启用状态
+ * <p>
+ * 模块类型分类和处理策略：
+ * <p>
+ * <b>POM模块</b>（packaging=pom）：
+ * - 禁用CheckStyle和PMD代码质量检查插件
+ * - 禁用Assembly打包插件
+ * - 禁用Git提交信息插件
+ * <p>
+ * <b>空模块</b>（无Java文件）：
+ * - 同 POM模块处理策略
+ * - 避免不必要的插件执行
+ * <p>
+ * <b>部署模块</b>（包含启动类）：
+ * - 启用构建信息生成（build-info.properties）
+ * - 启用Profile活跃文件创建
+ * - 启用主类属性生成
+ * - 启用Assembly配置文件生成
+ * - 启用通用启动脚本生成
+ * - 启用编译标识生成
+ * - 启用Dockerfile生成
+ * <p>
+ * <b>依赖模块</b>（普通JAR模块）：
+ * - 禁用Git提交信息插件
+ * - 保持其他插件默认状态
+ * <p>
+ * 支持的插件类型：
+ * - CheckStyle和PMD代码质量检查插件
+ * - Maven Assembly打包插件
+ * - Git Commit ID插件
+ * - Spring Boot相关插件
+ * - 自定义构建插件
+ * <p>
+ * 使用场景：
+ * - 多模块项目中的构建优化
+ * - CI/CD流水线中的性能提升
+ * - 微服务项目的标准化构建
+ * - 开发环境中的构建速度优化
+ * - 企业级项目的插件管理
+ * <p>
+ * 执行配置：
+ * - 默认阶段：validate（验证阶段）
+ * - 目标名称：skip-plugin
+ * - 线程安全：支持
  *
  * @author dong4j
  * @version 1.0.0

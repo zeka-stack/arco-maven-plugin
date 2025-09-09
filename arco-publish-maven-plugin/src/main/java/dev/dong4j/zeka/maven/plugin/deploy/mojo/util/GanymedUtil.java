@@ -13,7 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * <p>Description: </p>
+ * SSH 连接工具类，基于 Ganymed SSH-2 库实现远程服务器连接和命令执行
+ * <p>
+ * 该工具类封装了 SSH 连接的常用操作，包括用户名密码认证、远程命令执行、
+ * 输出流解析等功能。提供了简化的 API 接口，便于在 Maven 插件中进行
+ * 远程服务器操作和应用部署。
  *
  * @author dong4j
  * @version 1.0.0
@@ -26,13 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 public class GanymedUtil {
 
     /**
-     * Login
+     * 建立 SSH 连接并进行用户名密码认证
+     * <p>
+     * 该方法创建到指定服务器的 SSH 连接，使用提供的用户名和密码进行身份认证。
+     * 如果连接或认证失败，会记录错误日志并终止程序执行。认证成功后返回
+     * 可用的连接对象供后续操作使用。
      *
-     * @param ip       ip
-     * @param port     port
-     * @param username username
-     * @param password password
-     * @return the connection
+     * @param ip       服务器 IP 地址
+     * @param port     SSH 端口号，通常为 22
+     * @param username 登录用户名
+     * @param password 登录密码
+     * @return SSH 连接对象，认证成功时返回有效连接
      * @since 1.0.0
      */
     private static Connection login(String ip, int port, String username, String password) {
@@ -55,11 +63,15 @@ public class GanymedUtil {
     }
 
     /**
-     * 远程执行shell脚本或者命令
+     * 在远程服务器上执行 shell 命令并获取执行结果
+     * <p>
+     * 该方法通过已建立的 SSH 连接在远程服务器上执行指定的 shell 命令，
+     * 并读取命令的标准输出。如果执行过程中出现错误或返回结果为空，
+     * 会记录相应的错误信息并终止程序。执行完成后自动关闭连接和会话。
      *
-     * @param connection connection
-     * @param command    即将执行的命令
-     * @return 命令执行完后返回的结果值 string
+     * @param connection SSH 连接对象
+     * @param command    要执行的 shell 命令
+     * @return 命令执行的标准输出结果
      * @since 1.0.0
      */
     private static String execCommand(Connection connection, String command) {
@@ -89,10 +101,14 @@ public class GanymedUtil {
     }
 
     /**
-     * 解析脚本执行返回的结果集
+     * 解析命令执行输出流并转换为文本结果
+     * <p>
+     * 该方法读取命令执行的标准输出流，使用 UTF-8 编码将二进制数据转换为
+     * 可读的文本格式。使用 StreamGobbler 包装输入流以确保正确处理输出，
+     * 逐行读取并拼接成完整的结果字符串。
      *
-     * @param in 输入流对象
-     * @return 以纯文本的格式返回 string
+     * @param in 命令执行的标准输出流
+     * @return 格式化后的文本结果，每行以换行符分隔
      * @since 1.0.0
      */
     private static String processStdout(InputStream in) {
@@ -112,14 +128,22 @@ public class GanymedUtil {
     }
 
     /**
-     * Ganymed exec command
+     * 执行远程 SSH 命令的完整流程，包含连接建立、命令执行和结果判断
+     * <p>
+     * 该方法是工具类的主要入口方法，封装了完整的 SSH 操作流程：
+     * 1. 建立到目标服务器的 SSH 连接并进行身份认证
+     * 2. 执行指定的 shell 命令并获取输出结果
+     * 3. 根据输出内容判断命令执行状态（成功/失败）
+     * <p>
+     * 该方法主要用于应用部署场景，通过检查输出中是否包含 "successfully"
+     * 关键字来判断部署操作的执行状态。
      *
-     * @param host     host
-     * @param port     port
-     * @param username username
-     * @param password password
-     * @param command  command
-     * @return the string
+     * @param host     目标服务器主机地址
+     * @param port     SSH 连接端口
+     * @param username SSH 登录用户名
+     * @param password SSH 登录密码
+     * @param command  要执行的 shell 命令
+     * @return 执行状态描述，"安装成功" 或 "安装失败"
      * @since 1.0.0
      */
     public static String ganymedExecCommand(String host, int port, String username, String password, String command) {

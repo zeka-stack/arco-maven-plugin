@@ -16,7 +16,70 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * <p>Description: </p>
+ * 时间戳属性生成Mojo，用于在Maven构建过程中生成和注入时间戳属性
+ * <p>
+ * 该Mojo在Maven验证阶段执行，提供灵活的时间戳生成功能
+ * 支持多种时间格式、时区配置、时间偏移和国际化支持
+ * 生成的时间戳属性可被其他Maven插件或应用程序使用
+ * <p>
+ * 主要特性：
+ * - 灵活格式：支持自定义时间格式模式（SimpleDateFormat）
+ * - 时区支持：支持任意时区配置，默认为GMT
+ * - 时间偏移：支持对当前时间进行各种单位的偏移计算
+ * - 国际化：支持不同语言和地区的本地化配置
+ * - 属性注入：自动将生成的时间戳注入到Maven属性中
+ * <p>
+ * 支持的时间偏移单位：
+ * - <b>millisecond</b>：毫秒级偏移
+ * - <b>second</b>：秒级偏移（默认）
+ * - <b>minute</b>：分钟级偏移
+ * - <b>hour</b>：小时级偏移
+ * - <b>day</b>：天级偏移
+ * - <b>week</b>：周级偏移
+ * - <b>month</b>：月级偏移
+ * - <b>year</b>：年级偏移
+ * <p>
+ * 配置参数：
+ * - <b>name</b>：要设置的属性名称（必填）
+ * - <b>pattern</b>：时间格式模式，遵循Java SimpleDateFormat规则
+ * - <b>timeZone</b>：时区配置，默认为GMT
+ * - <b>offset</b>：时间偏移量，默认为0
+ * - <b>unit</b>：偏移单位，默认为second
+ * - <b>locale</b>：本地化配置，格式为"zh,CN"或"en,US"
+ * <p>
+ * 使用场景：
+ * - 版本号中包含时间戳信息
+ * - 构建产物的时间标识
+ * - 日志文件命名中的时间戳
+ * - API版本信息中的构建时间
+ * - CI/CD流水线中的时间标记
+ * - 数据库迁移脚本的版本控制
+ * <p>
+ * 使用示例：
+ * <pre>
+ * &lt;plugin&gt;
+ *     &lt;groupId&gt;dev.dong4j&lt;/groupId&gt;
+ *     &lt;artifactId&gt;arco-assist-maven-plugin&lt;/artifactId&gt;
+ *     &lt;executions&gt;
+ *         &lt;execution&gt;
+ *             &lt;goals&gt;
+ *                 &lt;goal&gt;timestamp-property&lt;/goal&gt;
+ *             &lt;/goals&gt;
+ *             &lt;configuration&gt;
+ *                 &lt;name&gt;build.timestamp&lt;/name&gt;
+ *                 &lt;pattern&gt;yyyy-MM-dd HH:mm:ss&lt;/pattern&gt;
+ *                 &lt;timeZone&gt;Asia/Shanghai&lt;/timeZone&gt;
+ *                 &lt;locale&gt;zh,CN&lt;/locale&gt;
+ *             &lt;/configuration&gt;
+ *         &lt;/execution&gt;
+ *     &lt;/executions&gt;
+ * &lt;/plugin&gt;
+ * </pre>
+ * <p>
+ * 执行配置：
+ * - 默认阶段：validate（验证阶段）
+ * - 目标名称：timestamp-property
+ * - 线程安全：支持
  *
  * @author dong4j
  * @version 1.0.0

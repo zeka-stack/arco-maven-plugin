@@ -12,7 +12,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * <p>Description: </p>
+ * Gulp 构建工具 Maven 插件
  *
  * @author dong4j
  * @version 1.0.0
@@ -23,49 +23,34 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @Mojo(name = "gulp", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class GulpMojo extends AbstractFrontendMojo {
 
-    /**
-     * Gulp arguments. Default is empty (runs just the "gulp" command).
-     */
+    /** Gulp 命令参数，默认为空（只执行 "gulp" 命令） */
     @Parameter(property = "frontend.gulp.arguments")
     private String arguments;
 
-    /**
-     * Files that should be checked for changes, in addition to the srcdir files.
-     * Defaults to gulpfile.js in the {@link #workingDirectory}.
-     */
+    /** 需要检查变更的触发文件列表，默认为 gulpfile.js */
     @Parameter(property = "triggerfiles")
     private List<File> triggerfiles;
 
-    /**
-     * The directory containing front end files that will be processed by gulp.
-     * If this is set then files in the directory will be checked for
-     * modifications before running gulp.
-     */
+    /** 包含前端文件的源目录，用于检查文件变更 */
     @Parameter(property = "srcdir")
     private File srcdir;
 
-    /**
-     * The directory where front end files will be output by gulp. If this is
-     * set then they will be refreshed so they correctly show as modified in
-     * Eclipse.
-     */
+    /** Gulp 输出目录，用于在 Eclipse 中刷新文件状态 */
     @Parameter(property = "outputdir")
     private File outputdir;
 
-    /**
-     * Skips execution of this mojo.
-     */
+    /** 是否跳过插件执行 */
     @Parameter(property = "skip.gulp", defaultValue = "${skip.gulp}")
     private boolean skip;
 
-    /** Build context */
+    /** 构建上下文 */
     @Component
     private BuildContext buildContext;
 
     /**
-     * Skip execution
+     * 判断是否跳过当前插件的执行
      *
-     * @return the boolean
+     * @return true 如果需要跳过执行
      * @since 1.0.0
      */
     @Override
@@ -74,10 +59,10 @@ public final class GulpMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Execute
+     * 执行 Gulp 构建任务，支持增量构建和文件刷新
      *
-     * @param factory factory
-     * @throws TaskRunnerException task runner exception
+     * @param factory 前端插件工厂
+     * @throws TaskRunnerException 任务执行失败时抛出
      * @since 1.0.0
      */
     @Override
@@ -95,9 +80,9 @@ public final class GulpMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Should execute
+     * 根据文件变更情况判断是否需要执行 Gulp 任务
      *
-     * @return the boolean
+     * @return true 如果需要执行
      * @since 1.0.0
      */
     private boolean shouldExecute() {

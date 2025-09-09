@@ -13,7 +13,10 @@ import org.apache.maven.settings.Server;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
- * <p>Description: </p>
+ * Node.js 和 NPM 安装 Maven 插件
+ * <p>
+ * 该插件负责自动下载和安装指定版本的 Node.js 和 NPM 环境，为前端构建提供基础运行时支持。
+ * 支持自定义下载源、代理配置和认证设置，默认使用淘宝镜像加速下载。
  *
  * @author dong4j
  * @version 1.0.0
@@ -24,64 +27,47 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 @Mojo(name = "install-node-and-npm", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
 
-    /**
-     * Where to download Node.js binary from. Defaults to https://nodejs.org/dist/
-     */
+    /** Node.js 二进制文件下载根地址，默认使用淘宝镜像 */
     @Parameter(property = "nodeDownloadRoot", required = false, defaultValue = "https://npm.taobao.org/mirrors/node/")
     private String nodeDownloadRoot;
 
-    /**
-     * Where to download NPM binary from. Defaults to https://registry.npmjs.org/npm/-/
-     */
+    /** NPM 二进制文件下载根地址，默认使用淘宝镜像 */
     @Parameter(property = "npmDownloadRoot", required = false, defaultValue = "https://registry.npm.taobao.org/npm/-/")
     private String npmDownloadRoot;
 
-    /**
-     * Where to download Node.js and NPM binaries from.
-     *
-     * @deprecated use {@link #nodeDownloadRoot} and {@link #npmDownloadRoot} instead, this configuration will be used only when no
-     * {@link #nodeDownloadRoot} or {@link #npmDownloadRoot} is specified.
-     */
+    /** 下载根地址（已废弃），推荐使用 nodeDownloadRoot 和 npmDownloadRoot */
     @Parameter(property = "downloadRoot", required = false, defaultValue = "")
     @Deprecated
     private String downloadRoot;
 
-    /**
-     * The version of Node.js to install. IMPORTANT! Most Node.js version names start with 'v', for example 'v0.10.18'
-     */
+    /** 要安装的 Node.js 版本号，版本名通常以 'v' 开头 */
     @Parameter(property = "nodeVersion", required = false, defaultValue = "v12.3.1")
     private String nodeVersion;
 
-    /**
-     * The version of NPM to install.
-     */
+    /** 要安装的 NPM 版本号 */
     @Parameter(property = "npmVersion", required = false, defaultValue = "provided")
     private String npmVersion;
 
-    /**
-     * Server Id for download username and password
-     */
+    /** 下载认证服务器 ID */
     @Parameter(property = "serverId", defaultValue = "")
     private String serverId;
 
-    /** Session */
+    /** Maven 执行会话 */
     @Parameter(property = "session", defaultValue = "${session}", readonly = true)
     private MavenSession session;
 
-    /**
-     * Skips execution of this mojo.
-     */
+    /** 是否跳过插件执行 */
     @Parameter(property = "skip.installnodenpm", defaultValue = "${skip.installnodenpm}")
     private boolean skip;
 
-    /** Decrypter */
+    /** 设置解密器 */
     @Component(role = SettingsDecrypter.class)
     private SettingsDecrypter decrypter;
 
     /**
-     * Skip execution
+     * 判断是否跳过当前插件的执行
      *
-     * @return the boolean
+     * @return true 如果需要跳过执行
      * @since 1.0.0
      */
     @Override
@@ -90,10 +76,17 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Execute
+     * 执行 Node.js 和 NPM 的安装操作
+     * <p>
+     * 该方法会根据配置参数下载并安装指定版本的 Node.js 和 NPM：
+     * 1. 获取代理配置和认证信息
+     * 2. 确定下载源地址
+     * 3. 创建 Node.js 安装器并配置参数
+     * 4. 创建 NPM 安装器并配置参数
+     * 5. 依次执行安装操作
      *
-     * @param factory factory
-     * @throws InstallationException installation exception
+     * @param factory 前端插件工厂，用于创建安装器实例
+     * @throws InstallationException 安装过程中出现错误时抛出
      * @since 1.0.0
      */
     @Override
@@ -132,9 +125,9 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Gets node download root *
+     * 获取 Node.js 下载根地址，优先使用新配置，兼容旧配置
      *
-     * @return the node download root
+     * @return Node.js 下载根地址
      * @since 1.0.0
      */
     @SuppressWarnings("java:S1874")
@@ -146,9 +139,9 @@ public final class InstallNodeAndNpmMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Gets npm download root *
+     * 获取 NPM 下载根地址，优先使用新配置，兼容旧配置
      *
-     * @return the npm download root
+     * @return NPM 下载根地址
      * @since 1.0.0
      */
     @SuppressWarnings("java:S1874")

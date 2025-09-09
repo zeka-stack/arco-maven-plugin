@@ -5,7 +5,7 @@ import lombok.Data;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * <p>Description:  </p>
+ * 服务器分组配置实体类
  *
  * @author dong4j
  * @version 1.0.0
@@ -16,13 +16,13 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Data
 public class Group {
 
-    /** Env */
+    /** 环境标识 */
     @Parameter
     private String env;
     /** 是否启用当前 group */
     @Parameter
     private boolean enable;
-    /** Servers */
+    /** 服务器列表 */
     @Parameter
     private Set<Server> servers;
 }

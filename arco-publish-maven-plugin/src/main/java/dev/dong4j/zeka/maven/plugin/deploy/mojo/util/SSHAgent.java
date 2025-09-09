@@ -25,17 +25,33 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * <p>Description: </p>
- * 1.确保所连接linux机器安装ssh, 并且服务打开;
- * 2.密码登陆, 需配置文件:
- * ssh配置文件:  /ect/ssh/sshd_config
- * 配置项: PasswordAuthentication yes
+ * SSH 连接代理工具类，提供远程服务器文件传输和命令执行功能
  * <p>
- * 验证登陆成功否: ssh 127.0.0.1 (/other）
- * 'http://www.ganymed.ethz.ch/ssh2/FAQ.html'
- * 'http://www.programcreek.com/java-api-examples/index.php?api=ch.ethz.ssh2.StreamGobbler'
- * 'http://www.javawebdevelop.com/3240343/'
- * 'http://www.programcreek.com/java-api-examples/index.php?api=ch.ethz.ssh2.SCPClient'
+ * 该类基于 Ganymed SSH-2 库实现，提供了完整的 SSH 连接管理、文件传输和远程命令执行能力。
+ * 支持密码认证方式，适用于 Maven 插件中的远程部署和文件操作场景。
+ * <p>
+ * 使用前提条件：
+ * <ul>
+ *     <li>目标 Linux 机器已安装并启用 SSH 服务</li>
+ *     <li>SSH 配置文件 /etc/ssh/sshd_config 中设置 PasswordAuthentication yes</li>
+ *     <li>确保防火墙允许 SSH 端口访问</li>
+ * </ul>
+ * <p>
+ * 主要功能特性：
+ * <ul>
+ *     <li>SSH 连接建立和身份认证</li>
+ *     <li>远程命令执行和结果获取</li>
+ *     <li>单文件和目录的批量传输</li>
+ *     <li>文件下载和内容读取</li>
+ *     <li>连接状态管理和资源释放</li>
+ * </ul>
+ * <p>
+ * 参考文档：
+ * <ul>
+ *     <li><a href="http://www.ganymed.ethz.ch/ssh2/FAQ.html">Ganymed SSH-2 FAQ</a></li>
+ *     <li><a href="http://www.programcreek.com/java-api-examples/index.php?api=ch.ethz.ssh2.StreamGobbler">StreamGobbler 使用示例</a></li>
+ *     <li><a href="http://www.programcreek.com/java-api-examples/index.php?api=ch.ethz.ssh2.SCPClient">SCPClient 使用示例</a></li>
+ * </ul>
  *
  * @author dong4j
  * @version 1.0.0
@@ -46,22 +62,26 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("all")
 public final class SSHAgent {
 
-    /** Log */
+    /** 日志记录器 */
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    /** Host name */
+    /** 远程主机名或 IP 地址 */
     private String hostName;
-    /** Connection */
+    /** SSH 连接对象 */
     private Connection connection;
 
     /**
-     * Init session
+     * 初始化 SSH 会话连接并进行身份认证
+     * <p>
+     * 该方法创建到指定远程主机的 SSH 连接，并使用提供的用户名和密码进行身份验证。
+     * 认证成功后会打开一个测试会话并立即关闭，以验证连接的有效性。
+     * 如果连接或认证失败，会抛出运行时异常。
      *
-     * @param hostName host name
-     * @param userName user name
-     * @param passwd   passwd
-     * @param port     port
-     * @throws IOException io exception
+     * @param hostName 远程主机名或 IP 地址
+     * @param userName SSH 登录用户名
+     * @param passwd   SSH 登录密码
+     * @param port     SSH 服务端口号（字符串格式）
+     * @throws IOException 连接或认证失败时抛出
      * @since 1.0.0
      */
     public void initSession(String hostName, String userName, String passwd, String port) throws IOException {
@@ -84,22 +104,17 @@ public final class SSHAgent {
     }
 
     /**
-     * Why can't I execute several commands in one single session?
+     * 执行远程命令并显示执行结果
      * <p>
-     * If you use Session.execCommand(), then you indeed can only execute only one command per session. This is not a restriction of the
-     * library, but rather an enforcement by the underlying SSH-2 protocol (a Session object models the underlying SSH-2 session).
-     * <p>
-     * There are several solutions:
-     * <p>
-     * Simple: Execute several commands in one batch, e.g., something like Session.execCommand("echo Hello && echo again").
-     * Simple: The intended way: simply open a new session for each command - once you have opened a connection, you can ask for as many
-     * sessions as you want, they are only a "virtual" construct.
-     * Advanced: Don't use Session.execCommand(), but rather aquire a shell with Session.startShell().
+     * 该方法是 execCommand 的简化版本，默认显示命令执行结果。
+     * 对于单个 SSH 会话只能执行一个命令的限制，可以通过以下方式解决：
+     * 1. 使用 && 连接多个命令："echo Hello && echo again"
+     * 2. 为每个命令开启新的会话（推荐做法）
+     * 3. 使用 Session.startShell() 获取交互式 shell
      *
-     * @param explain explain
-     * @param command command
-     * @return string
-     * @throws IOException io exception
+     * @param explain 命令说明信息，用于日志记录
+     * @param command 要执行的 shell 命令
+     * @throws IOException 命令执行失败时抛出
      * @since 1.0.0
      */
     public void execCommand(String explain, String command) throws IOException {
@@ -107,12 +122,12 @@ public final class SSHAgent {
     }
 
     /**
-     * Exec command
+     * 执行远程命令并可选是否显示结果
      *
-     * @param explain    explain
-     * @param command    command
-     * @param showResult show result
-     * @throws IOException io exception
+     * @param explain    命令说明信息
+     * @param command    要执行的 shell 命令
+     * @param showResult 是否显示命令执行结果
+     * @throws IOException 命令执行失败时抛出
      * @since 1.0.0
      */
     public void execCommand(String explain, String command, boolean showResult) throws IOException {
@@ -120,13 +135,17 @@ public final class SSHAgent {
     }
 
     /**
-     * Exec command
+     * 执行远程命令并设置超时时间和结果显示选项
+     * <p>
+     * 该方法提供了最完整的命令执行控制，包括超时设置和结果显示控制。
+     * 使用 UTF-8 编码执行命令，确保中文字符的正确处理。
+     * 当显示结果时，会等待命令执行完成并输出所有结果和退出状态。
      *
-     * @param explain    explain
-     * @param command    command
-     * @param timeout    timeout
-     * @param showResult show result
-     * @throws IOException io exception
+     * @param explain    命令说明信息，用于日志记录
+     * @param command    要执行的 shell 命令
+     * @param timeout    命令执行超时时间（毫秒）
+     * @param showResult 是否输出命令执行结果和状态
+     * @throws IOException 命令执行或网络通信失败时抛出
      * @since 1.0.0
      */
     public void execCommand(String explain, String command, long timeout, boolean showResult) throws IOException {
@@ -149,11 +168,18 @@ public final class SSHAgent {
     }
 
     /**
-     * 远程传输单个文件
+     * 传输单个文件到远程服务器
+     * <p>
+     * 该方法实现安全的文件传输功能，包括以下步骤：
+     * 1. 验证源文件是否为有效的文件（非目录）
+     * 2. 在远程服务器上创建目标目录
+     * 3. 删除同名文件并创建新文件
+     * 4. 使用 SCP 协议传输文件内容
+     * 5. 记录传输耗时和结果
      *
-     * @param file                  file
-     * @param remoteTargetDirectory remote target directory
-     * @throws IOException io exception
+     * @param file                  要传输的本地文件对象
+     * @param remoteTargetDirectory 远程目标目录路径
+     * @throws IOException 文件传输失败时抛出
      * @since 1.0.0
      */
     public void transferFile(@NotNull File file, String remoteTargetDirectory) throws IOException {
@@ -179,11 +205,11 @@ public final class SSHAgent {
     }
 
     /**
-     * 远程传输单个文件
+     * 传输指定路径的文件到远程服务器
      *
-     * @param localFile             local file
-     * @param remoteTargetDirectory remote target directory
-     * @throws IOException io exception
+     * @param localFile             本地文件路径字符串
+     * @param remoteTargetDirectory 远程目标目录路径
+     * @throws IOException 文件传输失败时抛出
      * @since 1.0.0
      */
     public void transferFile(String localFile, String remoteTargetDirectory) throws IOException {
@@ -191,11 +217,18 @@ public final class SSHAgent {
     }
 
     /**
-     * 传输整个目录
+     * 递归传输整个目录及其子目录到远程服务器
+     * <p>
+     * 该方法实现整个目录结构的递归传输，包括以下特性：
+     * 1. 验证本地路径是否为有效目录
+     * 2. 过滤以点号开头的隐藏文件
+     * 3. 递归处理子目录和文件
+     * 4. 在远程服务器上创建相应的目录结构
+     * 5. 逐个传输所有文件
      *
-     * @param localDirectory        local directory
-     * @param remoteTargetDirectory remote target directory
-     * @throws IOException io exception
+     * @param localDirectory        本地目录路径
+     * @param remoteTargetDirectory 远程目标目录路径
+     * @throws IOException 目录传输过程中出现错误时抛出
      * @since 1.0.0
      */
     public void transferDirectory(String localDirectory, String remoteTargetDirectory) throws IOException {
@@ -222,9 +255,9 @@ public final class SSHAgent {
     }
 
     /**
-     * Gets file *
+     * 从远程服务器获取文件内容并输出到日志
      *
-     * @param fileName file name
+     * @param fileName 远程文件路径
      * @since 1.0.0
      */
     @SneakyThrows
@@ -239,7 +272,7 @@ public final class SSHAgent {
     }
 
     /**
-     * Close
+     * 关闭 SSH 连接并释放资源
      *
      * @since 1.0.0
      */
@@ -248,10 +281,10 @@ public final class SSHAgent {
     }
 
     /**
-     * Equals
+     * 比较两个 SSHAgent 对象是否相等，根据主机名判断
      *
-     * @param o o
-     * @return the boolean
+     * @param o 待比较的对象
+     * @return 相等返回 true，否则返回 false
      * @since 1.0.0
      */
     @Contract(value = "null -> false", pure = true)
@@ -268,9 +301,9 @@ public final class SSHAgent {
     }
 
     /**
-     * Hash code
+     * 获取 SSHAgent 对象的哈希码，基于主机名计算
      *
-     * @return the int
+     * @return 哈希码值
      * @since 1.0.0
      */
     @Override

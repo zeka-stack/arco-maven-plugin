@@ -12,7 +12,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 /**
- * <p>Description: </p>
+ * Bower 包管理工具 Maven 插件
  *
  * @author dong4j
  * @version 1.0.0
@@ -23,34 +23,30 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 @Mojo(name = "bower", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public final class BowerMojo extends AbstractFrontendMojo {
 
-    /**
-     * Bower arguments. Default is "install".
-     */
+    /** Bower 命令参数，默认为 "install" */
     @Parameter(defaultValue = "install", property = "frontend.bower.arguments", required = false)
     private String arguments;
 
-    /**
-     * Skips execution of this mojo.
-     */
+    /** 是否跳过插件执行 */
     @Parameter(property = "skip.bower", defaultValue = "${skip.bower}")
     private boolean skip;
 
-    /** Session */
+    /** Maven 执行会话 */
     @Parameter(property = "session", defaultValue = "${session}", readonly = true)
     private MavenSession session;
 
-    /** Bower inherits proxy config from maven */
+    /** Bower 是否继承 Maven 的代理配置 */
     @Parameter(property = "frontend.bower.bowerInheritsProxyConfigFromMaven", required = false, defaultValue = "true")
     private boolean bowerInheritsProxyConfigFromMaven;
 
-    /** Decrypter */
+    /** 设置解密器 */
     @Component(role = SettingsDecrypter.class)
     private SettingsDecrypter decrypter;
 
     /**
-     * Skip execution
+     * 判断是否跳过当前插件的执行
      *
-     * @return the boolean
+     * @return true 如果需要跳过执行
      * @since 1.0.0
      */
     @Override
@@ -59,10 +55,10 @@ public final class BowerMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Execute
+     * 执行 Bower 命令进行包管理操作
      *
-     * @param factory factory
-     * @throws TaskRunnerException task runner exception
+     * @param factory 前端插件工厂
+     * @throws TaskRunnerException 任务执行失败时抛出
      * @since 1.0.0
      */
     @Override
@@ -72,9 +68,9 @@ public final class BowerMojo extends AbstractFrontendMojo {
     }
 
     /**
-     * Gets proxy config *
+     * 获取代理配置，可选继承 Maven 代理设置
      *
-     * @return the proxy config
+     * @return 代理配置对象
      * @since 1.0.0
      */
     private ProxyConfig getProxyConfig() {

@@ -21,7 +21,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * <p>Description: </p>
+ * Maven插件文件写入器，提供模板文件处理、内容替换和文件生成功能
+ * <p>
+ * 该类用于处理各种文件写入场景，支持从classpath资源、本地文件读取内容，
+ * 并支持动态内容替换和模板处理。统一使用UTF-8编码处理，自动创建目标目录和文件。
  *
  * @author dong4j
  * @version 1.0.0
@@ -32,19 +35,30 @@ import org.jetbrains.annotations.NotNull;
 @Slf4j
 @SuppressWarnings("all")
 public final class FileWriter {
-    /** UTF_8 */
+    /**
+     * UTF-8字符集常量，用于统一文件编码处理
+     *
+     * @since 1.0.0
+     */
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
-    /** Output file */
+    /**
+     * 输出文件对象，指定文件写入的目标位置
+     *
+     * @since 1.0.0
+     */
     private final File outputFile;
 
-    /** Replace map */
+    /**
+     * 内容替换映射表，存储所有的占位符替换规则
+     *
+     * @since 1.0.0
+     */
     private final Map<String, String> replaceMap;
 
     /**
-     * Creates a new {@code BuildPropertiesWriter} that will write to the given
-     * {@code outputFile}.
+     * 创建文件写入器，使用空的替换映射表
      *
-     * @param outputFile the output file
+     * @param outputFile 输出文件对象
      * @since 1.0.0
      */
     @Contract(pure = true)
@@ -53,11 +67,10 @@ public final class FileWriter {
     }
 
     /**
-     * Creates a new {@code BuildPropertiesWriter} that will write to the given
-     * {@code outputFile}.
+     * 创建文件写入器，支持自定义的内容替换规则
      *
-     * @param outputFile the output file
-     * @param replaceMap replace map
+     * @param outputFile 输出文件对象
+     * @param replaceMap 内容替换映射表
      * @since 1.0.0
      */
     @SneakyThrows
@@ -69,10 +82,10 @@ public final class FileWriter {
     }
 
     /**
-     * Write build properties.
+     * 将Properties对象写入到目标文件中
      *
-     * @param properties properties
-     * @throws IOException the io exception
+     * @param properties 需要写入的Properties对象
+     * @throws IOException 文件写入错误时抛出
      * @since 1.0.0
      */
     public void write(@NotNull Properties properties) throws IOException {
@@ -82,9 +95,9 @@ public final class FileWriter {
     }
 
     /**
-     * 写文件
+     * 从类路径读取文件并写入到目标文件
      *
-     * @param file file
+     * @param file 类路径中的文件路径
      * @since 1.0.0
      */
     public void write(String file) {
@@ -92,8 +105,11 @@ public final class FileWriter {
     }
 
     /**
-     * @param file         文件
-     * @param sameFileName 是否写入相同的文件名(会覆盖 outputFile)
+     * 从类路径读取文件并支持选择不同的文件写入模式
+     *
+     * @param file         类路径中的文件路径
+     * @param sameFileName 是否使用动态文件名模式
+     * @since 1.0.0
      */
     public void write(String file, boolean sameFileName) {
         URL url = FileUtils.class.getClassLoader().getResource(file);
@@ -114,6 +130,14 @@ public final class FileWriter {
         }
     }
 
+    /**
+     * 在目标目录下创建与源文件同名的文件，并写入处理后的内容
+     *
+     * @param fileName 文件名
+     * @param content  文件内容
+     * @throws IOException 文件写入错误时抛出
+     * @since 1.0.0
+     */
     public void writeSameContent(String fileName, String content) throws IOException {
         if (CollectionUtil.isNotEmpty(this.replaceMap)) {
             for (Map.Entry<String, String> entry : this.replaceMap.entrySet()) {
@@ -132,10 +156,10 @@ public final class FileWriter {
     }
 
     /**
-     * 直接使用 file 写入 outputFile
+     * 直接读取本地文件并写入到目标文件
      *
-     * @param file file
-     * @throws IOException io exception
+     * @param file 本地文件对象
+     * @throws IOException 文件读取或写入错误时抛出
      * @since 1.0.0
      */
     public void write(File file) throws IOException {
@@ -146,10 +170,10 @@ public final class FileWriter {
     }
 
     /**
-     * 直接使用 content 写入 outputFile
+     * 直接将指定内容写入到目标文件
      *
-     * @param content content
-     * @throws IOException io exception
+     * @param content 文件内容
+     * @throws IOException 文件写入错误时抛出
      * @since 1.0.0
      */
     public void writeContent(String content) throws IOException {
@@ -165,10 +189,10 @@ public final class FileWriter {
     }
 
     /**
-     * 文件不存在则递归创建目录和文件
+     * 检查文件是否存在，不存在则递归创建目录和文件
      *
-     * @param file file
-     * @throws IOException io exception
+     * @param file 目标文件
+     * @throws IOException 文件创建错误时抛出
      * @since 1.0.0
      */
     private void createFileIfNecessary(@NotNull File file) throws IOException {

@@ -12,7 +12,52 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * <p>Description: 在 validate 阶段将 maven 的 profile 写入到指定文件, 在应用启动时获取此配置 </p>
+ * Spring Profile活跃属性管理Mojo，在validate阶段将Maven Profile写入指定文件
+ * <p>
+ * 该Mojo在Maven源码生成阶段执行，主要负责管理Spring Boot应用的Profile配置
+ * 将Maven构建时的Profile信息传递给Spring应用，实现构建环境和运行环境的一致性
+ * 支持自动初始化和环境切换，提供灵活的开发和部署支持
+ * <p>
+ * 主要特性：
+ * - 环境一致性：确保Maven和Spring的环境配置一致
+ * - 自动初始化：首次构建时自动创建默认配置（local）
+ * - 非破坏性：不会覆盖已存在的手动配置
+ * - 属性注入：自动向Maven环境注入profile.active属性
+ * - 灵活配置：支持通过修改文件切换环境
+ * <p>
+ * 工作流程：
+ * 1. <b>检查文件存在</b>：判断 spring.profiles.active 文件是否存在
+ * 2. <b>创建默认配置</b>：如果文件不存在，创建并写入"local"
+ * 3. <b>属性注入</b>：检查Maven属性中的profile.active配置
+ * 4. <b>属性设置</b>：如果属性为空，自动设置为"local"
+ * <p>
+ * 环境切换方式：
+ * - <b>修改文件</b>：直接修改 spring.profiles.active 文件内容
+ * - <b>Maven参数</b>：使用 -Dprofile.active=xxx 参数
+ * - <b>重置环境</b>：使用 mvn clean 清理，下次构建自动初始化为local
+ * <p>
+ * 支持的环境配置：
+ * - <b>local</b>：本地开发环境（默认）
+ * - <b>dev</b>：开发测试环境
+ * - <b>test</b>：测试环境
+ * - <b>staging</b>：预生产环境
+ * - <b>prod</b>：生产环境
+ * <p>
+ * 使用场景：
+ * - Spring Boot应用的环境配置管理
+ * - 开发、测试、生产环境的自动切换
+ * - CI/CD流水线中的环境控制
+ * - 微服务部署中的配置管理
+ * - 多环境应用的配置统一管理
+ * <p>
+ * 配置参数：
+ * - skip：是否跳过该Mojo的执行（默认关闭）
+ * - outputFile：spring.profiles.active文件的输出路径
+ * <p>
+ * 执行配置：
+ * - 默认阶段：generate-sources（源码生成阶段）
+ * - 目标名称：profile-active-property
+ * - 线程安全：支持
  *
  * @author dong4j
  * @version 1.0.0

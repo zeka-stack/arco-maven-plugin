@@ -14,7 +14,54 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * <p>Description: </p>
+ * NPM包管理器Maven插件，提供了在Maven构建过程中执行npm命令的能力
+ * <p>
+ * 该插件类封装了npm包管理器的核心功能，使得Java项目能够无缝集成前端依赖管理和构建流程
+ * 通过Maven的标准生命周期管理，实现前端资源的自动化下载、安装和管理
+ * <p>
+ * 核心功能特性：
+ * <ul>
+ *     <li>npm命令执行 - 支持执行任意npm命令，默认为install</li>
+ *     <li>代理配置继承 - 自动继承Maven的代理设置给npm</li>
+ *     <li>注册表覆盖 - 支持自定义npm注册表URL</li>
+ *     <li>增量构建 - 智能检测package.json变化，跳过不必要的安装</li>
+ *     <li>并发安全 - 支持多线程并发构建的线程安全执行</li>
+ * </ul>
+ * <p>
+ * 高级特性支持：
+ * <ul>
+ *     <li>代理自动配置 - 自动从 Maven settings.xml 读取代理配置</li>
+ *     <li>加密设置解密 - 支持Maven加密密码的自动解密</li>
+ *     <li>增量构建支持 - 集成Plexus增量构建上下文</li>
+ *     <li>灵活的执行控制 - 支持通过参数跳过执行</li>
+ * </ul>
+ * <p>
+ * 该插件特别适用于前后端分离架构中的前端资源管理
+ * 在Maven的GENERATE_RESOURCES阶段自动执行，确保前端依赖在打包前安装完成
+ * <p>
+ * 配置示例：
+ * <ul>
+ *     <li>默认执行: npm install</li>
+ *     <li>自定义命令: npm run build</li>
+ *     <li>指定注册表: -DnpmRegistryURL=https://registry.npm.taobao.org</li>
+ *     <li>跳过执行: -Dskip.npm=true</li>
+ * </ul>
+ * <p>
+ * 技术实现亮点：
+ * <ul>
+ *     <li>使用synchronized确保并发安全的执行</li>
+ *     <li>集成Maven会话和设置解密器</li>
+ *     <li>支持系统属性覆盖配置参数</li>
+ *     <li>智能的增量构建和缓存管理</li>
+ * </ul>
+ * <p>
+ * 使用场景：
+ * <ul>
+ *     <li>React、Vue、Angular等单页应用的依赖管理</li>
+ *     <li>微服务项目中的前端资源构建</li>
+ *     <li>持续集成中的自动化前端构建流程</li>
+ *     <li>开发环境中的前端依赖安装和更新</li>
+ * </ul>
  *
  * @author dong4j
  * @version 1.0.0

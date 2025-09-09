@@ -6,7 +6,7 @@ import lombok.Data;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * <p>Description:  </p>
+ * 服务器配置实体类
  *
  * @author dong4j
  * @version 1.0.0
@@ -17,18 +17,18 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Data
 public class Server {
 
-    /** Host */
+    /** 服务器主机地址 */
     @Parameter
     private String host;
-    /** Name */
+    /** 服务器名称列表 */
     @Parameter
     private List<String> names;
 
     /**
-     * Equals
+     * 判断两个服务器对象是否相等，根据主机地址比较
      *
-     * @param o o
-     * @return the boolean
+     * @param o 待比较的对象
+     * @return 相等返回 true，否则返回 false
      * @since 1.0.0
      */
     @Override
@@ -44,9 +44,9 @@ public class Server {
     }
 
     /**
-     * Hash code
+     * 获取服务器对象的哈希码，基于主机地址计算
      *
-     * @return the int
+     * @return 哈希码值
      * @since 1.0.0
      */
     @Override
