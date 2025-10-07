@@ -106,7 +106,7 @@
         <module name="JavadocMethod">
             <property name="severity" value="error"/>
             <property name="tokens" value="METHOD_DEF,CTOR_DEF"/>
-            <property name="accessModifiers" value="private"/>
+            <!-- <property name="accessModifiers" value="private"/> -->
             <property name="allowMissingParamTags" value="false"/>
             <property name="allowMissingReturnTag" value="true"/>
             <message key="javadoc.missing" value="方法注释: 缺少/错误的 Javadoc 注释."/>
@@ -115,7 +115,7 @@
         <!-- 检查类变量的注释
              scope: 检查变量的范围, 例如: public 只能检查 public 修饰的变量, private 可以检查所有的变量 -->
         <module name="JavadocVariable">
-            <property name="accessModifiers" value="private"/>
+            <!-- <property name="accessModifiers" value="private"/> -->
         </module>
 
         <!-- 命名检查 -->
