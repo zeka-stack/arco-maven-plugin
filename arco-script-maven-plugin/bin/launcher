@@ -307,7 +307,7 @@ mkdir_log_file() {
 running() {
   print_info "JVM 启动参数: ${JVM_OPTIONS}"
   print_title "启动命令"
-  echo -e "nohup ${JAVA_EXE} -jar
+  echo -e "nohup ${JAVA_EXE} --add-opens java.base/java.lang.reflect=ALL-UNNAMED -jar
         -Djava.security.egd=file:/dev/./urandom
         ${JVM_OPTIONS}
         -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M
@@ -341,7 +341,7 @@ running() {
         --slot.path=plugin/ >${FINAL_LOG_PATH}/${LOG_NAME} 2>&1 &"
   print_line
 
-  nohup "$JAVA_EXE" -jar \
+  nohup "$JAVA_EXE" --add-opens java.base/java.lang.reflect=ALL-UNNAMED -jar \
     -Djava.security.egd=file:/dev/./urandom \
     ${JVM_OPTIONS} \
     -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M \
