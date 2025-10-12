@@ -3,7 +3,6 @@ package dev.dong4j.zeka.maven.plugin.helper.mojo;
 import dev.dong4j.zeka.maven.plugin.common.FileWriter;
 import dev.dong4j.zeka.maven.plugin.common.Plugins;
 import dev.dong4j.zeka.maven.plugin.common.ZekaMavenPluginAbstractMojo;
-import dev.dong4j.zeka.maven.plugin.common.enums.ApplicationType;
 import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -86,10 +85,6 @@ public class GenerateAssemblyConfigFileMojo extends ZekaMavenPluginAbstractMojo 
         </excludes>""";
     /** PROPERTIES_INCLUDE */
     public static final String PROPERTIES_INCLUDE = "#{include}";
-    /** BOOT_PROPERTIES_INCLUDE */
-    public static final String BOOT_PROPERTIES_INCLUDE = "application*.yml";
-    /** CLOUD_PROPERTIES_INCLUDE */
-    public static final String CLOUD_PROPERTIES_INCLUDE = "bootstrap.yml";
 
     /**
      * Execute *
@@ -112,12 +107,8 @@ public class GenerateAssemblyConfigFileMojo extends ZekaMavenPluginAbstractMojo 
                 this.getLog().error(e.getMessage(), e);
             }
         } else {
-            ApplicationType applicationType = this.deduceFromDependencies();
 
-            String include = BOOT_PROPERTIES_INCLUDE;
-            if (applicationType == ApplicationType.CLOUD) {
-                include = CLOUD_PROPERTIES_INCLUDE;
-            }
+            String include = "*.yml";
 
             String dependencesExclude;
 
