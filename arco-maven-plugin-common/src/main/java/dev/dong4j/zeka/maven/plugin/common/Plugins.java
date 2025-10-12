@@ -129,7 +129,6 @@ public final class Plugins {
     public static final String SKIP_GITCOMMITID = "maven.gitcommitid.skip";
     /** SKIP_BUILD_INFO */
     public static final String SKIP_BUILD_INFO = "build.info.skip";
-    public static final String SKIP_BUILD_ACTIVE_FILE = "build.profile.active.file.skip";
     /** SKIP_BUILD_MAINCLASS_PROPERTY */
     public static final String SKIP_BUILD_MAINCLASS_PROPERTY = "build.mainclass.property.skip";
     /** SKIP_ASSEMBLY_CONFIG */

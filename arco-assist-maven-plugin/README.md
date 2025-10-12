@@ -208,13 +208,6 @@ mvn clean package -X
                 </additionalProperties>
             </configuration>
         </execution>
-        <!-- 注入 profile.active 变量 (local) dev.dong4j.zeka.maven.plugin.helper.SpringProfilesActivePropertyMojo -->
-        <execution>
-            <id>profile-active-property</id>
-            <goals>
-                <goal>profile-active-property</goal>
-            </goals>
-        </execution>
         <!-- 动态生成 assembly.xml dev.dong4j.zeka.maven.plugin.helper.GenerateAssemblyConfigFileMojo -->
         <execution>
             <id>generate-assembly-config</id>
@@ -1258,13 +1251,6 @@ uploadProjects.forEach(p -> {
                             <compiler.target.jdk>${java.version}</compiler.target.jdk>
                         </additionalProperties>
                     </configuration>
-                </execution>
-                <!-- 注入 profile.active 变量 (local) dev.dong4j.zeka.maven.plugin.helper.SpringProfilesActivePropertyMojo -->
-                <execution>
-                    <id>profile-active-property</id>
-                    <goals>
-                        <goal>profile-active-property</goal>
-                    </goals>
                 </execution>
                 <!-- 动态生成 assembly.xml dev.dong4j.zeka.maven.plugin.helper.GenerateAssemblyConfigFileMojo -->
                 <execution>

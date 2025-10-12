@@ -108,8 +108,6 @@ public class SkipPluginMojo extends ZekaMavenPluginAbstractMojo implements JavaF
             System.setProperty(this.getProject().getModel().getArtifactId() + Plugins.START_CLASS_SUFFIX, javaFile.getClassName());
             // 生成 build-info.properties
             this.defineProperty(Plugins.SKIP_BUILD_INFO, Plugins.TURN_ON_PLUGIN);
-            // 创建 profiles 文件
-            this.defineProperty(Plugins.SKIP_BUILD_ACTIVE_FILE, Plugins.TURN_ON_PLUGIN);
             // 生成 start.class 属性
             this.defineProperty(Plugins.SKIP_BUILD_MAINCLASS_PROPERTY, Plugins.TURN_ON_PLUGIN);
             // 生成 assembly.xml 文件

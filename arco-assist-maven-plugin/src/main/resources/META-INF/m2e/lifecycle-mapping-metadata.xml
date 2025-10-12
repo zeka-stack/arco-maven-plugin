@@ -7,7 +7,6 @@
                     <goal>skip-plugin</goal>
                     <goal>timestamp-property</goal>
                     <goal>mainclass-property</goal>
-                    <goal>profile-active-property</goal>
                     <goal>generate-build-info</goal>
                     <goal>generate-assembly-config</goal>
                     <goal>upload-file</goal>
