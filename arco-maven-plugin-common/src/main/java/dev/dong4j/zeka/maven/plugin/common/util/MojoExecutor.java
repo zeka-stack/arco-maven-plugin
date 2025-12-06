@@ -1,6 +1,5 @@
 package dev.dong4j.zeka.maven.plugin.common.util;
 
-import lombok.experimental.UtilityClass;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.BuildPluginManager;
@@ -16,6 +15,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * Executes an arbitrary mojo using a fluent interface.  This is meant to be executed within the context of a Maven 2
@@ -45,7 +46,7 @@ import java.util.Collections;
  * @version 1.0.0
  * @email "mailto:dong4j@gmail.com"
  * @date 2020.05.01 21:49
- * @see `http://code.google.com/p/mojo-executor/`
+ * @see <a href="http://code.google.com/p/mojo-executor/">...</a>
  * @since 1.0.0
  */
 @UtilityClass
@@ -67,22 +68,22 @@ public class MojoExecutor {
             throw new NullPointerException("configuration may not be null");
         }
         try {
-            MavenSession session = env.getMavenSession();
+            MavenSession session = env.mavenSession();
 
-            PluginDescriptor pluginDescriptor = env.getPluginManager().loadPlugin(plugin,
-                Collections.emptyList(),
-                session.getRepositorySession());
+            PluginDescriptor pluginDescriptor = env.pluginManager().loadPlugin(plugin,
+                                                                               Collections.emptyList(),
+                                                                               session.getRepositorySession());
             MojoDescriptor mojo = pluginDescriptor.getMojo(goal);
             if (mojo == null) {
                 throw new MojoExecutionException("Could not find goal '" + goal + "' in plugin "
-                    + plugin.getGroupId() + ":"
-                    + plugin.getArtifactId() + ":"
-                    + plugin.getVersion());
+                                                 + plugin.getGroupId() + ":"
+                                                 + plugin.getArtifactId() + ":"
+                                                 + plugin.getVersion());
             }
             configuration = Xpp3DomUtils.mergeXpp3Dom(configuration,
-                toXpp3Dom(mojo.getMojoConfiguration()));
+                                                      toXpp3Dom(mojo.getMojoConfiguration()));
             MojoExecution exec = new MojoExecution(mojo, configuration);
-            env.getPluginManager().executeMojo(session, exec);
+            env.pluginManager().executeMojo(session, exec);
         } catch (Exception e) {
             throw new MojoExecutionException("Unable to execute mojo", e);
         }
@@ -310,20 +311,16 @@ public class MojoExecutor {
     /**
      * Collects Maven execution information
      *
+     * @param mavenProject  Maven project
+     * @param mavenSession  Maven session
+     * @param pluginManager Plugin manager
      * @author dong4j
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.05.01 21:49
      * @since 1.0.0
      */
-    public static class ExecutionEnvironment {
-        /** Maven project */
-        private final MavenProject mavenProject;
-        /** Maven session */
-        private final MavenSession mavenSession;
-        /** Plugin manager */
-        private final BuildPluginManager pluginManager;
-
+    public record ExecutionEnvironment(MavenProject mavenProject, MavenSession mavenSession, BuildPluginManager pluginManager) {
         /**
          * Execution environment
          *
@@ -332,8 +329,7 @@ public class MojoExecutor {
          * @param pluginManager plugin manager
          * @since 1.0.0
          */
-        public ExecutionEnvironment(MavenProject mavenProject, MavenSession mavenSession,
-                                    BuildPluginManager pluginManager) {
+        public ExecutionEnvironment {
             if (mavenProject == null) {
                 throw new NullPointerException("mavenProject may not be null");
             }
@@ -343,9 +339,6 @@ public class MojoExecutor {
             if (pluginManager == null) {
                 throw new NullPointerException("pluginManager may not be null");
             }
-            this.mavenProject = mavenProject;
-            this.mavenSession = mavenSession;
-            this.pluginManager = pluginManager;
         }
 
         /**
@@ -354,7 +347,8 @@ public class MojoExecutor {
          * @return the maven project
          * @since 1.0.0
          */
-        public MavenProject getMavenProject() {
+        @Override
+        public MavenProject mavenProject() {
             return this.mavenProject;
         }
 
@@ -364,7 +358,8 @@ public class MojoExecutor {
          * @return the maven session
          * @since 1.0.0
          */
-        public MavenSession getMavenSession() {
+        @Override
+        public MavenSession mavenSession() {
             return this.mavenSession;
         }
 
@@ -374,7 +369,8 @@ public class MojoExecutor {
          * @return the plugin manager
          * @since 1.0.0
          */
-        public BuildPluginManager getPluginManager() {
+        @Override
+        public BuildPluginManager pluginManager() {
             return this.pluginManager;
         }
     }
