@@ -399,7 +399,7 @@ docker build -f target/docker/Dockerfile-M -t your-app:latest target --no-cache
 
 ## 📄 许可证
 
-本项目采用 [MIT 许可证](LICENSE)
+本项目采用 [MIT 许可证](https://github.com/zeka-stack/zeka-stack/blob/main/LICENSE)
 
 ## 🙏 致谢
 

@@ -152,7 +152,7 @@ public class ExplodedArchive implements Archive {
      * @since 1.0.0
      */
     protected Archive getNestedArchive(Entry entry) throws IOException {
-        File file = ((FileEntry) entry).getFile();
+        File file = ((FileEntry) entry).file();
         return (file.isDirectory() ? new ExplodedArchive(file) : new JarFileArchive(file));
     }
 
@@ -318,19 +318,15 @@ public class ExplodedArchive implements Archive {
     /**
      * {@link Entry} backed by a File.
      *
+     * @param name Name
+     * @param file File
      * @author dong4j
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.04.30 15:49
      * @since 1.0.0
      */
-    private static class FileEntry implements Entry {
-
-        /** Name */
-        private final String name;
-
-        /** File */
-        private final File file;
+    private record FileEntry(String name, File file) implements Entry {
 
         /**
          * File entry
@@ -339,9 +335,7 @@ public class ExplodedArchive implements Archive {
          * @param file file
          * @since 1.0.0
          */
-        FileEntry(String name, File file) {
-            this.name = name;
-            this.file = file;
+        private FileEntry {
         }
 
         /**
@@ -350,20 +344,21 @@ public class ExplodedArchive implements Archive {
          * @return the file
          * @since 1.0.0
          */
-        File getFile() {
+        @Override
+        public File file() {
             return this.file;
         }
 
-        /**
-         * Is directory boolean
-         *
-         * @return the boolean
-         * @since 1.0.0
-         */
-        @Override
-        public boolean isDirectory() {
-            return this.file.isDirectory();
-        }
+            /**
+             * Is directory boolean
+             *
+             * @return the boolean
+             * @since 1.0.0
+             */
+            @Override
+            public boolean isDirectory() {
+                return this.file.isDirectory();
+            }
 
         /**
          * Gets name *
@@ -372,7 +367,7 @@ public class ExplodedArchive implements Archive {
          * @since 1.0.0
          */
         @Override
-        public String getName() {
+        public String name() {
             return this.name;
         }
 

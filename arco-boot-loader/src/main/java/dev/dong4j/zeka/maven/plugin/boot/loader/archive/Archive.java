@@ -120,7 +120,7 @@ public interface Archive extends Iterable<Archive.Entry>, AutoCloseable {
          * @return the name of the entry
          * @since 1.0.0
          */
-        String getName();
+        String name();
 
     }
 

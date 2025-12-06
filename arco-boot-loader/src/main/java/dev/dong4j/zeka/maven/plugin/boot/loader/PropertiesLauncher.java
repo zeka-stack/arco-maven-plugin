@@ -1,9 +1,10 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader;
 
-import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
-import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
-import dev.dong4j.zeka.maven.plugin.boot.loader.archive.JarFileArchive;
-import dev.dong4j.zeka.maven.plugin.boot.loader.util.SystemPropertyUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.util.Assert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,10 +25,11 @@ import java.util.Set;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.util.Assert;
+
+import dev.dong4j.zeka.maven.plugin.boot.loader.archive.Archive;
+import dev.dong4j.zeka.maven.plugin.boot.loader.archive.ExplodedArchive;
+import dev.dong4j.zeka.maven.plugin.boot.loader.archive.JarFileArchive;
+import dev.dong4j.zeka.maven.plugin.boot.loader.util.SystemPropertyUtils;
 
 /**
  * 通过属性文件配置类路径和主类的存档启动程序.
@@ -754,9 +756,9 @@ public class PropertiesLauncher extends Launcher {
         try {
             lib.addAll(this.parent.getNestedArchives((entry) -> {
                 if (entry.isDirectory()) {
-                    return entry.getName().equals(BOOT_INF_CLASSES);
+                    return entry.name().equals(BOOT_INF_CLASSES);
                 }
-                return entry.getName().startsWith(BOOT_INF_LIB);
+                return entry.name().startsWith(BOOT_INF_LIB);
             }));
         } catch (IOException ignored) {
         }
@@ -861,9 +863,9 @@ public class PropertiesLauncher extends Launcher {
         @Override
         public boolean matches(Archive.@NotNull Entry entry) {
             if (entry.isDirectory()) {
-                return entry.getName().equals(this.prefix);
+                return entry.name().equals(this.prefix);
             }
-            return entry.getName().startsWith(this.prefix) && this.filter.matches(entry);
+            return entry.name().startsWith(this.prefix) && this.filter.matches(entry);
         }
 
     }
@@ -888,7 +890,7 @@ public class PropertiesLauncher extends Launcher {
          */
         @Override
         public boolean matches(Archive.@NotNull Entry entry) {
-            return entry.getName().endsWith(DOT_JAR) || entry.getName().endsWith(DOT_ZIP);
+            return entry.name().endsWith(DOT_JAR) || entry.name().endsWith(DOT_ZIP);
         }
 
     }

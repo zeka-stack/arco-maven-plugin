@@ -1,7 +1,5 @@
 package dev.dong4j.zeka.maven.plugin.boot.loader.archive;
 
-import dev.dong4j.zeka.maven.plugin.boot.loader.jar.CustomJarFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.Manifest;
+
+import dev.dong4j.zeka.maven.plugin.boot.loader.jar.CustomJarFile;
 
 /**
  * {@link Archive} implementation backed by a {@link CustomJarFile}.
@@ -155,14 +155,14 @@ public class JarFileArchive implements Archive {
      * @since 1.0.0
      */
     protected Archive getNestedArchive(Entry entry) throws IOException {
-        JarEntry jarEntry = ((JarFileEntry) entry).getJarEntry();
+        JarEntry jarEntry = ((JarFileEntry) entry).jarEntry();
         if (jarEntry.getComment().startsWith(UNPACK_MARKER)) {
             return this.getUnpackedNestedArchive(jarEntry);
         }
         try {
             return new JarFileArchive(this.jarFile.getNestedJarFile(jarEntry));
         } catch (Exception ex) {
-            throw new IllegalStateException("Failed to get nested archive for entry " + entry.getName(), ex);
+            throw new IllegalStateException("Failed to get nested archive for entry " + entry.name(), ex);
         }
     }
 
@@ -255,18 +255,16 @@ public class JarFileArchive implements Archive {
     }
 
     /**
-     * {@link Archive.Entry} iterator implementation backed by {@link JarEntry}.
+     * {@link Entry} iterator implementation backed by {@link JarEntry}.
      *
+     * @param enumeration Enumeration
      * @author dong4j
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.04.30 15:49
      * @since 1.0.0
      */
-    private static class EntryIterator implements Iterator<Entry> {
-
-        /** Enumeration */
-        private final Enumeration<JarEntry> enumeration;
+        private record EntryIterator(Enumeration<JarEntry> enumeration) implements Iterator<Entry> {
 
         /**
          * Entry iterator
@@ -274,58 +272,55 @@ public class JarFileArchive implements Archive {
          * @param enumeration enumeration
          * @since 1.0.0
          */
-        EntryIterator(Enumeration<JarEntry> enumeration) {
-            this.enumeration = enumeration;
+        private EntryIterator {
         }
 
-        /**
-         * Has next boolean
-         *
-         * @return the boolean
-         * @since 1.0.0
-         */
-        @Override
-        public boolean hasNext() {
-            return this.enumeration.hasMoreElements();
-        }
+            /**
+             * Has next boolean
+             *
+             * @return the boolean
+             * @since 1.0.0
+             */
+            @Override
+            public boolean hasNext() {
+                return this.enumeration.hasMoreElements();
+            }
 
-        /**
-         * Next entry
-         *
-         * @return the entry
-         * @since 1.0.0
-         */
-        @Override
-        @SuppressWarnings("java:S2272")
-        public Entry next() {
-            return new JarFileEntry(this.enumeration.nextElement());
-        }
+            /**
+             * Next entry
+             *
+             * @return the entry
+             * @since 1.0.0
+             */
+            @Override
+            @SuppressWarnings("java:S2272")
+            public Entry next() {
+                return new JarFileEntry(this.enumeration.nextElement());
+            }
 
-        /**
-         * Remove
-         *
-         * @since 1.0.0
-         */
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("remove");
-        }
+            /**
+             * Remove
+             *
+             * @since 1.0.0
+             */
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("remove");
+            }
 
-    }
+        }
 
     /**
-     * {@link Archive.Entry} implementation backed by a {@link JarEntry}.
+     * {@link Entry} implementation backed by a {@link JarEntry}.
      *
+     * @param jarEntry Jar entry
      * @author dong4j
      * @version 1.0.0
      * @email "mailto:dong4j@gmail.com"
      * @date 2020.04.30 15:49
      * @since 1.0.0
      */
-    private static class JarFileEntry implements Entry {
-
-        /** Jar entry */
-        private final JarEntry jarEntry;
+        private record JarFileEntry(JarEntry jarEntry) implements Entry {
 
         /**
          * Jar file entry
@@ -333,42 +328,42 @@ public class JarFileArchive implements Archive {
          * @param jarEntry jar entry
          * @since 1.0.0
          */
-        JarFileEntry(JarEntry jarEntry) {
-            this.jarEntry = jarEntry;
+        private JarFileEntry {
         }
 
-        /**
-         * Gets jar entry *
-         *
-         * @return the jar entry
-         * @since 1.0.0
-         */
-        JarEntry getJarEntry() {
-            return this.jarEntry;
-        }
+            /**
+             * Gets jar entry *
+             *
+             * @return the jar entry
+             * @since 1.0.0
+             */
+            @Override
+            public JarEntry jarEntry() {
+                return this.jarEntry;
+            }
 
-        /**
-         * Is directory boolean
-         *
-         * @return the boolean
-         * @since 1.0.0
-         */
-        @Override
-        public boolean isDirectory() {
-            return this.jarEntry.isDirectory();
-        }
+            /**
+             * Is directory boolean
+             *
+             * @return the boolean
+             * @since 1.0.0
+             */
+            @Override
+            public boolean isDirectory() {
+                return this.jarEntry.isDirectory();
+            }
 
-        /**
-         * Gets name *
-         *
-         * @return the name
-         * @since 1.0.0
-         */
-        @Override
-        public String getName() {
-            return this.jarEntry.getName();
-        }
+            /**
+             * Gets name *
+             *
+             * @return the name
+             * @since 1.0.0
+             */
+            @Override
+            public String name() {
+                return this.jarEntry.getName();
+            }
 
-    }
+        }
 
 }

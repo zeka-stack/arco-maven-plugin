@@ -527,7 +527,7 @@ ${project.build.directory}/arco-maven-plugin/assembly/assembly.xml
 - 同一版本号在任何环境下构建产物完全一致
 - 不同版本号有不同的时间戳,便于区分
 
-关于 `maven-assembly-plugin` 的 `outputTimestamp` 配置的详细说明可参考 [可重现构建说明文档](assembly.outputTimestamp.md).
+关于 `maven-assembly-plugin` 的 `outputTimestamp` 配置的详细说明可参考 [[assembly.outputTimestamp|可重现构建说明文档]].
 
 ---
 
