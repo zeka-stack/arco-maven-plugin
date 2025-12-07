@@ -1,4 +1,8 @@
-# Arco Makeself Maven Plugin
+---
+published: 2022.04.26
+---
+
+# 自解压部署
 
 ## 简介
 

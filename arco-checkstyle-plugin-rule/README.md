@@ -1,4 +1,8 @@
-# Arco Checkstyle Plugin Rule
+---
+published: 2022.03.15
+---
+
+# 代码风格检查
 
 ## 概述
 

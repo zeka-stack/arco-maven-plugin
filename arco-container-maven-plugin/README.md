@@ -1,4 +1,8 @@
-# Arco Container Maven Plugin
+---
+published: 2022.04.19
+---
+
+# 容器化插件
 
 一个专为 Spring Boot 应用程序设计的 Maven 插件，用于自动化生成 Docker 容器化配置文件和优化的镜像构建策略。
 

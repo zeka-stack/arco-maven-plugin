@@ -1,4 +1,8 @@
-# Arco Assist Maven Plugin
+---
+published: 2022.03.01
+---
+
+# 核心辅助插件
 
 ## 概述
 

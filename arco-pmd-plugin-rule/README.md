@@ -1,4 +1,8 @@
-# Arco PMD Plugin Rule
+---
+published: 2022.03.22
+---
+
+# 代码质量检查
 
 ## 概述
 

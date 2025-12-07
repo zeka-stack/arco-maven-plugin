@@ -1,4 +1,8 @@
-# Arco Publish Maven Plugin
+---
+published: 2022.04.05
+---
+
+# 一键部署插件
 
 ## 📖 简介
 

@@ -1,4 +1,8 @@
-# Arco Script Maven Plugin
+---
+published: 2022.04.12
+---
+
+# 启动脚本生成
 
 ## 概述
 

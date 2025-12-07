@@ -1,6 +1,10 @@
+---
+published: 2022.03.08
+---
+
 <!-- autoHeader:1 -->
 
-# Arco Boot Maven Plugin
+# 启动优化插件
 
 ## 项目背景
 

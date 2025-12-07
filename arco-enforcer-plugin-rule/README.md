@@ -1,4 +1,8 @@
-# Arco Enforcer Plugin Rule
+---
+published: 2022.03.29
+---
+
+# 依赖管理检查
 
 ## 概述
 
