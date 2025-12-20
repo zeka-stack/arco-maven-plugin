@@ -40,7 +40,12 @@ public class AssemblyOutputTimestampMojo extends AbstractMojo {
         final String propertyValue = project.getProperties().getProperty(propertyKey);
         if (StringUtils.isBlank(propertyValue)) {
             // 如果属性值不存在，则使用默认时间戳
-            getLog().error("[" + propertyKey + "] 未配置, 请添加对应的配置, 确保 value 格式正确");
+            getLog().error("[" + propertyKey + "] 未配置, 请添加对应的配置, 确保 value 格式正确\n" +
+                           "<properties>\n" +
+                           "  ...\n" +
+                           "  <!-- 每个版本固定一个 outputTimestamp -->\n" +
+                           "  <outputTimestamp.1.0.0-SNAPSHOT>2025-08-01T00:00:00Z</outputTimestamp.1.0.0-SNAPSHOT>\n" +
+                           "</properties>");
         }
         // 注入到 MavenProject properties
         this.project.getProperties().put(propertyName, propertyValue);
