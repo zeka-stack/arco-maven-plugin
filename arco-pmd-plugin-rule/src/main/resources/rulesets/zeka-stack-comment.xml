@@ -5,7 +5,9 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
     <description>AlibabaJavaComments</description>
 
-    <rule name="CommentsMustBeJavadocFormatRule" message="java.comment.CommentsMustBeJavadocFormatRule.rule.msg"
+    <rule name="CommentsMustBeJavadocFormatRule"
+          language="java"
+          message="java.comment.CommentsMustBeJavadocFormatRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.CommentsMustBeJavadocFormatRule">
         <description>java.comment.CommentsMustBeJavadocFormatRule.rule.desc</description>
         <priority>3</priority>
@@ -44,6 +46,7 @@
     </rule>
 
     <rule name="AbstractMethodOrInterfaceMethodMustUseJavadocRule"
+          language="java"
           message="java.comment.AbstractMethodOrInterfaceMethodMustUseJavadocRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.AbstractMethodOrInterfaceMethodMustUseJavadocRule">
         <description>java.comment.AbstractMethodOrInterfaceMethodMustUseJavadocRule.rule.desc</description>
@@ -64,7 +67,9 @@
         </example>
     </rule>
 
-    <rule name="ClassMustHaveAuthorRule" message="java.comment.ClassMustHaveAuthorRule.rule.msg"
+    <rule name="ClassMustHaveAuthorRule"
+          language="java"
+          message="java.comment.ClassMustHaveAuthorRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.ClassMustHaveAuthorRule">
         <description>java.comment.ClassMustHaveAuthorRule.rule.desc</description>
         <priority>3</priority>
@@ -83,7 +88,9 @@
         </example>
     </rule>
 
-    <rule name="EnumConstantsMustHaveCommentRule" message="java.comment.EnumConstantsMustHaveCommentRule.rule.msg"
+    <rule name="EnumConstantsMustHaveCommentRule"
+          language="java"
+          message="java.comment.EnumConstantsMustHaveCommentRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.EnumConstantsMustHaveCommentRule">
         <priority>2</priority>
 
@@ -114,6 +121,7 @@
     </rule>
 
     <rule name="AvoidCommentBehindStatementRule"
+          language="java"
           message="java.comment.AvoidCommentBehindStatementRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.AvoidCommentBehindStatementRule">
         <priority>3</priority>
@@ -134,6 +142,7 @@
     </rule>
 
     <rule name="RemoveCommentedCodeRule"
+          language="java"
           message="java.comment.RemoveCommentedCodeRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.comment.RemoveCommentedCodeRule">
         <description>java.comment.RemoveCommentedCodeRule.rule.desc</description>

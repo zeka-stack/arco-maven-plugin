@@ -114,14 +114,14 @@ zeka.stack 框架已经内置了完整的插件配置，无需手动添加。框
 ```
 .
 ├── bin
-│   └── launcher
+│   └── launcher
 ├── config
-│   ├── application-default.yml
-│   ├── application-dev.yml
-│   ├── application-local.yml
-│   ├── application.yml
-│   ├── build-info.properties
-│   └── pom.properties
+│   ├── application-default.yml
+│   ├── application-dev.yml
+│   ├── application-local.yml
+│   ├── application.yml
+│   ├── build-info.properties
+│   └── pom.properties
 ├── cubo-rest-spring-boot-sample-servlet.jar
 └── lib
     ├── blen-kernel-auth-2.0.0-SNAPSHOT.jar

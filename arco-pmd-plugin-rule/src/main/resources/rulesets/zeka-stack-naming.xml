@@ -94,27 +94,27 @@
         </example>
     </rule>
 
-    <rule name="ServiceOrDaoClassShouldEndWithImplRule"
-          language="java"
-          since="1.6"
-          message="java.naming.ServiceOrDaoClassShouldEndWithImplRule.rule.msg"
-          class="com.alibaba.p3c.pmd.lang.java.rule.naming.ServiceOrDaoClassShouldEndWithImplRule">
-        <priority>2</priority>
-        <example>
-            <![CDATA[
-    public interface DemoService{
-        void f();
-    }
+    <!--<rule name="ServiceOrDaoClassShouldEndWithImplRule"-->
+    <!--      language="java"-->
+    <!--      since="1.6"-->
+    <!--      message="java.naming.ServiceOrDaoClassShouldEndWithImplRule.rule.msg"-->
+    <!--      class="com.alibaba.p3c.pmd.lang.java.rule.naming.ServiceOrDaoClassShouldEndWithImplRule">-->
+    <!--    <priority>2</priority>-->
+    <!--    <example>-->
+    <!--        <![CDATA[-->
+    <!--public interface DemoService{-->
+    <!--    void f();-->
+    <!--}-->
 
-    public class DemoServiceImpl implements DemoService {
-        @Override
-        public void f(){
-            System.out.println("hello world");
-        }
-    }
-            ]]>
-        </example>
-    </rule>
+    <!--public class DemoServiceImpl implements DemoService {-->
+    <!--    @Override-->
+    <!--    public void f(){-->
+    <!--        System.out.println("hello world");-->
+    <!--    }-->
+    <!--}-->
+    <!--        ]]>-->
+    <!--    </example>-->
+    <!--</rule>-->
 
     <rule name="PackageNamingRule"
           language="java"
@@ -129,33 +129,33 @@
         </example>
     </rule>
 
-    <rule name="BooleanPropertyShouldNotStartWithIsRule"
-          language="java"
-          since="1.6"
-          message="java.naming.BooleanPropertyShouldNotStartWithIsRule.rule.msg"
-          class="com.alibaba.p3c.pmd.lang.java.rule.naming.BooleanPropertyShouldNotStartWithIsRule">
-        <priority>2</priority>
-        <example>
-            <![CDATA[
-    public class DemoDO{
-        Boolean success;
-        Boolean delete;
-    }
-            ]]>
-        </example>
-    </rule>
+    <!--<rule name="BooleanPropertyShouldNotStartWithIsRule"-->
+    <!--      language="java"-->
+    <!--      since="1.6"-->
+    <!--      message="java.naming.BooleanPropertyShouldNotStartWithIsRule.rule.msg"-->
+    <!--      class="com.alibaba.p3c.pmd.lang.java.rule.naming.BooleanPropertyShouldNotStartWithIsRule">-->
+    <!--    <priority>2</priority>-->
+    <!--    <example>-->
+    <!--        <![CDATA[-->
+    <!--public class DemoDO{-->
+    <!--    Boolean success;-->
+    <!--    Boolean delete;-->
+    <!--}-->
+    <!--        ]]>-->
+    <!--    </example>-->
+    <!--</rule>-->
 
-    <rule name="ArrayNamingShouldHaveBracketRule"
-          language="java"
-          since="1.6"
-          message="java.naming.ArrayNamingShouldHaveBracketRule.rule.msg"
-          class="com.alibaba.p3c.pmd.lang.java.rule.naming.ArrayNamingShouldHaveBracketRule">
-        <priority>3</priority>
-        <example>
-            <![CDATA[
-    String[] a = new String[3];
-            ]]>
-        </example>
-    </rule>
+    <!--<rule name="ArrayNamingShouldHaveBracketRule"-->
+    <!--      language="java"-->
+    <!--      since="1.6"-->
+    <!--      message="java.naming.ArrayNamingShouldHaveBracketRule.rule.msg"-->
+    <!--      class="com.alibaba.p3c.pmd.lang.java.rule.naming.ArrayNamingShouldHaveBracketRule">-->
+    <!--    <priority>3</priority>-->
+    <!--    <example>-->
+    <!--        <![CDATA[-->
+    <!--String[] a = new String[3];-->
+    <!--        ]]>-->
+    <!--    </example>-->
+    <!--</rule>-->
 
 </ruleset>

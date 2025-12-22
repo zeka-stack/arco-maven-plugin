@@ -6,6 +6,7 @@
     <description>AlibabaJavaConstants</description>
 
     <rule name="UpperEllRule"
+          language="java"
           message="java.constant.UpperEllRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.constant.UpperEllRule">
         <priority>1</priority>
@@ -25,6 +26,7 @@ Positive example:
     </rule>
 
     <rule name="UndefineMagicConstantRule"
+          language="java"
           message="java.constant.UndefineMagicConstantRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.constant.UndefineMagicConstantRule">
         <priority>3</priority>

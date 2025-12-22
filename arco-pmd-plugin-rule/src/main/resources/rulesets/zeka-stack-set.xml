@@ -6,6 +6,7 @@
     <description>AlibabaJavaSets</description>
 
     <rule name="ClassCastExceptionWithToArrayRule"
+          language="java"
           message="java.set.ClassCastExceptionWithToArrayRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.ClassCastExceptionWithToArrayRule">
         <priority>2</priority>
@@ -24,6 +25,7 @@ Positive example:
     </rule>
 
     <rule name="UnsupportedExceptionWithModifyAsListRule"
+          language="java"
           message="java.set.UnsupportedExceptionWithModifyAsListRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.UnsupportedExceptionWithModifyAsListRule">
         <priority>2</priority>
@@ -42,6 +44,7 @@ Positive example:
     </rule>
 
     <rule name="ClassCastExceptionWithSubListToArrayListRule"
+          language="java"
           message="java.set.ClassCastExceptionWithSubListToArrayListRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.ClassCastExceptionWithSubListToArrayListRule">
         <description>java.set.ClassCastExceptionWithSubListToArrayListRule.rule.msg.desc</description>
@@ -64,6 +67,7 @@ Positive example:
     </rule>
 
     <rule name="ConcurrentExceptionWithModifyOriginSubListRule"
+          language="java"
           message="java.set.ConcurrentExceptionWithModifyOriginSubListRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.ConcurrentExceptionWithModifyOriginSubListRule">
         <priority>2</priority>
@@ -81,6 +85,7 @@ Negative example:
 
 
     <rule name="DontModifyInForeachCircleRule"
+          language="java"
           message="java.set.DontModifyInForeachCircleRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.DontModifyInForeachCircleRule">
         <priority>1</priority>
@@ -111,6 +116,7 @@ Negative example:
     </rule>
 
     <rule name="CollectionInitShouldAssignCapacityRule"
+          language="java"
           message="java.set.CollectionInitShouldAssignCapacityRule.rule.msg"
           class="com.alibaba.p3c.pmd.lang.java.rule.set.CollectionInitShouldAssignCapacityRule">
         <description>java.set.CollectionInitShouldAssignCapacityRule.rule.msg.desc</description>
