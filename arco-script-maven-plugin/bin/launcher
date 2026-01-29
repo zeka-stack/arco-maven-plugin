@@ -71,7 +71,7 @@ FINAL_LOG_PATH=${FINAL_LOG_PATH:-"./logs"}
 # 日志文件名，默认 all.log
 LOG_NAME=${LOG_NAME:-"all.log"}
 # 自定义 JVM 参数,会通过 arco-script-maven-plugin 进行占位符替换, 对 pom.xml 中定义 JVM 参数生效（可通过 -o 覆盖）
-JVM_OPTIONS="#{jvmOptions} "
+JVM_OPTIONS="-Xms128M -Xmx256M "
 
 ################################################################################
 # 工具函数区
@@ -127,6 +127,7 @@ usage() {
   5. wiki: https://wiki.dong4j.site:1024/launcher
   ${NC}"
   echo -e "${YELLOW}
+  可使用环境变量覆写 java 路径: export JAVA_HOME=/path/to/java/home && ./launcher -r dev -it
   可用参数列表：
 
   -s    启动应用
@@ -310,7 +311,7 @@ running() {
   echo -e "nohup ${JAVA_EXE} --add-opens java.base/java.lang.reflect=ALL-UNNAMED -jar
         -Djava.security.egd=file:/dev/./urandom
         ${JVM_OPTIONS}
-        -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M
+        -Xlog:gc*,safepoint,gc+heap*=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M
         -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log
         -XX:+HeapDumpOnOutOfMemoryError
         -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof
@@ -344,7 +345,7 @@ running() {
   nohup "$JAVA_EXE" --add-opens java.base/java.lang.reflect=ALL-UNNAMED -jar \
     -Djava.security.egd=file:/dev/./urandom \
     ${JVM_OPTIONS} \
-    -Xlog:gc*,safepoint,heap=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M \
+    -Xlog:gc*,safepoint,gc+heap*=info:file=${GC_LOG}:time,uptime,level,tags:filecount=10,filesize=50M \
     -XX:ErrorFile=${DEPLOY_DIR}/app_error_%p.log \
     -XX:+HeapDumpOnOutOfMemoryError \
     -XX:HeapDumpPath=${DEPLOY_DIR}/app_error.hprof \
