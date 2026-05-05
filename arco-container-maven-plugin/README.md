@@ -316,7 +316,7 @@ docker buildx build \
   2) 一键运行 (Build & Run)
 ```
 
-> 📖 详细使用说明请参考：[[docker_build_guide|Docker Build Script 使用指南]]
+> 📖 详细使用说明请参考：[[arco-meta/arco-maven-plugin/arco-container-maven-plugin/detail-docker-build-guide|Docker Build Script 使用指南]]
 
 ### 高级配置
 
