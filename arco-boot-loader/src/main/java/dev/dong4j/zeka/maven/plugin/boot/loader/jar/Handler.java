@@ -13,13 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 扩展 {@link URLStreamHandler} 已以实现 jar in jar 中的资源加载, {@link CustomJarFile}.
- * 原始的 JarFile URL 只支持一个 '!/', 比如: jar:file:/tmp/target/demo-2.0.0-SNAPSHOT.jar!/com/example/SpringBootDemoApplication.class
+ * 原始的 JarFile URL 只支持一个 '!/', 比如: jar:file:/tmp/target/demo-3.0.0-SNAPSHOT.jar!/com/example/SpringBootDemoApplication.class
  * 这里扩展为支持多个 '!/', 用于处理 jar in jar 的问题:
- * jar:file:/tmp/target/demo-2.0.0-SNAPSHOT.jar!/lib/spring-boot-2.2.1.RELEASE.jar!/META-INF/MANIFEST.MF
+ * jar:file:/tmp/target/demo-3.0.0-SNAPSHOT.jar!/lib/spring-boot-2.2.1.RELEASE.jar!/META-INF/MANIFEST.MF
  * <p>
  * 为了被 JVM 加载为一个 URL protocol handler, 需要满足:
  * 1. 必须是 public
@@ -128,7 +129,7 @@ public class Handler extends URLStreamHandler {
     private boolean isUrlInJarFile(URL url, CustomJarFile jarFile) throws MalformedURLException {
         // Try the path first to save building a new url string each time
         return url.getPath().startsWith(jarFile.getUrl().getPath())
-            && url.toString().startsWith(jarFile.getUrlString());
+               && url.toString().startsWith(jarFile.getUrlString());
     }
 
     /**

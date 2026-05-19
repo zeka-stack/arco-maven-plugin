@@ -8,9 +8,12 @@ published: 2022.03.01
 
 `arco-maven-plugin` 是 Zeka Stack 框架的核心支撑项目，提供了一套完整的 Maven 插件体系，旨在通过自动化简化复杂的重复性操作，让开发者能够将更多精力投入到业务开发中。
 
-> **设计理念**: 践行 "If something – anything – requires more than 90 seconds of his time, he writes a script to automate that" 的自动化思想，通过 Maven 插件的方式将任何超过 90 秒的重复性任务自动化。
+> **设计理念**: 践行 "If something – anything – requires more than 90 seconds of his time, he writes a script to automate that" 的自动化思想，通过
+> Maven 插件的方式将任何超过 90 秒的重复性任务自动化。
 
-> **经典案例**: 这个理念的完美体现可以参考 [hacker-scripts](https://github.com/NARKOZ/hacker-scripts) 项目，其中一位构建工程师将日常生活中的各种重复性任务都自动化了，包括自动发短信给妻子、自动处理邮件、甚至自动煮咖啡等。正如项目描述所说："If something – anything – requires more than 90 seconds of his time, he writes a script to automate that."
+> **经典案例**: 这个理念的完美体现可以参考 [hacker-scripts](https://github.com/NARKOZ/hacker-scripts)
+> 项目，其中一位构建工程师将日常生活中的各种重复性任务都自动化了，包括自动发短信给妻子、自动处理邮件、甚至自动煮咖啡等。正如项目描述所说："If
+> something – anything – requires more than 90 seconds of his time, he writes a script to automate that."
 
 ## 🎯 核心价值
 
@@ -45,6 +48,7 @@ arco-maven-plugin/
 **功能**: 提供构建自动化的核心功能，简化 Maven 构建流程
 
 **核心特性**:
+
 - 🎯 **动态 assembly.xml 生成**: 自动生成 Maven Assembly 配置，支持可重现构建
 - 📊 **构建信息生成**: 自动生成 `build-info.properties`，包含版本、时间戳等信息
 - 🔍 **主类自动检测**: 智能识别 Spring Boot 应用的主类
@@ -58,6 +62,7 @@ arco-maven-plugin/
 **功能**: 解决传统服务器环境中的存储浪费、部署时间长、内存占用高等问题
 
 **核心特性**:
+
 - 📦 **JAR 重打包**: 将应用 JAR 分离为业务代码和框架代码
 - 🔄 **动态类加载**: 支持 `patch/` 和 `plugin/` 目录的动态类加载
 - 🔥 **热补丁支持**: 支持运行时热更新，无需重启应用
@@ -71,12 +76,14 @@ arco-maven-plugin/
 **功能**: 提供基于 Checkstyle 的代码风格检查规则，确保代码规范统一
 
 **核心特性**:
+
 - 📏 **内置规则集**: Zeka Stack、Google、Alibaba、自定义等多种规则集
 - 🎯 **自定义检查**: `MethodLimitCheck`、`IllegalNewCheck`、`JavadocCheck` 等
 - ⚡ **编译时检查**: 默认启用，违反规则时停止编译
 - 🔧 **灵活配置**: 支持规则自定义和排除配置
 
 **规则示例**:
+
 - 文件长度限制: 最大 1500 行
 - 行长度限制: 最大 140 字符
 - 方法长度限制: 最大 80 行
@@ -88,12 +95,14 @@ arco-maven-plugin/
 **功能**: 基于 Alibaba P3C 规范的 PMD 规则，专注于代码质量和逻辑检查
 
 **核心特性**:
+
 - 🏢 **P3C 规范**: 基于阿里巴巴 Java 开发手册的规则集
 - 🔍 **多维度检查**: 注释、并发、常量、异常、流程控制、命名、OOP、ORM 等
 - ⚡ **编译时检查**: 与 Checkstyle 互补，专注于代码逻辑质量
 - 📊 **详细报告**: 提供详细的违规信息和修复建议
 
 **规则示例**:
+
 - 线程池创建规范
 - 避免使用 `Timer` 类
 - `ThreadLocal` 正确清理
@@ -107,6 +116,7 @@ arco-maven-plugin/
 **功能**: 提供 Maven Enforcer 规则，早期检测和处理依赖冲突
 
 **核心特性**:
+
 - 🔍 **依赖收敛检查**: 检测同一依赖的不同版本冲突
 - ⚡ **早期发现问题**: 在构建阶段就发现潜在的运行时问题
 - 🛠️ **自定义规则**: `ZekaEcforcerRule` 提供项目、会话、运行时信息验证
@@ -119,6 +129,7 @@ arco-maven-plugin/
 **功能**: 提供一键部署功能，支持后端、前端、文档项目的自动化部署
 
 **核心特性**:
+
 - 🚀 **一键部署**: 单个模块和多模块批量部署
 - 🌐 **前端支持**: 集成 Node.js、NPM、Yarn、Webpack、Gulp、Grunt 等
 - 📚 **文档部署**: 支持项目文档的版本化部署
@@ -127,6 +138,7 @@ arco-maven-plugin/
 - ⚡ **并行部署**: 支持多线程并行部署提升效率
 
 **部署流程**:
+
 1. 本地打包 → 2. 安全上传 → 3. 远程解压 → 4. 服务重启 → 5. 状态验证
 
 ### 7. arco-script-maven-plugin - 启动脚本生成
@@ -134,6 +146,7 @@ arco-maven-plugin/
 **功能**: 自动生成通用的 Java 应用启动脚本，提供完整的生命周期管理
 
 **核心特性**:
+
 - 🎯 **生命周期管理**: 启动、停止、重启、状态查看等核心操作
 - 🔧 **多环境支持**: dev、test、prod 环境配置
 - 📊 **监控集成**: 支持 JMX、APM（SkyWalking）、Debug 模式
@@ -142,6 +155,7 @@ arco-maven-plugin/
 - 🛡️ **错误处理**: OOM 处理、进程管理、优雅停止
 
 **脚本参数**:
+
 - `-s env`: 启动应用（指定环境）
 - `-r env`: 重启应用
 - `-S env`: 停止应用
@@ -156,6 +170,7 @@ arco-maven-plugin/
 **功能**: 自动化 Spring Boot 应用的 Docker 容器化，提供优化的镜像构建策略
 
 **核心特性**:
+
 - 🐳 **智能 Dockerfile 生成**: 基础镜像、单层构建、多层构建三种模板
 - 📦 **分层构建优化**: 最大化 Docker 层缓存效率
 - 🔍 **智能端口检测**: 自动读取 `application.yml` 配置
@@ -164,6 +179,7 @@ arco-maven-plugin/
 - ⚡ **一键构建脚本**: 交互式构建和部署工具
 
 **构建模式**:
+
 - **单层构建**: `mvn package -Ddockerfile.skip=false`（简单快速）
 - **多层构建**: `mvn package -Pdocker`（推荐，充分利用缓存）
 
@@ -172,6 +188,7 @@ arco-maven-plugin/
 **功能**: 创建自解压的部署包（.run 文件），实现真正的一键部署
 
 **核心特性**:
+
 - 📦 **自解压部署包**: 将 tar.gz 转换为可执行的 .run 文件
 - 🚀 **一键部署**: 上传后直接执行 `./app.run` 即可完成部署
 - 🔧 **环境配置**: 支持不同环境的启动脚本
@@ -180,6 +197,7 @@ arco-maven-plugin/
 - 📊 **多压缩格式**: 支持 gzip、bzip2、xz、lzo、lz4 等
 
 **使用方式**:
+
 ```bash
 # 构建自解压包
 mvn clean package -Dmakeself.skip=false
@@ -200,7 +218,7 @@ mvn clean package -Dmakeself.skip=false
 <parent>
     <groupId>dev.dong4j</groupId>
     <artifactId>zeka-stack-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 </parent>
 ```
 
@@ -233,11 +251,11 @@ mvn clean deploy -Dpublish.switch=true
     <!-- JVM 参数配置 -->
     <jvm.options>-Xms256M -Xmx512M</jvm.options>
     <prod.jvm.options>-Xms1G -Xmx2G -XX:+UseG1GC</prod.jvm.options>
-    
+
     <!-- 部署配置 -->
     <publish.enable>true</publish.enable>
     <publish.hosts.test>192.168.1.100</publish.hosts.test>
-    
+
     <!-- 容器化配置 -->
     <dockerfile.skip>false</dockerfile.skip>
 </properties>
@@ -343,20 +361,20 @@ docker run -p 8080:8080 your-app:latest
 ### 常见问题
 
 1. **代码质量检查失败**
-   - 检查 Checkstyle 和 PMD 规则配置
-   - 使用 `-Dcheckstyle.skip=true` 临时跳过
+    - 检查 Checkstyle 和 PMD 规则配置
+    - 使用 `-Dcheckstyle.skip=true` 临时跳过
 
 2. **启动脚本权限问题**
-   - 确保脚本有执行权限：`chmod +x bin/launcher`
-   - 检查文件系统权限
+    - 确保脚本有执行权限：`chmod +x bin/launcher`
+    - 检查文件系统权限
 
 3. **容器构建失败**
-   - 检查 Dockerfile 路径和构建上下文
-   - 确保基础镜像存在
+    - 检查 Dockerfile 路径和构建上下文
+    - 确保基础镜像存在
 
 4. **部署连接失败**
-   - 检查 SSH 连接和服务器配置
-   - 验证用户权限和目录权限
+    - 检查 SSH 连接和服务器配置
+    - 验证用户权限和目录权限
 
 ### 调试技巧
 

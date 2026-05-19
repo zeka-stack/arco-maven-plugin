@@ -244,7 +244,7 @@ Maven 会根据插件在 POM 中的定义顺序执行，因此框架将 `arco-ma
 <plugin>
     <groupId>dev.dong4j</groupId>
     <artifactId>arco-makeself-maven-plugin</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <configuration>
         <archiveDir>my-spring-boot-app-1.0.0</archiveDir>
         <fileName>my-spring-boot-app-1.0.0.run</fileName>

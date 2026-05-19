@@ -124,7 +124,7 @@ zeka.stack 框架已经内置了完整的插件配置，无需手动添加。框
 │   └── pom.properties
 ├── cubo-rest-spring-boot-sample-servlet.jar
 └── lib
-    ├── blen-kernel-auth-2.0.0-SNAPSHOT.jar
+    ├── blen-kernel-auth-3.0.0-SNAPSHOT.jar
     ...
 ```
 

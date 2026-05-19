@@ -1,12 +1,5 @@
 package dev.dong4j.zeka.maven.plugin.helper.mojo;
 
-import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -17,6 +10,15 @@ import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.repository.LocalRepository;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+
+import dev.dong4j.zeka.maven.plugin.common.util.FileUtils;
 
 /**
  * Maven本地仓库依赖清理Mojo，用于删除指定的Maven依赖缓存
@@ -49,7 +51,7 @@ import org.jetbrains.annotations.NotNull;
  * 命令使用示例：
  * <pre>
  * # 首次安装插件
- * mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:2.0.0-SNAPSHOT
+ * mvn dependency:get -Dartifact=dev.dong4j:arco-assist-maven-plugin:3.0.0-SNAPSHOT
  *
  * # 1. 删除所有zeka.stack依赖
  * mvn arco-assist:clear -Dname=all -Dversion=all
@@ -90,7 +92,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * STACK_DEPENDENCE
      * todo-dong4j : (2025.06.21 18:16) [使用脚本生成: 记录目录下有 pom.xml 文件的目录名]
      */
-    private static final String[] STACK_DEPENDENCE = new String[]{
+    private static final String[] STACK_DEPENDENCE = new String[] {
         "arco-meta",
         "arco-supreme",
         "arco-builder",
@@ -110,16 +112,16 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
         "domi-suite",
         "eiko-orch",
         "felo-space",
-    };
+        };
 
     /** ERROR_DIR */
-    private static final String[] ERROR_DIR = new String[]{
+    private static final String[] ERROR_DIR = new String[] {
         "unknown",
         "${revision}"
     };
 
     /** 更新错误的缓存文件 */
-    private static final String[] ERROR_FILE = new String[]{
+    private static final String[] ERROR_FILE = new String[] {
         "lastUpdated"
     };
 
@@ -154,18 +156,18 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
 
         // 删除无效的目录和缓存 (mvn arco-assist:clean)
         if (StringUtils.isBlank(artifactId) && StringUtils.isBlank(version)) {
-            this.deleteAllFile(rootFile, new String[]{}, ERROR_DIR);
+            this.deleteAllFile(rootFile, new String[] {}, ERROR_DIR);
             this.deleteErrorFile(rootFile);
         } else if (ALL_FLAG.equals(artifactId) && ALL_FLAG.equals(version)) {
             // 删除 dev/dong4j 下所有的 zeka.stack 依赖 (mvn arco-assist:clear -Dname=all -Dversion=all)
-            this.deleteAllFile(rootFile, STACK_DEPENDENCE, new String[]{});
+            this.deleteAllFile(rootFile, STACK_DEPENDENCE, new String[] {});
         } else if (ALL_FLAG.equals(artifactId) && StringUtils.isNotBlank(version)) {
             // 删除 dev/dong4j 下所有包中指定的版本 (mvn arco-assist:clear -Dname=all -Dversion=x.x.x)
             this.deleteByVersion(rootFile, STACK_DEPENDENCE, version);
         } else if (StringUtils.isNotBlank(version)
-            && !ALL_FLAG.equals(version)
-            && StringUtils.isNotBlank(artifactId)
-            && !ALL_FLAG.equals(artifactId)) {
+                   && !ALL_FLAG.equals(version)
+                   && StringUtils.isNotBlank(artifactId)
+                   && !ALL_FLAG.equals(artifactId)) {
             // 删除 dev/dong4j 下指定的包中指定的版本 (mvn arco-assist:clear -Dname=xxx -Dversion=x.x.x)
             this.deleteByNameAndVersion(rootFile, artifactId, version);
         } else if (ALL_FLAG.equals(version) && StringUtils.isNotBlank(artifactId)) {
@@ -173,16 +175,16 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
             this.deleteByName(rootFile, artifactId);
         } else {
             throw new IllegalArgumentException("命名错误: \n" +
-                "1. 删除 dev/dong4j 下所有的 zeka.stack 依赖\n" +
-                "mvn arco-assist:clear -Dname=all -Dversion=all\n" +
-                "2. 删除 dev/dong4j 下所有包中指定的版本\n" +
-                "mvn arco-assist:clear -Dname=all -Dversion=x.x.x\n" +
-                "3. 删除 dev/dong4j 下指定的包中指定的版本\n" +
-                "mvn arco-assist:clear -Dname=xxx -Dversion=x.x.x\n" +
-                "4. 删除 dev/dong4j 下指定的包中所有的版本\n" +
-                "mvn arco-assist:clear -Dname=xxx -Dversion=all\n" +
-                "5. 删除无效的目录和缓存\n" +
-                "mvn arco-assist:clean");
+                                               "1. 删除 dev/dong4j 下所有的 zeka.stack 依赖\n" +
+                                               "mvn arco-assist:clear -Dname=all -Dversion=all\n" +
+                                               "2. 删除 dev/dong4j 下所有包中指定的版本\n" +
+                                               "mvn arco-assist:clear -Dname=all -Dversion=x.x.x\n" +
+                                               "3. 删除 dev/dong4j 下指定的包中指定的版本\n" +
+                                               "mvn arco-assist:clear -Dname=xxx -Dversion=x.x.x\n" +
+                                               "4. 删除 dev/dong4j 下指定的包中所有的版本\n" +
+                                               "mvn arco-assist:clear -Dname=xxx -Dversion=all\n" +
+                                               "5. 删除无效的目录和缓存\n" +
+                                               "mvn arco-assist:clean");
         }
     }
 
@@ -273,7 +275,7 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
      * @param versions versions
      * @since 1.0.0
      */
-    @SuppressWarnings({"java:S3776", "D"})
+    @SuppressWarnings( {"java:S3776", "D"})
     private void deleteAllFile(@NotNull File rootFile, String[] names, String[] versions) {
         if (names.length == 0 && versions.length != 0) {
             Arrays.stream(Objects.requireNonNull(rootFile.listFiles())).filter(File::isDirectory).forEach(nameFile -> {
@@ -292,12 +294,12 @@ public class DeleteMavenDependenceMojo extends AbstractMojo {
             Arrays.stream(Objects.requireNonNull(rootFile.listFiles()))
                 .filter(File::isDirectory)
                 .forEach(nameFile ->
-                    Arrays.stream(names).forEach(name -> {
-                        if (match(name,
-                            nameFile.getName())) {
-                            this.deleteFile(nameFile);
-                        }
-                    }));
+                             Arrays.stream(names).forEach(name -> {
+                                 if (match(name,
+                                           nameFile.getName())) {
+                                     this.deleteFile(nameFile);
+                                 }
+                             }));
         }
     }
 
